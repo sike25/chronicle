@@ -1,0 +1,32 @@
+# Credentials — never commit
+vertex-search-key.json
+*.json
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment
+.venv/
+venv/
+env/
+
+# Logs
+logs/
+*.log
+
+# Editor noise
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Local dev
+TODO.md
