@@ -1,0 +1,42 @@
+# Chronicle DockerIgnore
+
+# credentials
+vertex-search-key.json
+.streamlit/secrets.toml
+*.json
+
+# python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# virtual environments
+.venv/
+venv/
+env/
+
+# runtime logs
+logs/
+
+# dev files
+streamlit_app.py
+modules/search.py
+
+# git (and extra) noise
+.git/
+.gitignore
+.DS_Store
+*.swp
+*.swo
+
+# documentation
+*.md
+README*
+
+# testing
+test.py
