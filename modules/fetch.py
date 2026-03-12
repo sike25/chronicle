@@ -1,4 +1,4 @@
-from utils.log      import setup_logging
+from utils.log import setup_logging
 from modules.search import search_data_dump
 
 logger = setup_logging()

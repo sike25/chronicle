@@ -25,7 +25,6 @@ logs/
 
 # dev files
 streamlit_app.py
-modules/search.py
 
 # git (and extra) noise
 .git/

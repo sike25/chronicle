@@ -1,11 +1,12 @@
 """
-Quick local smoke test for the Chronicle API.
-Run the server first: uvicorn app:app --reload
+Quick smoke test for the Chronicle API.
 """
+
 import requests
 import json
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "http://127.0.0.1:8080"
+QUERY = "Nollywood"
 
 def test_health():
     r = requests.get(f"{BASE_URL}/health")
@@ -27,14 +28,18 @@ def test_chronicle(query="Election crises and violence"):
                 continue
             decoded = line.decode("utf-8")
             if decoded.startswith("event:"):
-                print(f"\n  {decoded}")
+                event_type = decoded.split(":", 1)[1].strip()
             elif decoded.startswith("data:"):
                 data = json.loads(decoded[5:].strip())
-                if "title" in data:
-                    print(f"  --> [{data.get('index')}] {data['title']}")
+                if event_type == "cluster_enriched":
+                    print("\n =================================================================================")
+                    print(f"\nCluster {data['index']}: {data['title']} ({data['label']})")
+                    for i, entry in enumerate(data["entries"]):
+                        print(f"  -----> Entry {i}: {entry['filename']} - https://archivi.ng/search/{entry['id']}")
                 else:
+                    print(f"\n  event: {event_type}")
                     print(f"  {data}")
 
 if __name__ == "__main__":
     test_health()
-    test_chronicle()
+    test_chronicle(QUERY)

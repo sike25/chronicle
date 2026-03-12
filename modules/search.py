@@ -1,8 +1,6 @@
 from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
-from google.oauth2 import service_account
 from utils.log import setup_logging
-import streamlit as st
 
 logger = setup_logging()
 
@@ -14,12 +12,6 @@ def search_data_dump(search_query: str, fake=True):
     return search_data_dump_VERTEX(search_query=search_query)
 
 def get_credentials():
-    try: # streamlit cloud
-        credentials = service_account.Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"]
-        )
-        return credentials
-    except FileNotFoundError: # local dev
         return None
 
 

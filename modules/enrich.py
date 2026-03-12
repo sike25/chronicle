@@ -57,7 +57,7 @@ def enrich_clusters(clusters, query, job_id):
 
  
 def run_parallel_extraction(all_entries, query):
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         future_to_entry = {
             executor.submit(extract_relevant_portions, entry, query): entry
             for entry in all_entries
