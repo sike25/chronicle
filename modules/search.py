@@ -1,131 +1,94 @@
-from utils.log      import setup_logging
-from modules.search import search_data_dump
+from google.api_core.client_options import ClientOptions
+from google.cloud import discoveryengine_v1 as discoveryengine
+from google.oauth2 import service_account
+from utils.log import setup_logging
+import streamlit as st
 
 logger = setup_logging()
 
-
-# Page size for paginating archivi.ng's search API.
-PAGE_SIZE = 100
-# Hard cap on total documents regardless of signal.
-MAX_DOCUMENTS = 500
-
-def fetch_search_results(query: str, fake=True) -> list:
-    """
-    Fetches search results from archivi.ng's search API.
-
-    Paginates through results, stopping when:
-        - Fewer than SIGNAL_THRESHOLD of a page passes the relevance filter, OR
-        - MAX_DOCUMENTS total documents have been collected.
-
-    Args:
-        query (str): The search query.
-        fake  (bool): If True, returns fake data for local development.
-
-    Returns:
-        list: Raw result objects ready to be mapped into Entry shapes in pipeline.py.
-    """
+def search_data_dump(search_query: str, fake=True):
     if fake:
-        logger.info("fetch_results: returning fake data.")
-        return _fetch_fake()
+        logger.info("Returning dummy data....")
+        return search_data_dump_FAKE()
+    logger.info("Returning genuine data....")
+    return search_data_dump_VERTEX(search_query=search_query)
 
-    logger.info(f"fetch_results: fetching live results for query '{query}'.")
-    return _fetch_from_vertex(query=query)
-
-
-def _fetch_from_vertex(query: str):
-    collected = []
-    pager = search_data_dump(search_query=query, fake=False)
-
-    for result in pager:
-        if len(collected) >= MAX_DOCUMENTS or result.rank_signals.semantic_similarity_score == 0.0:
-            break
-        collected.append(result)
-    return collected
+def get_credentials():
+    try: # streamlit cloud
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"]
+        )
+        return credentials
+    except FileNotFoundError: # local dev
+        return None
 
 
-# ── Live fetcher ──────────────────────────────────────────────────────────────
-def _fetch_live(query: str) -> list:
-    """
-    Paginates through archivi.ng's search API until signal dries up.
+# Query Discovery Engine Search API for matching documents
+def search_data_dump_VERTEX(
+    search_query: str,
+) -> discoveryengine.services.search_service.pagers.SearchPager:
+    '''Call to Vertex AI Search App'''   
+    project_id = "chronicle-archiving"
+    location = "global"
+    engine_id = "pre-chronicle_1770424342454"
 
-    TODO: implement once archivi.ng's search API spec is available.
-          Expected pagination params: ?q=query&from=0&size=20
-          Expected response shape:
-            {
-              "total": 1200,
-              "hits": [
-                {
-                  "_id": "...",
-                  "_score": 0.87,
-                  "_source": { ... }
-                }
-              ]
-            }
-    """
-    raise NotImplementedError(
-        "Live fetcher not yet implemented. "
-        "Waiting on archivi.ng search API spec. Use fake=True for local development."
+    #  For more information, refer to:
+    # https://cloud.google.com/generative-ai-app-builder/docs/locations#specify_a_multi-region_for_your_data_store
+    client_options = (
+        ClientOptions(api_endpoint=f"{location}-discoveryengine.googleapis.com")
+        if location != "global"
+        else None
     )
 
-    # stub for when the spec arrives ........................................
-    # import requests
-    #
-    # SEARCH_API_URL = "https://archivi.ng/api/search"
-    # all_results = []
-    # page = 0
-    #
-    # while len(all_results) < MAX_DOCUMENTS:
-    #     response = requests.get(SEARCH_API_URL, params={
-    #         "q":    query,
-    #         "from": page * PAGE_SIZE,
-    #         "size": PAGE_SIZE,
-    #     })
-    #     response.raise_for_status()
-    #     data = response.json()
-    #     hits = data.get("hits", [])
-    #
-    #     if not hits:
-    #         logger.info("fetch: no more results. Stopping.")
-    #         break
-    #
-    #     # check signal — how many hits on this page pass the relevance threshold
-    #     passing = [h for h in hits if h["_score"] >= 0.6]
-    #     signal  = len(passing) / len(hits)
-    #     logger.debug(f"fetch: page {page} — {len(passing)}/{len(hits)} hits pass filter (signal={signal:.2f})")
-    #
-    #     all_results.extend(hits)
-    #
-    #     if signal < SIGNAL_THRESHOLD:
-    #         logger.info(f"fetch: signal dropped below {SIGNAL_THRESHOLD}. Stopping.")
-    #         break
-    #
-    #     page += 1
-    #
-    # logger.info(f"fetch: collected {len(all_results)} results across {page + 1} pages.")
-    # return all_results
+    # Create a client
+    client = discoveryengine.SearchServiceClient(credentials=get_credentials(), client_options=client_options)
 
+    # The full resource name of the search app serving config
+    serving_config = f"projects/{project_id}/locations/{location}/collections/default_collection/engines/{engine_id}/servingConfigs/default_config"
 
-# ── Fake fetcher ──────────────────────────────────────────────────────────────
+    # Refer to the `SearchRequest` reference for all supported fields:
+    # https://cloud.google.com/python/docs/reference/discoveryengine/latest/google.cloud.discoveryengine_v1.types.SearchRequest
+    request = discoveryengine.SearchRequest(
+        serving_config=serving_config,
+        query=search_query,
+        page_size=100,
+        query_expansion_spec=discoveryengine.SearchRequest.QueryExpansionSpec(
+            condition=discoveryengine.SearchRequest.QueryExpansionSpec.Condition.AUTO,
+        ),
+        spell_correction_spec=discoveryengine.SearchRequest.SpellCorrectionSpec(
+            mode=discoveryengine.SearchRequest.SpellCorrectionSpec.Mode.AUTO
+        ),
+    )
 
-class _FakeDocument:
+    page_result = client.search(request)
+    return page_result
+
+# search.py
+
+class FakeDocument:
     def __init__(self, id, struct_data):
-        self.id          = id
+        self.id = id
         self.struct_data = struct_data
 
-class _RankSignals:
+    def __str__(self):
+        return f"FakeDocument: id = {self.id})\n  └── {self.struct_data}"
+    
+    def __repr__(self):
+        return self.__str__()
+    
+class RankSignals:
     def __init__(self):
         self.semantic_similarity_score = 1.0
 
-class _FakeResult:
+class FakeResult:
     def __init__(self, document):
-        self.document     = document
-        self.rank_signals = _RankSignals()
+        self.document = document
+        self.rank_signals = RankSignals()
 
-
-def _fetch_fake() -> list:
+def search_data_dump_FAKE():
     """
-    Returns fake search results for local development.
-    10 years of Nigerian election crisis and violence data (2014–2023).
+    Returns fake search results for testing.
+    10 years of Nigerian election crisis and violence data with 2 articles per year (2014-2023).
     """
     fake_data = [
         # 2014
@@ -155,6 +118,7 @@ def _fetch_fake() -> list:
             "page": "2",
             "tags": "terrorism, northeast"
         },
+        
         # 2015
         {
             "id": "fake_2015_001",
@@ -182,6 +146,7 @@ def _fetch_fake() -> list:
             "page": "1",
             "tags": "presidential election, inec"
         },
+        
         # 2016
         {
             "id": "fake_2016_001",
@@ -209,6 +174,7 @@ def _fetch_fake() -> list:
             "page": "2",
             "tags": "kogi state, local government"
         },
+        
         # 2017
         {
             "id": "fake_2017_001",
@@ -236,6 +202,7 @@ def _fetch_fake() -> list:
             "page": "2",
             "tags": "rivers state, military"
         },
+        
         # 2018
         {
             "id": "fake_2018_001",
@@ -263,6 +230,7 @@ def _fetch_fake() -> list:
             "page": "1",
             "tags": "osun, crisis"
         },
+        
         # 2019
         {
             "id": "fake_2019_001",
@@ -290,6 +258,7 @@ def _fetch_fake() -> list:
             "page": "2",
             "tags": "kano, fraud"
         },
+        
         # 2020
         {
             "id": "fake_2020_001",
@@ -307,7 +276,7 @@ def _fetch_fake() -> list:
         {
             "id": "fake_2020_002",
             "summary": "Ondo State gubernatorial election witnessed vote buying on an industrial scale. Party agents were caught on camera distributing cash to voters. Civil society groups condemned the brazen monetization of the electoral process and called for electoral reforms.",
-            "extract": "Ondo Decides: Cash-for-Votes Scandal Exposed\n\nThe Ondo State gubernatorial election exposed the depths of vote buying in Nigerian politics as party agents openly distributed cash to voters across the state. In Akure, Owo, and Ondo town, voters were seen collecting money ranging from N2,000 to N5,000 before casting their ballots. Videos of the cash distribution went viral on social media, showing party agents counting money openly at polling units. Security agencies made minimal arrests despite the brazen violations. Opposition parties accused INEC of failing to enforce electoral laws. Anti-corruption groups called for prosecution of those involved in vote buying.",
+            "extract": "Ondo Decides: Cash-for-Votes Scandal Exposed\n\nThe Ondo State gubernatorial election exposed the depths of vote buying in Nigerian politics as party agents openly distributed cash to voters across the state. In Akure, Owo, and Ondo town, voters were seen collecting money ranging from N2,000 to N5,000 before casting their ballots. Videos of the cash distribution went viral on social media, showing party agents counting money openly at polling units. Security agencies made minimal arrests despite the brazen violations. The Situation Room described the election as \"a marketplace where votes were traded like commodities.\" Opposition parties accused INEC of failing to enforce electoral laws. Anti-corruption groups called for prosecution of those involved in vote buying.",
             "filename": "2020/October 2020/Punch October 10_2020_Pg 1.tif",
             "keywords": "Ondo State, gubernatorial election, vote buying, cash distribution, electoral corruption, INEC failure",
             "image_path": "2020/October 2020/Punch October 10_2020_Pg 1.jpeg",
@@ -317,11 +286,12 @@ def _fetch_fake() -> list:
             "page": "1",
             "tags": "ondo, corruption"
         },
+        
         # 2021
         {
             "id": "fake_2021_001",
             "summary": "Anambra State gubernatorial election faced threats from IPOB and other separatist groups calling for election boycott. Despite heavy security, voter turnout was extremely low. Several communities recorded zero votes amid fears of violence.",
-            "extract": "Anambra Guber: Low Turnout as IPOB Enforces Sit-At-Home\n\nThe Anambra State gubernatorial election recorded abysmally low voter turnout as IPOB's sit-at-home order kept residents indoors across the state. In Onitsha, Nnewi, and Awka, streets were deserted as voters stayed home fearing separatist violence. Several polling units recorded zero votes throughout the day. Security forces patrolled empty streets while INEC officials waited at deserted polling centers. Only a few brave voters came out in areas with heavy military presence. The low turnout raised questions about the legitimacy of whoever emerged winner. Political parties blamed INEC for poor timing and inadequate voter mobilization.",
+            "extract": "Anambra Guber: Low Turnout as IPOB Enforces Sit-At-Home\n\nThe Anambra State gubernatorial election recorded abysmally low voter turnout as IPOB's sit-at-home order kept residents indoors across the state. In Onitsha, Nnewi, and Awka, streets were deserted as voters stayed home fearing separatist violence. Several polling units recorded zero votes throughout the day. Security forces patrolled empty streets while INEC officials waited at deserted polling centers. Only a few brave voters came out in areas with heavy military presence. The low turnout raised questions about the legitimacy of whoever emerged winner. Political parties blamed INEC for poor timing and inadequate voter mobilization. Civil society organizations expressed disappointment at the disenfranchisement of millions of Anambra residents.",
             "filename": "2021/November 2021/ThisDay November 06_2021_Pg 1.tif",
             "keywords": "Anambra State, gubernatorial election, IPOB, sit-at-home, low voter turnout, separatist threats",
             "image_path": "2021/November 2021/ThisDay November 06_2021_Pg 1.jpeg",
@@ -334,7 +304,7 @@ def _fetch_fake() -> list:
         {
             "id": "fake_2021_002",
             "summary": "FCT Area Council elections were disrupted by thugs who attacked INEC officials and voters. Several polling units were set ablaze, and ballot boxes were snatched. The police made multiple arrests, but violence continued in several areas.",
-            "extract": "FCT Elections: Thugs Run Riot, Polling Units Torched\n\nArea Council elections in the Federal Capital Territory turned violent as political thugs attacked polling units, INEC officials, and voters across Abuja. In Gwagwalada, Kwali, and Bwari, armed groups stormed polling centers, setting fire to election materials and snatching ballot boxes. At least 5 people were injured in the violence. The police arrested 28 suspected thugs, recovering weapons including guns and machetes. Opposition parties accused the ruling party of sponsoring the violence to manipulate results. INEC cancelled elections in 15 polling units due to over-voting and violence.",
+            "extract": "FCT Elections: Thugs Run Riot, Polling Units Torched\n\nArea Council elections in the Federal Capital Territory turned violent as political thugs attacked polling units, INEC officials, and voters across Abuja. In Gwagwalada, Kwali, and Bwari, armed groups stormed polling centers, setting fire to election materials and snatching ballot boxes. At least 5 people were injured in the violence. The police arrested 28 suspected thugs, recovering weapons including guns and machetes. Opposition parties accused the ruling party of sponsoring the violence to manipulate results. INEC cancelled elections in 15 polling units due to over-voting and violence. Residents expressed frustration at the failure of security agencies to protect the electoral process even in the nation's capital.",
             "filename": "2021/February 2021/Daily Trust February 13_2021_Pg 2.tif",
             "keywords": "FCT, Area Council elections, political thugs, arson, ballot snatching, INEC attacks",
             "image_path": "2021/February 2021/Daily Trust February 13_2021_Pg 2.jpeg",
@@ -344,11 +314,12 @@ def _fetch_fake() -> list:
             "page": "2",
             "tags": "fct, violence"
         },
+        
         # 2022
         {
             "id": "fake_2022_001",
             "summary": "Ekiti State gubernatorial election saw improved security but vote buying remained rampant. Party agents openly distributed cash despite police presence. Civil society groups documented systematic vote buying across the state.",
-            "extract": "Ekiti Guber: Vote Buying Persists Despite Security\n\nThe Ekiti State gubernatorial election witnessed brazen vote buying despite heavy security deployment meant to curb the practice. In all 16 local government areas, party agents distributed cash to voters, with the going rate ranging from N5,000 to N15,000 per vote. Civil society observers documented vote buying at over 70% of polling units visited. The police made only token arrests, releasing most suspects within hours. Opposition parties accused INEC and security agencies of allowing the monetization to continue unchecked.",
+            "extract": "Ekiti Guber: Vote Buying Persists Despite Security\n\nThe Ekiti State gubernatorial election witnessed brazen vote buying despite heavy security deployment meant to curb the practice. In all 16 local government areas, party agents distributed cash to voters, with the going rate ranging from N5,000 to N15,000 per vote. Civil society observers documented vote buying at over 70% of polling units visited. The police made only token arrests, releasing most suspects within hours. In Ado-Ekiti, Ijero, and Efon local governments, voters openly admitted collecting money from multiple parties before voting. Opposition parties accused INEC and security agencies of allowing the monetization to continue unchecked. Electoral reform advocates expressed frustration at the normalization of vote buying in Nigerian elections.",
             "filename": "2022/June 2022/The Guardian June 18_2022_Pg 1.tif",
             "keywords": "Ekiti State, gubernatorial election, vote buying, cash for votes, electoral corruption, security failure",
             "image_path": "2022/June 2022/The Guardian June 18_2022_Pg 1.jpeg",
@@ -361,7 +332,7 @@ def _fetch_fake() -> list:
         {
             "id": "fake_2022_002",
             "summary": "Osun State gubernatorial election was disrupted by thugs who snatched ballot boxes in multiple locations. INEC officials were assaulted, and several voters were injured. The election was declared inconclusive in affected areas, leading to a supplementary poll.",
-            "extract": "Osun Guber: Thugs Snatch Ballot Boxes, Assault Officials\n\nThe Osun State gubernatorial election was marred by violent attacks on INEC officials and ballot box snatching across several local governments. In Ife Central, Iwo, and Ede, armed thugs stormed polling units, assaulting electoral officers and making away with ballot boxes. At least 12 INEC officials sustained injuries in the attacks. Security personnel were overwhelmed as the coordinated attacks occurred simultaneously in multiple locations. The violence forced INEC to cancel results from 20 polling units and declare the election inconclusive in affected areas.",
+            "extract": "Osun Guber: Thugs Snatch Ballot Boxes, Assault Officials\n\nThe Osun State gubernatorial election was marred by violent attacks on INEC officials and ballot box snatching across several local governments. In Ife Central, Iwo, and Ede, armed thugs stormed polling units, assaulting electoral officers and making away with ballot boxes. At least 12 INEC officials sustained injuries in the attacks. Security personnel were overwhelmed as the coordinated attacks occurred simultaneously in multiple locations. The violence forced INEC to cancel results from 20 polling units and declare the election inconclusive in affected areas. Both major parties accused each other of masterminding the attacks. A supplementary election was scheduled for the following week, with enhanced security measures promised.",
             "filename": "2022/July 2022/The Nation July 16_2022_Pg 1.tif",
             "keywords": "Osun State, gubernatorial election, ballot snatching, INEC assault, supplementary election, coordinated attacks",
             "image_path": "2022/July 2022/The Nation July 16_2022_Pg 1.jpeg",
@@ -371,11 +342,12 @@ def _fetch_fake() -> list:
             "page": "1",
             "tags": "osun, violence"
         },
+        
         # 2023
         {
             "id": "fake_2023_001",
             "summary": "The 2023 presidential election faced massive logistical challenges as INEC's new BVAS technology failed in many polling units. Violence erupted in Lagos, Rivers, and Kano states. Opposition parties alleged widespread rigging and called for cancellation of results.",
-            "extract": "Presidential Poll: BVAS Failure, Violence Mar Exercise\n\nNigeria's 2023 presidential election was plagued by widespread BVAS technology failures that left millions of voters unable to cast their ballots. Across Lagos, Kano, Rivers, and Abuja, the biometric accreditation system malfunctioned, causing hours of delays. In Lagos, political thugs attacked polling units in Oshodi, Surulere, and Eti-Osa, destroying election materials and assaulting voters perceived to support opposition parties. At least 18 people were killed in election-related violence across the country. Opposition presidential candidates Peter Obi and Atiku Abubakar rejected the results, alleging collusion between INEC and the ruling party.",
+            "extract": "Presidential Poll: BVAS Failure, Violence Mar Exercise\n\nNigeria's 2023 presidential election was plagued by widespread BVAS technology failures that left millions of voters unable to cast their ballots. Across Lagos, Kano, Rivers, and Abuja, the biometric accreditation system malfunctioned, causing hours of delays. In Lagos, political thugs attacked polling units in Oshodi, Surulere, and Eti-Osa, destroying election materials and assaulting voters perceived to support opposition parties. At least 18 people were killed in election-related violence across the country. In Rivers State, ballot box snatching was reported in multiple local governments. Opposition presidential candidates Peter Obi and Atiku Abubakar rejected the results, alleging collusion between INEC and the ruling party. International observers noted serious irregularities but stopped short of declaring the election invalid.",
             "filename": "2023/February 2023/Punch February 25_2023_Pg 1.tif",
             "keywords": "presidential election, BVAS failure, electoral violence, Lagos attacks, ballot snatching, opposition rejection",
             "image_path": "2023/February 2023/Punch February 25_2023_Pg 1.jpeg",
@@ -388,7 +360,7 @@ def _fetch_fake() -> list:
         {
             "id": "fake_2023_002",
             "summary": "Gubernatorial elections in Rivers, Kano, and Adamawa states were marred by violence and allegations of result manipulation. In Rivers, the Resident Electoral Commissioner was accused of partisanship. Adamawa's election was suspended mid-collation in controversial circumstances.",
-            "extract": "Guber Elections: Rivers, Adamawa Polls in Crisis\n\nGovernatorial elections in several states descended into crisis as violence and accusations of result manipulation dominated the exercise. In Rivers State, opposition parties accused the Resident Electoral Commissioner of open partisanship, alleging he manipulated results in favor of the ruling party. Violent clashes between APC and PDP supporters left at least 14 people dead across the state. In Adamawa, INEC suspended the collation of results in controversial circumstances after the Resident Electoral Commissioner allegedly tried to announce results without completing the process. The electoral crisis deepened distrust in INEC's ability to conduct credible elections.",
+            "extract": "Guber Elections: Rivers, Adamawa Polls in Crisis\n\nGovernatorial elections in several states descended into crisis as violence and accusations of result manipulation dominated the exercise. In Rivers State, opposition parties accused the Resident Electoral Commissioner of open partisanship, alleging he manipulated results in favor of the ruling party. Violent clashes between APC and PDP supporters left at least 14 people dead across the state. In Adamawa, INEC suspended the collation of results in controversial circumstances after the Resident Electoral Commissioner allegedly tried to announce results without completing the process. Kano State witnessed massive violence as political thugs clashed in Kano Municipal, Nassarawa, and Fagge local governments. The electoral crisis deepened distrust in INEC's ability to conduct credible elections.",
             "filename": "2023/March 2023/Vanguard March 18_2023_Pg 1.tif",
             "keywords": "gubernatorial elections, Rivers State, Adamawa, REC partisanship, result manipulation, election suspension",
             "image_path": "2023/March 2023/Vanguard March 18_2023_Pg 1.jpeg",
@@ -397,12 +369,13 @@ def _fetch_fake() -> list:
             "publication_date": "2023/03/18",
             "page": "1",
             "tags": "gubernatorial, crisis"
-        },
+        }
     ]
-
+    
+    # Convert to FakeResult objects
     results = []
     for data in fake_data:
-        doc = _FakeDocument(id=data["id"], struct_data=data)
-        results.append(_FakeResult(document=doc))
-
+        doc = FakeDocument(id=data["id"], struct_data=data)
+        results.append(FakeResult(document=doc))
+    
     return results

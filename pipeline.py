@@ -1,11 +1,14 @@
-from modules.cluster import cluster_by_stride
+
 from modules.shape   import Source, Entry
-from modules.enrich  import enrich_clusters
-from modules.filter  import hard_filter
 from modules.fetch   import fetch_search_results
+from modules.prepare import preprocess
+from modules.cluster import cluster_into_buckets
+from modules.enrich  import enrich_clusters
 from utils.helpers   import convertToDate
-from utils.jobs       import jobs
+from utils.jobs      import jobs
 from utils.log       import setup_logging
+
+import uuid
 
 logger = setup_logging()
 
@@ -31,7 +34,7 @@ def run_chronicle(query: str, job_id: str):
         logger.info("FETCH  ---------------------------------------------------------------")
         search_results = None
         try:
-            search_results = fetch_search_results(query=query, fake=True)
+            search_results = fetch_search_results(query=query, fake=False)
         except Exception as e:
             logger.error(f"CHRONICLE_ERROR: Error fetching search results for {query}: {e}.")
             if not search_results: raise
@@ -63,28 +66,25 @@ def run_chronicle(query: str, job_id: str):
         logger.info("Done!")
         logger.info(f"Retrieved {len(entries)} raw results.")
 
-        # 2. FILTER
-        # Ultimately, search results are filtered by:
-        # - hard limit on the total allowed number of results.
-        # - hard limit on relevance score
-        # - keeping documents above the mean or median relevance
-        logger.info("FILTER ---------------------------------------------------------------")
-        entries = hard_filter(results=entries)
-        logger.info(f"After filtering: {len(entries)} results.")
+        # 2. PREPARE
+        # Performs chronological search.
+        logger.info("PREPARE --------------------------------------------------------------")
+        entries = preprocess(entries)
 
         if not entries:
-            jobs.push_event(job_id, "error", {"message": "No relevant results found for this query."})
+            jobs.push_event(job_id, "done", {"message": "No relevant results found for this query."})
             return
 
-        # 3. SORT
-        # Sort chronologically. In the future, combine with filtering logic into a prepare.py file.
-        logger.info("SORT -----------------------------------------------------------------")
-        entries.sort(key=lambda x: x.source.publication_date.to_python_datetime())
-
-        # 4. CLUSTER
+        # 3. CLUSTER
         logger.info("CLUSTER --------------------------------------------------------------")
-        clusters = cluster_by_stride(entries=entries)
+        clusters = cluster_into_buckets(entries=entries)
         logger.info(f"{len(clusters)} clusters formed.")
+
+        # log prepared clusters.
+        log_clusters = f""
+        for i, (date, entries) in enumerate(clusters.items()):
+            log_clusters += f"{i}: {date} — {len(entries)} entries.\n"
+        logger.info(log_clusters)
 
         # emit clusters_ready so the frontend can render skeletons immediately
         jobs.push_event(job_id, "clusters_ready", {
@@ -97,18 +97,23 @@ def run_chronicle(query: str, job_id: str):
         enriched_clusters = enrich_clusters(clusters=clusters, query=query, job_id=job_id)
         logger.info(f"RUN COMPLETE | job={job_id}")
 
+        # log final results - enriched clusters.
         logger.info("FINAL RESULTS ---------------------------------------------------------------")
-        logger.info("Enriched Clusters:")
+        log_enriched_clusters = f""
         if enriched_clusters:
             for _, enriched_cluster in enriched_clusters.items():
-                logger.info("\n")
-                logger.info(f"--> Enriched Cluster {enriched_cluster.label}:")
-                logger.info(f"------> Titled `{enriched_cluster.title}`")
-                logger.info(f"------> Summary: {enriched_cluster.summary}")
-                logger.info(f"------> Compiled from {len(enriched_cluster.entries)} sources")
+                log_enriched_clusters += "\n"
+                log_enriched_clusters += f"--> Enriched Cluster {enriched_cluster.label}:\n"
+                log_enriched_clusters += f"------> Titled `{enriched_cluster.title}`\n"
+                log_enriched_clusters += f"------> Summary: {enriched_cluster.summary}\n"
+                log_enriched_clusters += f"------> Compiled from {len(enriched_cluster.entries)} sources.\n"
+            logger.info(log_enriched_clusters)
             return enriched_clusters
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Pipeline failure. {e}")
         raise
 
-# run_chronicle_pipeline()
+
+# job_id = str(uuid.uuid4())
+# jobs.create(job_id)
+# run_chronicle("nollywood", job_id)

@@ -3,7 +3,13 @@ from utils.log import setup_logging
 
 logger = setup_logging()
 
-def cluster_by_stride(entries, nb_buckets=10):
+def cluster_into_buckets(entries):
+    return cluster_by_stride(entries, 10)
+
+def cluster_semantically(entries):
+    pass
+
+def cluster_by_stride(entries, nb_buckets):
     '''Groups entries into chronological clusters based on a fixed time stride.'''
     
     if not entries:

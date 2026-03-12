@@ -1,6 +1,5 @@
 import anthropic
 import concurrent.futures
-import random
 from modules.shape import EnrichedCluster
 from utils.helpers import extractJson
 from utils.jobs    import jobs
@@ -58,7 +57,7 @@ def enrich_clusters(clusters, query, job_id):
 
  
 def run_parallel_extraction(all_entries, query):
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         future_to_entry = {
             executor.submit(extract_relevant_portions, entry, query): entry
             for entry in all_entries
@@ -99,7 +98,8 @@ def extract_relevant_portions(entry, query):
         
         extracted_text = response.content[0].text.strip()
         if not extracted_text or "No relevant data" in extracted_text:
-            logger.warning(f"No relevant data extracted from {entry.source.filename}")
+            logger.warning(f"No relevant data extracted from {entry.source.filename}. Falling back to full extract.")
+
             return f"Extract: {entry.source.extract}"
         return extracted_text
         
