@@ -59,7 +59,7 @@ def enrich_clusters(clusters, query, job_id):
 def run_parallel_extraction(all_entries, query):
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         future_to_entry = {
-            executor.submit(extract_relevant_portions, entry, query): entry
+            executor.submit(summarize_relevant_portions, entry, query): entry
             for entry in all_entries
         }
         for future in concurrent.futures.as_completed(future_to_entry):
@@ -71,25 +71,21 @@ def run_parallel_extraction(all_entries, query):
                 entry.source.relevant_extract = f"Extract: {entry.source.extract}"
 
     
-def extract_relevant_portions(entry, query):
-    """
-    Uses a fast, dumb model (Haiku) to extract only query-relevant text.
-    No JSON requirement here to increase speed and reliability.
-    """
-    
-    system_prompt = "You are a research assistant. Extract only text directly relevant to the user's query. " \
-    "If no relevance exists, return 'No relevant data'."
+def summarize_relevant_portions(entry, query):
+    system_prompt = "You are a research assistant going through extracts from historical African newspapers."
     
     user_content = f"""Query: {query}
     Document: {entry.source.filename}
     Text: {entry.source.extract}
     
-    Task: Extract the exact sentences or paragraphs from the Text that discuss "{query}". 
-    Include dates, names, and specific events. Do not summarize; extract original text."""
+    Task: Summarize the information in the Text that is either directly or loosely related to the search query: "{query}".
+    Be throrough about including all specific details and context, including dates, numbers, names, selected quotes, and specific events.
+    If nothing in the Text is relevant to the query, return 'No relevant data'.
+    """
 
     try:
         response = client.messages.create(
-            model=DUMB_MODEL,
+            model=SMART_MODEL,
             max_tokens=1000,
             temperature=0,   # deterministic for extraction
             system=system_prompt,
