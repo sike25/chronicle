@@ -1,0 +1,38 @@
+Query: ibrahim babangida
+File: extraction_30.txt
+URL: https://archivi.ng/search/552PHJYBODEDrDkgw5NN
+Entry Extract:
+ 
+
+t
+
+General Ibrahim Badamasi Babangida, President and Commander-in-Chief of the
+Armed Forces of the Federal Republic of Nigeria
+
+Alhaji Abubakar Habu Hashidu, Hon. Minister of Agri-
+culture and Water Resources
+
+ 
+
+   
+
+
+============================================================
+
+Original Extract:
+**Extracted Text:**
+
+"General Ibrahim Badamasi Babangida, President and Commander-in-Chief of the Armed Forces of the Federal Republic of Nigeria"
+
+**Source:** The Nigerian Economist, June 8, 1992 (Vol.5, NO 18)
+
+Subtracted Extract:
+General Ibrahim Badamasi Babangida, President and Commander-in-Chief of the
+Armed Forces of the Federal Republic of Nigeria
+
+Summary Extract:
+The text identifies **General Ibrahim Badamasi Babangida** as the **President and Commander-in-Chief of the Armed Forces of the Federal Republic of Nigeria** at the time of this publication (June 8, 1992).
+
+The document also mentions **Alhaji Abubakar Habu Hashidu** as the **Hon. Minister of Agriculture and Water Resources** during Babangida's administration.
+
+This appears to be from an official document or publication listing government officials during the Babangida military regime.
