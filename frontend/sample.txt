@@ -1,0 +1,185 @@
+[health] {'status': 'ok'}
+[chronicle] Job started: f8c82ec0-7335-43b7-a282-7cc835f496f8
+[stream] Listening on /chronicle/f8c82ec0-7335-43b7-a282-7cc835f496f8/stream ...
+
+  event: clusters_ready
+  {'cluster_count': 10, 'labels': ['1991-12-30 to 1993-11-22', '1993-11-22 to 1995-10-16', '1995-10-16 to 1997-09-09', '1997-09-09 to 1999-08-03', '1999-08-03 to 2001-06-27', '2001-06-27 to 2003-05-21', '2003-05-21 to 2005-04-13', '2005-04-13 to 2007-03-08', '2007-03-08 to 2009-01-29', '2009-01-29 to 2010-12-24']}
+
+ =================================================================================
+
+Cluster 0: Results for 'Nollywood' (1991-12-30 to 1993-11-22)
+  -----> Entry 0: Magazines/Citizen/1991/December 1991/December 30, 1991 (Vol. 2. NO. 53)/Citizen December 30_1991_Pg 54.tif - https://archivi.ng/search/DJ2o8JUBODEDrDkgezdH
+  -----> Entry 1: Magazines/Citizen/1993/March 1993/March 29, 1993 (Vol. 4. NO. 13)/Citizen March 29_1993_Pg 44.tif - https://archivi.ng/search/Qp1H9pUBODEDrDkg-0W-
+
+ =================================================================================
+
+Cluster 1: Results for 'Nollywood' (1993-11-22 to 1995-10-16)
+  -----> Entry 0: Magazines/Newswatch/1994/May 1994/May 2, 1994 (Vol. 19, NO. 18)/Newswatch May 2_1994_Pg 4.tif - https://archivi.ng/search/4p3zCpYBODEDrDkgIW7f
+
+ =================================================================================
+
+Cluster 2: Results for 'Nollywood' (1995-10-16 to 1997-09-09)
+  -----> Entry 0: 1995/December 1995/December 1995/PM News Dec 5_1995_Pg 6.tif - https://archivi.ng/search/ME8l0IoB7XvdErjMAJbo
+  -----> Entry 1: 1995/December 1995/December 1995/PM News Dec 12_1995_Pg 6.tif - https://archivi.ng/search/yU8P0IoB7XvdErjMdZWp
+  -----> Entry 2: 1996/January 1996/PM News Jan 10_1996_Pg 6.tif - https://archivi.ng/search/z36H0YoBCULQj6J1i1Cz  
+  -----> Entry 3: 1996/May 1996/PM News May 17_1996_Pg 3.tif - https://archivi.ng/search/Z37-0YoBCULQj6J1T1Nd      
+  -----> Entry 4: 1996/August 1996/PM News August 27_1996_Pg 2.tif - https://archivi.ng/search/Vn5C0YoBCULQj6J190-C
+  -----> Entry 5: 1996/October 1996/PM News Oct 24_1996_Pg 2.tif - https://archivi.ng/search/-n5O0ooBCULQj6J1OlSo  
+  -----> Entry 6: 1997/June 1997/PM News June_27_1997_Pg 9.tif - https://archivi.ng/search/YH4E1IoBCULQj6J1J1s2    
+
+ =================================================================================
+
+Cluster 3: Results for 'Nollywood' (1997-09-09 to 1999-08-03)
+  -----> Entry 0: 1997/December 1997/PM News Dec 12_1997_Pg 2.tif - https://archivi.ng/search/K35O04oBCULQj6J19lh4 
+  -----> Entry 1: 1998/August 1998/PM News Aug 21_1998_Pg 9.tif - https://archivi.ng/search/kX5H1YoBCULQj6J1H2DA   
+  -----> Entry 2: 1998/September 1998/PM News Sept 24_1998_Pg 2.tif - https://archivi.ng/search/v37U1ooBCULQj6J1qGdY
+  -----> Entry 3: 1999/April 1999/PM News April 30_1999_Pg 3.tif - https://archivi.ng/search/2X5s14oBCULQj6J1I2i6  
+  -----> Entry 4: 1999/June 1999/PM News June 28_1999_Pg 5.tif - https://archivi.ng/search/-n5i2IoBCULQj6J1tmyp    
+  -----> Entry 5: 1999/July 1999/PM News July 2_1999_Pg 3.tif - https://archivi.ng/search/Un422IoBCULQj6J1qWxq     
+  -----> Entry 6: 1999/July 1999/PM News July 30_1999_Pg 3.tif - https://archivi.ng/search/Xn452IoBCULQj6J1P2ye    
+
+ =================================================================================
+
+Cluster 4: Results for 'Nollywood' (1999-08-03 to 2001-06-27)
+  -----> Entry 0: 1999/August 1999/PM News Aug 6_1999_Pg 3.tif - https://archivi.ng/search/kH6V14oBCULQj6J1Smkt    
+  -----> Entry 1: 1999/August 1999/PM News Aug 13_1999_Pg 3.tif - https://archivi.ng/search/-35014oBCULQj6J1B2hZ   
+  -----> Entry 2: 1999/August 1999/PM News Aug 20_1999_Pg 3.tif - https://archivi.ng/search/J35914oBCULQj6J1zml4   
+  -----> Entry 3: 1999/November 1999/PM News November 5_1999_Pg 3.tif - https://archivi.ng/search/bn7v2IoBCULQj6J1nm9l
+  -----> Entry 4: 1999/December 1999/PM News December  17_1999_Pg 3.tif - https://archivi.ng/search/0H6k14oBCULQj6J1P2l1
+  -----> Entry 5: 2000/January 2000/Jan 2000/PM News   January 21_2000_Pg 3.tif - https://archivi.ng/search/tChA24oBCApQwdEHPVeZ
+  -----> Entry 6: 2000/February 2000/PM News February 11_2000_Pg 3.tif - https://archivi.ng/search/oCj-2ooBCApQwdEHsFYi
+  -----> Entry 7: Magazines/TELL/2000/March 2000/March 6, 2000/TELL March 6_2000_Pg 42.tif - https://archivi.ng/search/X53BEJYBODEDrDkg5nyq
+  -----> Entry 8: 2000/April 2000/PM News April 14_2000_Pg 3.tif - https://archivi.ng/search/UCh22ooBCApQwdEHvVSU  
+  -----> Entry 9: 2000/June  2000/PM News June 23_2000_Pg 3.tif - https://archivi.ng/search/QiiW24oBCApQwdEH-llX   
+  -----> Entry 10: 2000/July 2000/PM News July 14_2000_Pg 3.tif - https://archivi.ng/search/GChU24oBCApQwdEHwVgO   
+  -----> Entry 11: 2000/August 2000/PM News August 18_2000_Pg 3.tif - https://archivi.ng/search/Eiij2ooBCApQwdEHe1Vk
+  -----> Entry 12: 2001/February 2001/PM News February 2_2001_Pg 3.tif - https://archivi.ng/search/A1M744sBg5yxONaMtpRP
+  -----> Entry 13: 2001/February 2001/PM News February 8_2001_Pg 4.tif - https://archivi.ng/search/NFNG44sBg5yxONaMIZSq
+  -----> Entry 14: 2001/February 2001/PM News February 16_2001_Pg 2.tif - https://archivi.ng/search/ilMi44sBg5yxONaM-JOn
+  -----> Entry 15: 2001/March 2001/PM News March 16_2001_Pg 2.tif - https://archivi.ng/search/U1P-44sBg5yxONaMbpfA 
+  -----> Entry 16: 2001/March 2001/PM News March 16_2001_Pg 3.tif - https://archivi.ng/search/VFP-44sBg5yxONaMjpew 
+  -----> Entry 17: 2001/April 2001/PM News April 20_2001_Pg 3.tif - https://archivi.ng/search/slPM4osBg5yxONaM1ZK8 
+  -----> Entry 18: 2001/April 2001/PM News April 24_2001_Pg 6.tif - https://archivi.ng/search/zFPS4osBg5yxONaMcpKo 
+
+ =================================================================================
+
+Cluster 5: Results for 'Nollywood' (2001-06-27 to 2003-05-21)
+  -----> Entry 0: 2001/June 2001/PM News June 27_2001_Pg 8.tif - https://archivi.ng/search/1lPh44sBg5yxONaMGJZt    
+  -----> Entry 1: 2001/July 2001/PM News July 12_2001_Pg 5.tif - https://archivi.ng/search/YVOT44sBg5yxONaMXZXK    
+  -----> Entry 2: 2002/March 2002/PM News March 15_2002_Pg 8.tif - https://archivi.ng/search/x1OJ7IsBg5yxONaMI6FZ  
+  -----> Entry 3: 2002/May 2002/PM News May 8_2002_Pg 3.tif - https://archivi.ng/search/TlPK7IsBg5yxONaM76Pw       
+  -----> Entry 4: 2002/May 2002/PM News May 15_2002_Pg 3.tif - https://archivi.ng/search/mlOu7IsBg5yxONaM7qII      
+  -----> Entry 5: 2002/May 2002/PM News May 22_2002_Pg 3.tif - https://archivi.ng/search/1lO47IsBg5yxONaMSKIR      
+  -----> Entry 6: 2002/May 2002/PM News May 31_2002_Pg 4.tif - https://archivi.ng/search/H1PD7IsBg5yxONaMhqOI      
+  -----> Entry 7: 2002/June 2002/PM News June 7_2002_Pg 3.tif - https://archivi.ng/search/hlN97IsBg5yxONaM0qEk     
+  -----> Entry 8: 2002/June 2002/PM News June 14_2002_Pg 5.tif - https://archivi.ng/search/1lNc7IsBg5yxONaMhaAx    
+  -----> Entry 9: 2002/August 2002/PM News August 9_2002_Pg 2.tif - https://archivi.ng/search/CVPB64sBg5yxONaMFJ0U 
+  -----> Entry 10: 2002/September 2002/PM News September 6_2002_Pg 8.tif - https://archivi.ng/search/SVNI7YsBg5yxONaMDqZk
+  -----> Entry 11: 2002/September 2002/PM News September 20_2002_Pg 4.tif - https://archivi.ng/search/w1M07YsBg5yxONaMoaWr
+  -----> Entry 12: 2003/January 2003/PM News January 10_2003_Pg 5.tif - https://archivi.ng/search/DFOr74sBg5yxONaMkqpo
+  -----> Entry 13: Magazines/Newswatch/2003/January 2003/January 13, 2003 (NO. 1)/Newswatch January 13_2003_Pg 41.tif - https://archivi.ng/search/ap0gDJYBODEDrDkgwXMp
+  -----> Entry 14: 2003/January 2003/PM News January 31_2003_Pg 8.tif - https://archivi.ng/search/z1PO74sBg5yxONaM5aqw
+  -----> Entry 15: 2003/March 2003/PM News March 7_2003_Pg 4.tif - https://archivi.ng/search/v1Nf8IsBg5yxONaM7a1F  
+  -----> Entry 16: Magazines/TELL/2003/March 2003/March 10, 2003/TELL March 10_2003_Pg 15.tif - https://archivi.ng/search/pJ32EpYBODEDrDkgXoGr
+  -----> Entry 17: Magazines/TELL/2003/March 2003/March 31, 2003/TELL March 31_2003_Pg 15.tif - https://archivi.ng/search/NJ0zE5YBODEDrDkgfYJz
+  -----> Entry 18: 2003/May 2023/PM News May 2_2003_Pg 5.tif - https://archivi.ng/search/XFOC8IsBg5yxONaMs65O      
+  -----> Entry 19: Magazines/TELL/2003/May 2003/May 19, 2003/TELL May 19_2003_Pg 48.tif - https://archivi.ng/search/pJ1hE5YBODEDrDkgiYKW
+
+ =================================================================================
+
+Cluster 6: Results for 'Nollywood' (2003-05-21 to 2005-04-13)
+  -----> Entry 0: 2007/February 2007/PM News February 28_2004_Pg 9.tif - https://archivi.ng/search/CVPiAYwBg5yxONaM8uBx
+  -----> Entry 1: 2007/January 2007/PM News January 31_2004_Pg 9.tif - https://archivi.ng/search/aVMsAowBg5yxONaMYeGO
+  -----> Entry 2: 2005/January 2005/PM News January 14_2005_Pg 7.tif - https://archivi.ng/search/wFO89osBg5yxONaM48HY
+  -----> Entry 3: 2007/February 2007/PM News February 21_2004_Pg 9.tif - https://archivi.ng/search/uVPSAYwBg5yxONaMKN8V
+  -----> Entry 4: 2007/February 2007/PM News February 7_2004_Pg 9.tif - https://archivi.ng/search/SVPwAYwBg5yxONaMGODb
+  -----> Entry 5: 2007/February 2007/PM News February 14_2004_Pg 9.tif - https://archivi.ng/search/WVO8AYwBg5yxONaMnd-5
+  -----> Entry 6: 2007/January 2007/PM News January 17_2004_Pg 9.tif - https://archivi.ng/search/yVMLAowBg5yxONaMO-Cv
+  -----> Entry 7: 2003/November 2003/PM News November 28_2003_Pg 5.tif - https://archivi.ng/search/PlOr8IsBg5yxONaMZa8-
+  -----> Entry 8: 2004/March 2004/PM News March 19_2004_Pg 5.tif - https://archivi.ng/search/4VPI8osBg5yxONaMl7i2  
+  -----> Entry 9: 2007/January 2007/PM News January 10_2004_Pg 8.tif - https://archivi.ng/search/eFP7AYwBg5yxONaMUeBJ
+  -----> Entry 10: 2007/February 2007/PM News February 23_2004_Pg 7.tif - https://archivi.ng/search/11PYAYwBg5yxONaMX9-P
+  -----> Entry 11: 2007/January 2007/PM News January 19_2004_Pg 8.tif - https://archivi.ng/search/6FMRAowBg5yxONaMseAU
+  -----> Entry 12: 2004/July 2004/PM News July 2_2004_Pg 5.tif - https://archivi.ng/search/A1Nf8osBg5yxONaM77d6    
+  -----> Entry 13: 2004/June 2004/PM News June 18_2004_Pg 6.tif - https://archivi.ng/search/0FOK8osBg5yxONaMg7eO   
+  -----> Entry 14: 2007/January 2007/PM News January 26_2004_Pg 5.tif - https://archivi.ng/search/NVMiAowBg5yxONaMEuEs
+  -----> Entry 15: 2004/November 2004/PM News November 5_2004_Pg 5.tif - https://archivi.ng/search/CVNC84sBg5yxONaMcrtf
+  -----> Entry 16: 2004/April 2004/PM News April 30_2004_Pg 5.tif - https://archivi.ng/search/MFNc8YsBg5yxONaM5LI1 
+  -----> Entry 17: 2004/February 2004/PM News February 13_2004_Pg 5.tif - https://archivi.ng/search/3FPy8YsBg5yxONaMZbS-
+  -----> Entry 18: 2004/November 2004/PM News November 5_2004_Pg 6.tif - https://archivi.ng/search/ClNC84sBg5yxONaMsbun
+  -----> Entry 19: 2007/January 2007/PM News January 30_2004_Pg 5.tif - https://archivi.ng/search/VVMoAowBg5yxONaMfeFi
+
+ =================================================================================
+
+Cluster 7: Results for 'Nollywood' (2005-04-13 to 2007-03-08)
+  -----> Entry 0: 2006/septemer 2006/PM News Septemer 20_2006_Pg 9.tif - https://archivi.ng/search/7FMTAIwBg5yxONaMYNpB
+  -----> Entry 1: 2005/May  2005/PM News May 20_2005_Pg 12.tif - https://archivi.ng/search/hVO194sBg5yxONaMAsal    
+  -----> Entry 2: 2005/June  2005/PM News June 24_2005_Pg 3.tif - https://archivi.ng/search/ZFNE94sBg5yxONaMqsQk   
+  -----> Entry 3: 2006/septemer 2006/PM News Septemer 16_2006_Pg 9.tif - https://archivi.ng/search/r1MIAIwBg5yxONaMTNqx
+  -----> Entry 4: 2006/December 2006/PM News December  13_2006_Pg 9.tif - https://archivi.ng/search/S1Ms-4sBg5yxONaM4Mwj
+  -----> Entry 5: 2005/November 2005/PM News November 2_2005_Pg 3.tif - https://archivi.ng/search/OFMP-IsBg5yxONaMGciP
+  -----> Entry 6: 2006/august 2006/PM News August 18_2006_Pg 3.tif - https://archivi.ng/search/AlOD-YsBg5yxONaMSdjO
+  -----> Entry 7: 2006/august 2006/PM News August 4_2006_Pg 9.tif - https://archivi.ng/search/2FOp-YsBg5yxONaMe9hz 
+  -----> Entry 8: 2006/November 2006/November 2006/PM News November 10_2006_Pg 2.tif - https://archivi.ng/search/RVPu-IsBg5yxONaMqtWe
+  -----> Entry 9: 2006/septemer 2006/PM News Septemer 27_2006_Pg 9.tif - https://archivi.ng/search/RFMhAIwBg5yxONaMgNtL
+  -----> Entry 10: 2006/October 2006/PM News October 2006/PM News October 18_2006_Pg 8.tif - https://archivi.ng/search/91NQ-YsBg5yxONaMetbM
+  -----> Entry 11: 2006/May 2006/PM News May 19_2006_Pg 9.tif - https://archivi.ng/search/sFOa-IsBg5yxONaMcdMK     
+  -----> Entry 12: 2006/November 2006/November 2006/PM News November 8_2006_Pg 5.tif - https://archivi.ng/search/eFM3-YsBg5yxONaMXNZZ
+  -----> Entry 13: 2006/November 2006/November 2006/PM News November 29_2006_Pg 9.tif - https://archivi.ng/search/IVMh-YsBg5yxONaMBdYc
+  -----> Entry 14: 2006/November 2006/November 2006/PM News November 1_2006_Pg 11.tif - https://archivi.ng/search/mVMB-YsBg5yxONaMktVx
+  -----> Entry 15: 2006/October 2006/PM News October 2006/PM News October 25_2006_Pg 9.tif - https://archivi.ng/search/OFNb-YsBg5yxONaMyder
+  -----> Entry 16: 2006/November 2006/November 2006/November 2006/PM News November 29_2006_Pg 9.tif - https://archivi.ng/search/IFPl-IsBg5yxONaM9tU2
+  -----> Entry 17: 2006/November 2006/November 2006/November 2006/PM News November 22_2006_Pg 10.tif - https://archivi.ng/search/xVPQ-IsBg5yxONaMZ9RY
+  -----> Entry 18: 2006/November 2006/November 2006/PM News November 22_2006_Pg 10.tif - https://archivi.ng/search/xlML-YsBg5yxONaMPdXb
+  -----> Entry 19: 2005/August 2005/PM News August 26_2005_Pg 9.tif - https://archivi.ng/search/51Mr9osBg5yxONaMg758
+
+ =================================================================================
+
+Cluster 8: Results for 'Nollywood' (2007-03-08 to 2009-01-29)
+  -----> Entry 0: 2007/June 2007/PM News June 27_2007_Pg 9.tif - https://archivi.ng/search/5FPBAowBg5yxONaMX-Na    
+  -----> Entry 1: 2008/May 2008/PM News May 7_2008_Pg 10.tif - https://archivi.ng/search/NlORCYwBg5yxONaM0vYH      
+  -----> Entry 2: 2007/July 2007/PM News July 11_2007_Pg 9.tif - https://archivi.ng/search/x1NDAowBg5yxONaMFOHM    
+  -----> Entry 3: 2008/March 2008/PM News March 12_2008_Pg 9.tif - https://archivi.ng/search/1VNCCYwBg5yxONaMu-To  
+  -----> Entry 4: 2007/November 2007/PM News November 21_2007_Pg 8.tif - https://archivi.ng/search/h1OIA4wBg5yxONaMnufT
+  -----> Entry 5: 2007/November 2007/PM News November 28_2007_Pg 7.tif - https://archivi.ng/search/01OWA4wBg5yxONaM8-fC
+  -----> Entry 6: 2008/June 2008/PM News June 18_2008_Pg 6.tif - https://archivi.ng/search/r1MBCYwBg5yxONaMV-OQ    
+  -----> Entry 7: 2008/September 2008/PM News September  3_2008_Pg 6.tif - https://archivi.ng/search/YVN1CowBg5yxONaMD-rh
+  -----> Entry 8: 2008/July 2008/PM News July 30_2008_Pg 10.tif - https://archivi.ng/search/wVPMCIwBg5yxONaMYfK3   
+  -----> Entry 9: 2008/August 2008/PM News August 27_2008_Pg 7.tif - https://archivi.ng/search/MVN3B4wBg5yxONaMHu2b
+  -----> Entry 10: 2008/September 2008/PM News September  24_2008_Pg 10.tif - https://archivi.ng/search/DlNjCowBg5yxONaMKPom
+  -----> Entry 11: 2008/June 2008/PM News June 11_2008_Pg 6.tif - https://archivi.ng/search/VVPtCIwBg5yxONaMFPMf   
+  -----> Entry 12: 2008/December 2008/PM News December 31_2008_Pg 11.tif - https://archivi.ng/search/tFPNB4wBg5yxONaMpu6n
+  -----> Entry 13: 2008/August 2008/PM News August 6_2008_Pg 7.tif - https://archivi.ng/search/h1OMB4wBg5yxONaMYu1t
+  -----> Entry 14: 2007/September 2007/PM News September 19_2007_Pg 9.tif - https://archivi.ng/search/A1MPBIwBg5yxONaMmer1
+  -----> Entry 15: 2008/February 2008/PM News February 14_2008_Pg 8.tif - https://archivi.ng/search/OFPrB4wBg5yxONaMvu-k
+  -----> Entry 16: 2007/June 2007/PM News June 13_2007_Pg 9.tif - https://archivi.ng/search/NlOaAowBg5yxONaMMeMq   
+  -----> Entry 17: 2008/September 2008/PM News September  10_2008_Pg 6.tif - https://archivi.ng/search/W1M9CowBg5yxONaMPPlj
+  -----> Entry 18: 2007/March 2007/PM News March 28_2007_Pg 9.tif - https://archivi.ng/search/M1MMA4wBg5yxONaMk-V7 
+  -----> Entry 19: 2007/May 2007/PM News May 9_2007_Pg 8.tif - https://archivi.ng/search/91NqA4wBg5yxONaMeubp      
+
+ =================================================================================
+
+Cluster 9: Results for 'Nollywood' (2009-01-29 to 2010-12-24)
+  -----> Entry 0: 2010/August 2010/PM News August 11_2010_Pg 13.tif - https://archivi.ng/search/ilRJE4wBg5yxONaMTwl-
+  -----> Entry 1: Magazines/Newswatch/2009/May 2009/May 11, 2009 (Vol. 49, NO. 19)/Newswatch May 11_2009_Pg 004.tif - https://archivi.ng/search/mp1-DJYBODEDrDkgVXQR
+  -----> Entry 2: 2010/June 2010/PM News June 28_2010_Pg 4.tif - https://archivi.ng/search/iVQNFYwBg5yxONaMRBEQ    
+  -----> Entry 3: 2009/April 2009/PM News April 1_2009_Pg 9.tif - https://archivi.ng/search/BFO-DYwBg5yxONaMcvtN   
+  -----> Entry 4: 2010/March 2010/PM News March 4_2010_Pg 8.tif - https://archivi.ng/search/Z1RrFYwBg5yxONaMhROj   
+  -----> Entry 5: 2009/May 2009/PM News May 13_2009_Pg 8.tif - https://archivi.ng/search/llQLEIwBg5yxONaMQgVC      
+  -----> Entry 6: 2009/June 2009/PM News June 10_2009_Pg 8.tif - https://archivi.ng/search/XlRND4wBg5yxONaM9wJl    
+  -----> Entry 7: 2009/July 2009/PM News July 8_2009_Pg 7.tif - https://archivi.ng/search/PVRGD4wBg5yxONaMBQKG     
+  -----> Entry 8: 2009/April 2009/PM News April 15_2009_Pg 8.tif - https://archivi.ng/search/y1OxDYwBg5yxONaMFPou  
+  -----> Entry 9: 2010/March 2010/PM News March 10_2010_Pg 12.tif - https://archivi.ng/search/FFQqFYwBg5yxONaM5RIa 
+  -----> Entry 10: 2010/December 2010/PM News December 16_2010_Pg 8.tif - https://archivi.ng/search/SlSmE4wBg5yxONaMgwvC
+  -----> Entry 11: 2009/July 2009/PM News July 22_2009_Pg 8.tif - https://archivi.ng/search/Z1QaD4wBg5yxONaMIwHD   
+  -----> Entry 12: 2010/September 2010/PM News September 23_2010_Pg 8.tif - https://archivi.ng/search/O1RvFowBg5yxONaMBxgx
+  -----> Entry 13: 2010/September 2010/PM News September 8_2010_Pg 15.tif - https://archivi.ng/search/4VSYFowBg5yxONaMwxip
+  -----> Entry 14: 2010/May 2010/PM News May 26_2010_Pg 11.tif - https://archivi.ng/search/c1SgFYwBg5yxONaMNBT6    
+  -----> Entry 15: 2009/July 2009/PM News July 1_2009_Pg 9.tif - https://archivi.ng/search/N1QQD4wBg5yxONaMlgEN    
+  -----> Entry 16: 2009/February 2009/PM News February 18_2009_Pg 16.tif - https://archivi.ng/search/E1NqDowBg5yxONaMBf5j
+  -----> Entry 17: 2009/May 2009/PM News May 20_2009_Pg 9.tif - https://archivi.ng/search/71QfEIwBg5yxONaMQAXS     
+  -----> Entry 18: 2009/March 2009/PM News March 4_2009_Pg 16.tif - https://archivi.ng/search/J1TzD4wBg5yxONaMmAWG 
+  -----> Entry 19: 2010/January 2010/PM News January 13_2010_Pg 12.tif - https://archivi.ng/search/1VQuFIwBg5yxONaMWA0M
+
+  event: done
+  {}
