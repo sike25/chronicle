@@ -5,8 +5,8 @@ Quick smoke test for the Chronicle API.
 import requests
 import json
 
-BASE_URL = "http://127.0.0.1:8080"
-QUERY = "Nollywood"
+BASE_URL = "https://chronicle-435397225968.us-central1.run.app"
+QUERY = "Jay Jay Okocha"
 
 def test_health():
     r = requests.get(f"{BASE_URL}/health")

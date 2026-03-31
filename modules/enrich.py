@@ -1,17 +1,27 @@
-import anthropic
+import os
+
 import concurrent.futures
 from modules.shape import EnrichedCluster
+from modules.fake  import fake_enriched_clusters
 from utils.helpers import extractJson
 from utils.jobs    import jobs
 from utils.log     import setup_logging
+from anthropic import Anthropic, AuthenticationError, APIConnectionError
 
 DUMB_MODEL  = "claude-haiku-4-5"
 SMART_MODEL = "claude-sonnet-4-5"
 
 logger = setup_logging()
-client = anthropic.Anthropic()
+_client = None
 
-def enrich_clusters(clusters, query, job_id):
+def get_client():
+    global _client
+    if _client is None:
+        api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+        _client = Anthropic(api_key=api_key)
+    return _client
+
+def enrich_clusters(clusters, query, job_id, fake):
     """
     Enriches newspaper clusters with cohesive context (title, summary, cover story).
 
@@ -29,9 +39,18 @@ def enrich_clusters(clusters, query, job_id):
         job_id   (str):  The job ID for pushing SSE events.
     """
 
+    if fake:
+        fecs = fake_enriched_clusters()
+        for _, fec in fecs.items():
+            jobs.push_event(job_id, "cluster_enriched", fec.to_dict())
+        jobs.push_event(job_id, "done", {})
+        return fecs
+
+
     # Trim large clusters to top 20 in semantic relevance.
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = trim_large_clusters(clusters=clusters)
+
 
     # Phase 1: Parallel Extraction.
     # Files are sent to a dumb model to extract the portions which are relevant to the query.
@@ -47,12 +66,14 @@ def enrich_clusters(clusters, query, job_id):
     run_parallel_extraction(all_entries, query)
     logger.info("Phase 1 complete.")
 
+
     # Phase 2: Sequential enrichment
     # Runs in chronological order so history can be fed forward.
     # This avoids repetitive, non-specific titles and summaries
     logger.info("Phase 2: enrich clusters sequentially.")
     enriched = run_sequential_enrichment(trimmed_clusters, query, job_id)
     logger.info("Phase 2 complete. All clusters enriched.")
+
     return enriched
 
  
@@ -82,10 +103,11 @@ def summarize_relevant_portions(entry, query):
     Be throrough about including all specific details and context, including dates, numbers, names, selected quotes, and specific events.
     If nothing in the Text is relevant to the query, return 'No relevant data'.
     """
+    client = get_client()
 
     try:
         response = client.messages.create(
-            model=SMART_MODEL,
+            model=DUMB_MODEL,
             max_tokens=1000,
             temperature=0,   # deterministic for extraction
             system=system_prompt,
@@ -94,9 +116,8 @@ def summarize_relevant_portions(entry, query):
         
         extracted_text = response.content[0].text.strip()
         if not extracted_text or "No relevant data" in extracted_text:
-            logger.warning(f"No relevant data extracted from {entry.source.filename}. Falling back to full extract.")
-
-            return f"Extract: {entry.source.extract}"
+            logger.warning(f"No relevant data extracted from https://archivi.ng/search/{entry.id} for query {query}.")
+            return f"No relevant extract."
         return extracted_text
         
     except Exception as e:
@@ -139,6 +160,8 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
 
 
 def generate_bucket_context(query, entries, dates, history=None):
+    client = get_client()
+
     # format the history into a string to supply llm to avoid repetitive titles and summaries.
     history_text = "NONE (This is the first cluster)"
     if history:

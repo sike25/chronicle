@@ -13,11 +13,11 @@ def setup_logging():
         logger.setLevel(logging.DEBUG)
 
         # file handler (useful for local dev)
-        file_handler = logging.FileHandler(LOG_FILE, mode='a')
-        file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s | %(levelname)s | %(name)s | %(message)s'
-        ))
-        logger.addHandler(file_handler)
+        # file_handler = logging.FileHandler(LOG_FILE, mode='a')
+        # file_handler.setFormatter(logging.Formatter(
+        #     '%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+        # ))
+        # logger.addHandler(file_handler)
 
         # stdout handler (required for Cloud Run)
         stream_handler = logging.StreamHandler()
