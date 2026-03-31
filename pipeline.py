@@ -4,11 +4,12 @@ from modules.fetch   import fetch_search_results
 from modules.prepare import preprocess
 from modules.cluster import cluster_into_buckets
 from modules.enrich  import enrich_clusters
+
 from utils.helpers   import convertToDate
 from utils.jobs      import jobs
 from utils.log       import setup_logging
 
-# import uuid
+import uuid
 
 logger = setup_logging()
 
@@ -94,7 +95,7 @@ def run_chronicle(query: str, job_id: str):
 
         # 5. ENRICH
         logger.info("ENRICH ---------------------------------------------------------------")
-        enriched_clusters = enrich_clusters(clusters=clusters, query=query, job_id=job_id)
+        enriched_clusters = enrich_clusters(clusters=clusters, query=query, job_id=job_id, fake=False)
         logger.info(f"RUN COMPLETE | job={job_id}")
 
         # log final results - enriched clusters.
