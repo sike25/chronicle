@@ -8,6 +8,22 @@ import json
 BASE_URL = "https://chronicle-435397225968.us-central1.run.app"
 QUERY = "Jay Jay Okocha"
 
+import time
+
+def test_cache(query="Election crises and violence"):
+    # first run — should be a cache miss, pipeline runs in full
+    print("\n--- RUN 1 (expect MISS) ---")
+    start = time.time()
+    test_chronicle(query)
+    print(f"Run 1 took {time.time() - start:.1f}s")
+
+    # second run — should be a cache hit, replays instantly
+    print("\n--- RUN 2 (expect HIT) ---")
+    start = time.time()
+    test_chronicle(query)
+    print(f"Run 2 took {time.time() - start:.1f}s")
+
+
 def test_health():
     r = requests.get(f"{BASE_URL}/health")
     assert r.status_code == 200
@@ -42,4 +58,4 @@ def test_chronicle(query="Election crises and violence"):
 
 if __name__ == "__main__":
     test_health()
-    test_chronicle(QUERY)
+    test_cache(QUERY)
