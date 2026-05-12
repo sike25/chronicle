@@ -2,14 +2,16 @@ import json
 import threading
 import uuid
 
-from fastapi import FastAPI, HTTPException
+from datetime                import datetime
+from fastapi                 import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from fastapi.responses       import StreamingResponse
+from pydantic                import BaseModel, field_validator
 
-from pipeline import run_chronicle
-from utils.jobs import jobs
-from utils.log import setup_logging
+from pipeline    import run_chronicle
+from utils.cache import cache
+from utils.jobs  import jobs
+from utils.log   import setup_logging
 
 logger = setup_logging()
 
@@ -32,12 +34,27 @@ app.add_middleware(
 
 # input schema
 class ChronicleRequest(BaseModel):
-    query: str
+    query:      str
+    start_date: str  = ""
+    end_date:   str  = ""
+    no_cache:   bool = False
+
     model_config = {
         "json_schema_extra": {
-            "examples": [{"query": "Election crises and violence"}]
+            "examples": [{"query": "Election crises and violence", "start_date": "2014-01-01", "end_date": "2023-12-31"}]
         }
     }
+
+    @field_validator("start_date", "end_date")
+    @classmethod
+    def validate_date(cls, v):
+        if not v:
+            return v
+        try:
+            datetime.strptime(v, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError("Date must be in YYYY-MM-DD format")
+        return v
 
 # routes
 @app.post("/chronicle", status_code=202)
@@ -51,6 +68,16 @@ def start_chronicle(request: ChronicleRequest):
     jobs.create(job_id)
     logger.info(f"Job created: {job_id} for query: '{request.query}")
 
+    # try reading results from cache
+    if not request.no_cache:
+        cached_events = cache.get(request.query, request.start_date, request.end_date)
+        if cached_events:
+            logger.info(f"Cache HIT — replaying into job {job_id}")
+            _replay_cached_events(job_id, cached_events)
+            return {"job_id": job_id}
+
+    # run chronicle afresh
+    logger.info(f"Cache MISS — running fresh for job {job_id}")
     thread = threading.Thread(
         target=_run,
         args=(job_id, request),
@@ -89,11 +116,25 @@ def health():
     return {"status": "ok"}
 
 
+
+def _replay_cached_events(job_id: str, events: list):
+    """Push cached events directly into job store so that SSE stream replays them."""
+    for event in events:
+        jobs.push_event(job_id, event["type"], event["data"])
+    logger.info(f"Cache: replayed {len(events)} events into job {job_id}")
+
+
 # pipeline runner
 def _run(job_id:str, request: ChronicleRequest):
     """Runs the Chronicle pipeline and writes results to the job store."""
     try:
         run_chronicle(query=request.query, job_id=job_id)
+
+        # write fresh results into cache
+        if not request.no_cache:
+            events = jobs.get_events(job_id)
+            cache.set(request.query, events, request.start_date, request.end_date)
+
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Pipeline failure for job {job_id}: {e}")
         jobs.set_error(job_id, str(e))

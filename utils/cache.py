@@ -14,7 +14,9 @@ class QueryCache:
     """
     Redis-backed cache for enriched Chronicle pipeline results.
 
-    Keyed by normalized query string, prefixed with 'chronicle:'.
+    Keyed by normalized query string, 
+    in the dated form 'chronicle:QUERY=query string_FROM=YYYY-MM-DD_TO=YYYY-MM-DD', 
+    and the undated form 'chronicle:QUERY=query string'.
     Entries expire automatically after one week (TTL_SECONDS).
     """
 
@@ -28,13 +30,13 @@ class QueryCache:
 
     ### WRITE API
 
-    def set(self, query: str, events: list):
+    def set(self, query: str, events: list,  start_date, end_date):
         """
         Store the full SSE event list for a query.
         Events are the list of {"type": ..., "data": ...} dicts from the job store.
         The 'done' event is included so replays terminate cleanly.
         """
-        key   = self._key(query)
+        key   = self._key(query, start_date, end_date)
         value = json.dumps({
             "events":         events,
             "original_query": query,
@@ -52,12 +54,12 @@ class QueryCache:
 
 
     ### READ API
-    def get(self, query: str) -> list | None:
+    def get(self, query: str, start_date, end_date) -> list | None:
         """
         Returns a copy of the cached event list, or None on miss or expiry.
         TTL expiry is handled automatically by Redis.
         """
-        key   = self._key(query)
+        key   = self._key(query, start_date, end_date)
         value = self._client.get(key)
         if value is None:
             logger.info(f"Cache: MISS for '{query}'")
@@ -74,8 +76,12 @@ class QueryCache:
 
 
     ### HELPERS
-    def _key(self, query: str) -> str:
-        return f"{KEY_PREFIX}{query.strip().lower()}"
+    def _key(self, query: str, start_date, end_date) -> str:
+        slug = query.strip().lower().replace(" ", "-")
+        key  = f"{KEY_PREFIX}QUERY={slug}"
+        if start_date and end_date:
+            key += f"_FROM={start_date}_TO={end_date}"
+        return key
 
 
 # global instance
