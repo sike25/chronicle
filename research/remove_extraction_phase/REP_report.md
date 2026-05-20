@@ -30,10 +30,10 @@ How do the cost and quality results compare between these options?
 
 ## Queries Under Test
 
-1. **Jay-Jay Okocha** — proper noun with a clear, specific referent
-2. **Women in politics** — thematic and abstract; tests loose relevance judgement
-3. **Nollywood and the film industry** — domain query with broad coverage
-4. **Biafran War**— historically dense
+1. **Jay-Jay Okocha** — proper noun with a clear, specific reference.      
+2. **Women in politics** — thematic and abstract; tests loose relevance judgement.   
+3. **Nollywood and the film industry** — domain query with broad coverage.     
+4. **Biafran War**— historically dense.         
 
 
 ## Quality Evaluation Rubric
@@ -49,7 +49,7 @@ Each condition's output is scored per query across these dimensions:
 Scored per cluster (1–3), averaged across the timeline.
 
 
-## Other Metric
+## Other Metrics
 
 Beyond output quality, record per condition:
 
