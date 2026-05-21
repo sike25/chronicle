@@ -1,4 +1,6 @@
-RESULTS  
+### jay-jay-okocha.txt
+
+QUANT RESULTS  
 ----------   
 
 Version 1 - On-The-Fly Summarization
@@ -111,8 +113,10 @@ Cluster 5
 
 
 
+RAW RESULTS
+---------------------------
 
-VERSION 1
+VERSION 1 - on the fly
 ----------------
 
 --> Enriched Cluster 1994-09-16 to 1997-12-16:
@@ -201,7 +205,7 @@ Elapsed: 170.3236s
 
 
 
-VERSION 2
+VERSION 2 - vanilla summaries
 ----------
 
 --> Enriched Cluster 1994-09-16 to 1997-12-16:
@@ -279,7 +283,7 @@ marking his transition from playing legend to administrative figure and football
 Elapsed: 49.0133s
 
 
-VERSION 3
+VERSION 3 - rich summaries
 -----------
 
 
@@ -368,3 +372,371 @@ and his warnings to the Super Eagles during the 2010 World Cup demonstrated his 
 
 
 Elapsed: 56.8550s
+
+
+
+
+
+
+ANALYSIS      
+-----------------
+
+
+
+Cluster 1
+----------
+
+------------> Entry(id=mH5-0YoBCULQj6J1kFAC, relevance=0.7527) 
+Enugu Rangers
+Olympic qualifier in Zimbabwe
+praise from World Cup captain Lothar Matthäus
+9 leagues for the Rangers
+
+------------> Entry(id=9H7t04oBCULQj6J1iVoL, relevance=0.7444) 
+austin jay jay okocha
+okocha quits Turkey?
+midfield star
+Turkish first division Ferbanache
+interview complaints about low standard of Turkish footbal
+former eintracht frankfurt dribbler
+won't go back to Germany because 2nd division
+'god forbid, Okocha will never go backward'
+
+
+------------> Entry(id=on6s0YoBCULQj6J1VlFC, relevance=0.7359)
+interview with oyedele
+the days of one man show are over.'
+atlanta 1996 olympics prep
+
+------------> Entry(id=pk8F0IoB7XvdErjMZ5UJ, relevance=0.7103) 
+Okocha Turns Down NFA's Invitation
+But the NFA denies it
+So basically gossip
+
+------------> Entry(id=c34B0ooBCULQj6J1PVOj, relevance=0.7089) 
+Otovbivbi's Interview
+Basically has nothing to do with Jay-Jay Okocha
+except a brief comparison
+
+------------> Entry(id=MH4W04oBCULQj6J1F1fZ, relevance=0.7019) 
+Okocha plays for the Super Eagles vs Stallions
+He missed a free kick
+This is a description of an entire match + players' roles so Okocha gets one sentence
+
+------------> Entry(id=kX4O1IoBCULQj6J1KFvB, relevance=0.7011) 
+Austin Okocha
+Nigeria vs Kenya match + Okocha's contribution
+Mentions that Okocha was on the gold-winning Atlanta Olympics U23 team
+
+------------> Entry(id=gn4L1IoBCULQj6J1SVvi, relevance=0.6992) 
+Austin Okocha
+before some Nigerian x Kenyan match, 
+all the players are interviewed including Okocha 
+and he just expresses confidence + hype
+
+------------> Entry(id=Wn5q1IoBCULQj6J1dF3l, relevance=0.6952) 
+Drogaslav Stepanovic said he was gonna be the Nigerian national coach.
+Recommended by Akpoborie and Jay-Jay Okocha
+
+------------> Entry(id=s36v0YoBCULQj6J10VGi, relevance=0.6807) 
+After a Japanese defender handled the ball in his vital area, 
+Austin Okocha converted a penalty kick -> 2nd Goal in Olympic game against Japan
+
+
+------------> Entry(id=DX6E04oBCULQj6J121mj, relevance=0.6935) 
+------------> Entry(id=rH4L0ooBCULQj6J1dlOX, relevance=0.6921) 
+------------> Entry(id=YQdePIoBCQSJetOq1sV3, relevance=0.6870) 
+------------> Entry(id=J35f1IoBCULQj6J1Dl3a, relevance=0.6846) 
+No mention of Jay-Jay Okocha
+
+------------> Entry(id=Zn5d04oBCULQj6J1eljk, relevance=0.6857) 
+
+version 1 facts
+
+- enugu rangers -> european stardom + olympic glory
+- austin 'jay-jay' okocha 
+- midfield maestro 
+- 9 league matches for enugu rangers
+- moved to germany in 1990
+- signed with Eintracht Frankfurt in January 1992
+- praise from World Cup captain Lothar Matthäus
+- individual to team play
+- 'the days of one man show are over.'
+- Nigerian gold medal at Atlanta '96
+- crucial penalty against Japan 
+- Frankfurt, Bundesliga -> Turkish Fenerbahce 1996 due to relegation
+- expressed frustration with lower quality of Turkish football
+- Nigeria qualified for World Cup for France 1998
+- he + akpborie recommended their former Frankfurt coach 
+  Dragoslav Stepanovic to Nigeria in 1997 
+
+
+version 2 facts
+
+- austin 'jay-jay' okocha 
+- enugu -> international stardom + turkish league Discontent
+- national grammar school in Kano
+- 1996 Atlanta Olympics qualifiers in Zimbabwe
+- midfield maestro
+- German -> Turkish side Fenerbahçe
+- complained about Turkish team
+- Ochuko Utovbivbi, emerging talent compared to Okocha
+
+
+version 3 facts 
+
+- austin 'jay-jay' okocha
+- bundesliga breakthrough -> turkish disappointment
+- midfield maestro
+- Eintracht Frankfurt in Germany's Bundesliga (signed in January 1992)
+- 1996 Atlanta Olympics, a penalty against Japan
+- 1997 Frankfurt -> Turkish club Fenerbahçe (controversial, mixed results)
+- expressed disappointment on an interview
+- stated plans to leave in 1998
+- 'never go backward' to second-division football
+- Nigerian football: World Cup qualifiers against teams like Burkina Faso and Kenya
+- former coach Dragoslav Stepanovic as a Super Eagles coach recommendation 
+
+
+
+CLUSTER 2   
+----------------
+
+------> Compiled from 15 sources.
+------------> Entry(id=s35Q1YoBCULQj6J1R2DE, relevance=0.7442) 
+Nigeria (dream team) Beats Japan at the 1996 Olympics and inch closer to gold
+Jay-Jay Okocha scores Nigeria's second goal by converting a penalty
+He did an initial false kick
+Nigeria wins 2-0
+------------> Entry(id=C1MX7IsBg5yxONaMDp-n, relevance=0.7425) 
+Austin "Jay-Jay" Okocha
+supports PSG contract talks stalling over wage demands
+Sunderland FC interest (coach Peter Reid)
+Okocha's interest in English Premier League and age concerns
+Okocha is 28
+------------> Entry(id=PX4U1ooBCULQj6J1p2RT, relevance=0.7197)
+France '98 World Cup 
+okocha carrying Nigeria's coach Bora Milutinovic in a celebratory moment
+midfielder, No. 10 shirt
+won some 3-2 match against Spain
+------------> Entry(id=m3711YoBCULQj6J1SmPy, relevance=0.7157) 
+July 1998 = $17 million transfer to Paris St. Germain
+He is 24 years old
+a key figure of Nigeria's 1996 Olympic gold medal team + World Cup qualifiers
+4 year contract
+French record signing
+------------> Entry(id=7ihM24oBCApQwdEHTlc2, relevance=0.7140) 
+2000 Africa Nations Cup
+------------> Entry(id=xijt24oBCApQwdEH-lpF, relevance=0.7121) 
+Coach Bergeros likes to bench Okocha
+------------> Entry(id=R34W1ooBCULQj6J12GRW, relevance=0.7114) 
+France 1998 World Cup player
+Popular Super Eagles player
+------------> Entry(id=Sigm24oBCApQwdEHdVfC, relevance=0.7102)
+22nd African Cup of Nations in Lagos
+Austin Okocha for elbowing a Senegalese player - red card
+foreign jornalists levy harsh criticisms (high level of indiscipline)
+------------> Entry(id=u35k14oBCULQj6J1p2jF, relevance=0.7091) 
+Michael Platini advising Okocha + expressing admiration
+advice: team play + more goals
+------------> Entry(id=yX7J2IoBCULQj6J1B27m, relevance=0.7073)
+Keshi praises Okocha ahead of a Super Eagles game 
+------------> Entry(id=wShD24oBCApQwdEHGVc3, relevance=0.7051)
+ 4-2 victory over Tunisia
+ Okocha scored 2 of these goals 
+------------> Entry(id=UH441YoBCULQj6J1wmCB, relevance=0.7035) 
+France '98, Okocha is Nigeria's most exciting player
+------------> Entry(id=l36D1YoBCULQj6J1BGFM, relevance=0.7029)
+Okocha heavily criticized for PSG play 
+4 goals in 20 matches
+------------> Entry(id=535q1ooBCULQj6J1tGVK, relevance=0.7018)
+France '98 World Cup
+Okocha = Nogeri's most dependable midfielder 
+------------> Entry(id=wihD24oBCApQwdEHPVcE, relevance=0.7007) 
+a 4-2 emphatic victory over Tunisia
+Okocha scored 2
+
+version 1
+summer 1998 - Nigeria's most expensive player 
+when Fenerbache -> PSG for 17 million dollars.
+turkish citizenship
+1998 Nigerian World Cup - (3-2 victory over Spain, especially)
+spectacular debut PSG goal against Bordeaux
+4 turbulent years at PSG: 4 goals in first 20 matches,
+PSG at 11th place by December 1998, worst position since 1990
+Public advice by Michel Platini to do more goals
+okocha laments lack of playing time despite price tag
+blamed coach Jose-Marie Bergeroo who preferred other midfielders
+still Nigeria-loved 
+(2 goals in 4-2 victory over Tunisa at 2000 Africa Nations Cup)
+(almost got Nigeria to finals against Senegal but red card)
+fought with PSG over extension (wage demands)
+England's Premier League before turning 29
+Sunderland attention as his contract neared expiry
+
+version 2
+Late 1997 - Turkish -> PSG for 17 million dollars * 
+spectacular debut goal
+struggles for playing time under coach Jose-Marie Bergeroo
+French legend Michel Platini advised Okocha to improve his teamwork and scoring record
+1998 World Cup in France and the Africa Nations Cup hosted in Nigeria
+superb strike against Tunisia in a 4-2 victory *
+red card in Senagalese match
+criticismd from French journalists which affected his prospects *
+
+version 3
+turkey -> PSG
+africa's most expensive player - $17 million
+french transfer record *
+August 1998 spectacular debut goal against Bordeaux as a substitute
+criticism for goal tally (4 in 20 matches initially)
+Legend Michael Platini advise about teamwork + goal tally
+Super Eagles work
+- France '98 World Cup before elimination by Denmark
+2000 African Nations Cup co-hosted by Nigeria and Ghana *
+two against Tunisia in a 4-2 
+PSG extension negotiations stalled
+openly expressed his ambition to 
+join the English Premiership before turning too old
+Sunderland showing strong interest 
+Okocha is 28 years old in 2001
+
+
+
+CLUSTER 5
+-----------
+
+🔵 V1 Claims
+
+Okocha had a final professional playing stint at Hull City (2007–2008)
+He joined Hull City on a 12-month deal in 2007
+The Hull City move followed "an unsuccessful Qatar venture"
+He received a testimonial match in Warri in June 2008
+The Ogwuashi-Uku Stadium was renamed in his honor (at the testimonial)
+He scored the winning goal for the Super Eagles against a World XI at the testimonial
+The World XI featured African legends
+Nigeria had their worst-ever AFCON performance in Angola (2010)
+It was the first AFCON in 18 years he experienced outside active play
+He declared intention to contest for NFF Vice Chairman
+He launched an "Enough is Enough" campaign
+He criticized "career civil servants and politicians" running football
+He served on a Presidential Task Force for World Cup qualification
+He was appointed to the NFF Technical Committee in November 2010
+He absented himself from the NFF Technical Committee inauguration
+He provided World Cup analysis
+Colleagues acknowledged a vacuum remained unfilled two years after his international retirement * (also 3 years)
+
+
+🟢 V2 Claims
+
+Okocha joined Hull City on a 12-month deal in 2007
+It was his final playing appearance in English football
+He participated in veteran exhibition matches with Nigeria's All Stars International team *** (All-Stars was a different story on the same page)
+Coaches and pundits acknowledged no suitable replacement for his playmaking abilities
+He announced intention to contest for NFF Vice Chairman
+He argued former players with top-level experience should be more involved in the NFF
+He was appointed to an NFF Technical Committee in 2010
+Victor Ikpeba and Garba Lawal were also on the NFF Technical Committee
+He was absent from the NFF Technical Committee inauguration
+He offered commentary on African football's World Cup prospects
+Delta State Governor Emmanuel Uduaghan recognized him as a role model for Nigerian youth
+
+
+🟠 V3 Claims
+
+Okocha retired from international football in 2006
+He returned to competitive play with a 12-month deal at Hull City in 2007
+Hull City was in England's Premier League (at the time of his signing) *** (not in the premier)
+His legacy was honored in June 2008
+Delta State named the Ogwuashi-Uku Stadium after him
+An international testimonial match was hosted in Warri featuring world stars
+The Super Eagles' midfield vacuum was a recurring theme — no adequate replacement found
+He declared candidacy for NFF Vice Chairman in 2010
+He described it as Nigerian football's "worst time ever"
+He criticized systemic maladministration
+He called on former internationals to unite in reforming the sport
+He was absent from the NFF Technical Committee inauguration in November 2010
+He issued warnings to the Super Eagles during the 2010 World Cup
+ 
+
+Sources
+------> Compiled from 15 sources.
+------------> Entry(id=flSiFYwBg5yxONaMGBTi, relevance=0.7363) 
+Okocha offered World Cup commentary/analysis
+Nigeria's poor AFCON performance in Angola referenced
+- he says they "didn't play as well" and weren't "consistent," not "worst ever"
+He maintained authoritative elder statesman status
+
+------------> Entry(id=0VT6E4wBg5yxONaMrAyz, relevance=0.7220)
+Okocha declared interest to contest for "a seat on the board of NFF
+- Vice Chairman role not mentioned
+AFCON performance in Angola described as 'traumatic'
+Angola 2010 was "the very first time in 18 years that I would be completely out of active football"
+"Enough is Enough of the maladministration and the rot in Nigerian football"
+"career civil servants and politicians alone"
+former captain of Bolton Wanderers
+
+------------> Entry(id=ZlTMFIwBg5yxONaMaxAI, relevance=0.7161) 
+official World Cup analyst role (SABC)
+called Nigeria's World Cup performance "horrible" and "a disgrace"
+called for administrators to come "from the pool of ex-internationals"
+Hull City mentioned as former club
+has the ambition of contesting in the next election of the NFF
+
+------------> Entry(id=S1MeBIwBg5yxONaMger3, relevance=0.7103) 
+joined the Tigers on a 12-month deal after an unsuccessful stint in Qatar
+
+------------> Entry(id=cVQaFIwBg5yxONaMoA1j, relevance=0.7074) 
+intention to contest for Vice Chairman of the NFF
+"Nigerian football is in its worst time ever and I will not lie low until things are done properly"
+a member of the Presidential Task Force for Super Eagles' qualification for the 2010 World Cup
+the first time in 18 years that he would be completely out of active football
+called for spreading the message "Enough is Enough" of maladministration
+"civil servants and politicians, whose only interest is what they can get from the game"
+Victor Ikpeba is quoted corroborating Okocha, calling for sweeping changes at the NFF
+
+------------> Entry(id=P1QSD4wBg5yxONaMRAET, relevance=0.7070)
+Okocha "retired from the national team in 2006"
+debates over who succeeds the former mercurial midfielder"
+discussed three years after Okocha's 2006 retirement
+
+------------> Entry(id=8FMPCYwBg5yxONaM-vMz, relevance=0.7062) 
+Delta State Governor Emmanuel Uduaghan hosted Okocha and told Nigerian youths to emulate him: "Jay Jay Okocha is a great example who is worthy of emulation. He is a good ambassador of our state"
+The testimonial is confirmed for Thursday, 26 June 2008 in Warri
+Separately, Delta State "has also named the Ogwuashi-Uku Stadium after Okocha" 
+— confirmed as a distinct honor from the testimonial
+Expected World XI players: Emmanuel Adebayor (Arsenal/Togo), Michael Essien (Chelsea/Ghana), Rigobert Song (Cameroon captain), Jeremi Njitap (Cameroon), Kolo Touré (Arsenal/Ivory Coast)
+
+------------> Entry(id=yVPSB4wBg5yxONaMIe6C, relevance=0.7017)
+played at the Jay Jay Okocha Stadium in Ogwashi-Uku
+
+------------> Entry(id=YFQYD4wBg5yxONaM5gHy, relevance=0.6984) 
+promotional match between African Legends (led by George Weah) 
+and the 1994 Nigeria Super Eagles squad is scheduled at Teslim Balogun Stadium, 
+Lagos
+a 2010 FIFA World Cup mobilisation campaign match
+
+------------> Entry(id=-FTzFYwBg5yxONaMkBXy, relevance=0.6963) 
+Okocha "seems not to be comfortable with his appointment" into the NFF Technical Committee, given his absence at the inauguration in Abuja
+The NFF inaugurated all committees "announced last week" at the Glass House in Abuja — placing the appointment in late October/early November 2010
+No reason was given for his absence
+The Technical Committee also comprises: Garba Lawal, Victor Ikpeba, Chief Adegboye Onigbinde, Felix Anyansi, and Chris Green (NFF board member and committee chairman)
+
+------------> Entry(id=4VOiAYwBg5yxONaM994t, relevance=0.6929) 
+no okocha mention
+
+------------> Entry(id=J1RAD4wBg5yxONaM-AIv, relevance=0.6929) 
+"Barely two years after" Okocha retired 
+from international football, no good replacement has emerged
+
+------------> Entry(id=IVPmB4wBg5yxONaMz--J, relevance=0.6919)
+no okocha mention
+
+------------> Entry(id=91QjFYwBg5yxONaMiRG7, relevance=0.6916) 
+Okocha warned Nigeria not to underestimate Argentina in their World Cup group opener
+
+------------> Entry(id=KVMbCYwBg5yxONaMsfQH, relevance=0.6912) 
+The testimonial was held at the Warri township stadium in Warri, Delta State
+Okocha's team-mates in the Super Eagles played against a World XI (called "African Stars" in the article)
+Okocha scored the winning goal for the Super Eagles in the second half
+African stars unanimously described Okocha as "Africa's best player ever"
