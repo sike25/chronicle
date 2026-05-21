@@ -179,7 +179,9 @@ def generate_bucket_context(query, entries, dates, history=None):
 
     CURRENT TASK:
     Analyze the {len(entries)} articles from {dates} regarding "{query}".
-    Use paragraphs and do not include external information not present in the sources.
+    Use paragraphs.
+    Do not include external information not present in the sources.
+    Ignore information in the source which is not relevant to the query.
     
     REQUIREMENTS:
     1. TITLE: Must be distinct from previous titles. Focus on the *specific* event or shift in this period.
