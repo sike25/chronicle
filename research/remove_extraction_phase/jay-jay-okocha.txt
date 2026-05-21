@@ -1,0 +1,370 @@
+RESULTS  
+----------   
+
+Version 1 - On-The-Fly Summarization
+Latency = 170.3236 seconds
+Cost    = 0.38 dollars
+
+Version 2 - Vanilla Summarization
+Latency = 49.0133 seconds
+Cost    = 0.05 dollars
+
+Version 3 - Rich Summarization
+Latency = 56.8550 seconds
+Cost    = 0.15 dollars
+
+
+
+SOURCES 
+-----------
+
+Cluster 1
+------------> Entry(id=mH5-0YoBCULQj6J1kFAC, relevance=0.7527) 
+------------> Entry(id=9H7t04oBCULQj6J1iVoL, relevance=0.7444) 
+------------> Entry(id=on6s0YoBCULQj6J1VlFC, relevance=0.7359) 
+------------> Entry(id=pk8F0IoB7XvdErjMZ5UJ, relevance=0.7103) 
+------------> Entry(id=c34B0ooBCULQj6J1PVOj, relevance=0.7089) 
+------------> Entry(id=MH4W04oBCULQj6J1F1fZ, relevance=0.7019) 
+------------> Entry(id=kX4O1IoBCULQj6J1KFvB, relevance=0.7011) 
+------------> Entry(id=gn4L1IoBCULQj6J1SVvi, relevance=0.6992) 
+------------> Entry(id=Wn5q1IoBCULQj6J1dF3l, relevance=0.6952) 
+------------> Entry(id=DX6E04oBCULQj6J121mj, relevance=0.6935) 
+------------> Entry(id=rH4L0ooBCULQj6J1dlOX, relevance=0.6921) 
+------------> Entry(id=YQdePIoBCQSJetOq1sV3, relevance=0.6870) 
+------------> Entry(id=Zn5d04oBCULQj6J1eljk, relevance=0.6857) 
+------------> Entry(id=J35f1IoBCULQj6J1Dl3a, relevance=0.6846) 
+------------> Entry(id=s36v0YoBCULQj6J10VGi, relevance=0.6807) 
+
+
+Cluster 2
+------> Compiled from 15 sources.
+------------> Entry(id=s35Q1YoBCULQj6J1R2DE, relevance=0.7442) 
+------------> Entry(id=C1MX7IsBg5yxONaMDp-n, relevance=0.7425) 
+------------> Entry(id=PX4U1ooBCULQj6J1p2RT, relevance=0.7197) 
+------------> Entry(id=m3711YoBCULQj6J1SmPy, relevance=0.7157) 
+------------> Entry(id=7ihM24oBCApQwdEHTlc2, relevance=0.7140) 
+------------> Entry(id=xijt24oBCApQwdEH-lpF, relevance=0.7121) 
+------------> Entry(id=R34W1ooBCULQj6J12GRW, relevance=0.7114) 
+------------> Entry(id=Sigm24oBCApQwdEHdVfC, relevance=0.7102) 
+------------> Entry(id=u35k14oBCULQj6J1p2jF, relevance=0.7091) 
+------------> Entry(id=yX7J2IoBCULQj6J1B27m, relevance=0.7073) 
+------------> Entry(id=wShD24oBCApQwdEHGVc3, relevance=0.7051) 
+------------> Entry(id=UH441YoBCULQj6J1wmCB, relevance=0.7035) 
+------------> Entry(id=l36D1YoBCULQj6J1BGFM, relevance=0.7029) 
+------------> Entry(id=535q1ooBCULQj6J1tGVK, relevance=0.7018) 
+------------> Entry(id=wihD24oBCApQwdEHPVcE, relevance=0.7007) 
+
+
+Cluster 3
+------> Compiled from 15 sources.
+------------> Entry(id=0Z1KDJYBODEDrDkgDXOx, relevance=0.7600) 
+------------> Entry(id=3VPH8osBg5yxONaMpLiq, relevance=0.7460) 
+------------> Entry(id=8VNj7IsBg5yxONaMX6Cx, relevance=0.7455) 
+------------> Entry(id=51Ng7IsBg5yxONaMsaD1, relevance=0.7454) 
+------------> Entry(id=7FNq8IsBg5yxONaMnq36, relevance=0.7434) 
+------------> Entry(id=vVPs8YsBg5yxONaM0rTv, relevance=0.7431) 
+------------> Entry(id=u1Mb8osBg5yxONaMl7VP, relevance=0.7427) 
+------------> Entry(id=yFNh8IsBg5yxONaMLK3a, relevance=0.7426) 
+------------> Entry(id=WlPz7osBg5yxONaMDKZv, relevance=0.7398) 
+------------> Entry(id=cVOt8osBg5yxONaMq7gi, relevance=0.7377) 
+------------> Entry(id=AFN774sBg5yxONaMvKnb, relevance=0.7376) 
+------------> Entry(id=-VMF84sBg5yxONaMPbnN, relevance=0.7329) 
+------------> Entry(id=D1Mr8osBg5yxONaMEbZU, relevance=0.7324) 
+------------> Entry(id=wFMt8IsBg5yxONaMC6zn, relevance=0.7322) 
+------------> Entry(id=NVOg8osBg5yxONaMtrgB, relevance=0.7319) 
+
+Cluster 4
+------> Compiled from 15 sources.
+------------> Entry(id=SVOm9osBg5yxONaMqcG-, relevance=0.7564) 
+------------> Entry(id=7lNoA4wBg5yxONaM-uYR, relevance=0.7561) 
+------------> Entry(id=qFMyBIwBg5yxONaMa-og, relevance=0.7488) 
+------------> Entry(id=EVND84sBg5yxONaMv7s9, relevance=0.7401) 
+------------> Entry(id=gVMY9osBg5yxONaMvr6h, relevance=0.7359) 
+------------> Entry(id=iVOB9osBg5yxONaMTMDm, relevance=0.7329) 
+------------> Entry(id=61OP8osBg5yxONaMnrfO, relevance=0.7313) 
+------------> Entry(id=8VOA-4sBg5yxONaMm80J, relevance=0.7286) 
+------------> Entry(id=cFMV9osBg5yxONaMeb4E, relevance=0.7262) 
+------------> Entry(id=S1M48osBg5yxONaMNLb3, relevance=0.7257) 
+------------> Entry(id=slNE-4sBg5yxONaM38xl, relevance=0.7248) 
+------------> Entry(id=4lMq94sBg5yxONaMYMNi, relevance=0.7229) 
+------------> Entry(id=fVNd84sBg5yxONaM9LvF, relevance=0.7211) 
+------------> Entry(id=c1N--IsBg5yxONaMbMqq, relevance=0.7206) 
+------------> Entry(id=t1NQ8osBg5yxONaM-ra8, relevance=0.7200) 
+
+Cluster 5
+------> Compiled from 15 sources.
+------------> Entry(id=flSiFYwBg5yxONaMGBTi, relevance=0.7363) 
+------------> Entry(id=0VT6E4wBg5yxONaMrAyz, relevance=0.7220) 
+------------> Entry(id=ZlTMFIwBg5yxONaMaxAI, relevance=0.7161) 
+------------> Entry(id=S1MeBIwBg5yxONaMger3, relevance=0.7103) 
+------------> Entry(id=cVQaFIwBg5yxONaMoA1j, relevance=0.7074) 
+------------> Entry(id=P1QSD4wBg5yxONaMRAET, relevance=0.7070) 
+------------> Entry(id=8FMPCYwBg5yxONaM-vMz, relevance=0.7062) 
+------------> Entry(id=yVPSB4wBg5yxONaMIe6C, relevance=0.7017) 
+------------> Entry(id=YFQYD4wBg5yxONaM5gHy, relevance=0.6984) 
+------------> Entry(id=-FTzFYwBg5yxONaMkBXy, relevance=0.6963) 
+------------> Entry(id=4VOiAYwBg5yxONaM994t, relevance=0.6929) 
+------------> Entry(id=J1RAD4wBg5yxONaM-AIv, relevance=0.6929) 
+------------> Entry(id=IVPmB4wBg5yxONaMz--J, relevance=0.6919) 
+------------> Entry(id=91QjFYwBg5yxONaMiRG7, relevance=0.6916) 
+------------> Entry(id=KVMbCYwBg5yxONaMsfQH, relevance=0.6912) 
+
+
+
+
+VERSION 1
+----------------
+
+--> Enriched Cluster 1994-09-16 to 1997-12-16:
+------> Titled `Jay-Jay Okocha's Rise: From Enugu Rangers to European Stardom and Olympic Glory (1994-1997)`
+------> Summary: Between 1994 and 1997, Austin 'Jay-Jay' Okocha emerged as Nigeria's most celebrated midfield maestro,
+transitioning from domestic promise to international acclaim. After playing just nine league matches for Enugu Rangers, 
+Okocha moved to Germany in 1990, eventually signing with Eintracht Frankfurt in January 1992, 
+where he became renowned for his ball-juggling skills and electrifying dribbles that even earned praise from World Cup captain Lothar Matthäus. 
+His evolution as a player was marked by a strategic shift from individual brilliance to team-oriented play, 
+acknowledging that 'the days of one man show are over.' Okocha's international profile soared with Nigeria's gold medal triumph at Atlanta '96, 
+where he converted a crucial penalty against Japan. Following Frankfurt's relegation in 1996, he secured a move to Turkish side Fenerbahçe, 
+though he later expressed frustration with the lower quality of Turkish football compared to the Bundesliga. 
+Throughout this period, Okocha remained central to Nigeria's World Cup qualifying campaign for France '98, 
+providing assists and demonstrating the dribbling wizardry that had captivated fans since the 1994 U.S. World Cup. 
+His influence extended beyond the pitch, as he and Jonathan Akpoborie recommended their former Frankfurt coach Dragoslav 
+Stepanovic for Nigeria's national team position in late 1997, leveraging relationships built during his German career.
+------> Compiled from 15 sources.
+
+--> Enriched Cluster 1997-12-16 to 2001-03-17:
+------> Titled `Jay-Jay Okocha's Record-Breaking Move to PSG and Turbulent French Chapter (1998-2001)`
+------> Summary: In summer 1998, Jay-Jay Okocha became Africa's most expensive player when Paris Saint-Germain 
+shattered the French transfer record by paying $17 million to acquire him from Fenerbahce, where he had earned Turkish citizenship. 
+Despite a spectacular debut goal against Bordeaux and his pivotal role in Nigeria's 1998 World Cup campaign (including a memorable 3-2 victory over Spain), 
+Okocha's four-year tenure at PSG proved turbulent. He endured heavy criticism for scoring only four goals in his first 20 matches as 
+PSG plummeted to 11th place by December 1998, their worst position since 1990. Michel Platini publicly advised him to reduce individual play and improve his scoring ability. 
+Okocha frequently found himself benched under coach Jose-Marie Bergeroo, who preferred other midfielders,
+leading him to lament his lack of playing time despite his $17 million price tag. 
+Nevertheless, he remained Nigeria's talisman, scoring twice in their 4-2 victory over Tunisia at the 2000 Africa Nations Cup
+and nearly single-handedly propelling the Eagles to the final before being controversially red-carded against Senegal for elbowing. 
+By January 2002, with contract extension talks deadlocked over wage demands and PSG unwilling to meet his terms,
+Okocha expressed his ambition to play in England's Premier League before turning 29, 
+attracting interest from Sunderland as his contract neared expiration.
+------> Compiled from 15 sources.
+
+--> Enriched Cluster 2001-03-17 to 2004-06-16:
+------> Titled `Jay-Jay Okocha's Bolton Wanderers Era: Premier League Heroics and Elusive Individual Glory (2001-2004)`
+------> Summary: This period marks Jay-Jay Okocha's transformative chapter at Bolton Wanderers,
+where he joined as a free agent from PSG in June 2002 on a two-year deal worth £1.6 million annually.
+The 28-year-old midfielder became Bolton's talisman, single-handedly saving the club from relegation in May 2003 
+with a stunning free-kick against Middlesbrough and delivering consistently brilliant performances 
+that earned him legendary status at the Reebok Stadium. His displays attracted interest from Manchester United and Chelsea,
+with manager Sam Allardyce placing a £10 million price tag to deter bidders. 
+Despite his club heroics, this period was marked by personal disappointments: 
+he finished third in the 2004 African Footballer of the Year voting (losing to Samuel Eto'o, 
+which left him 'distraught'), suffered a 2-1 Carling Cup final defeat to Middlesbrough in March 2004, 
+and experienced growing tensions with Allardyce over contract negotiations and his commitment to international duty. 
+Okocha had initially retired from the Super Eagles after the 2002 World Cup but returned under Christian Chukwu's coaching, 
+leading Nigeria at the 2004 African Cup of Nations while juggling mounting speculation about his future as his Bolton contract neared expiration.
+------> Compiled from 15 sources.
+
+--> Enriched Cluster 2004-06-16 to 2007-09-16:
+------> Titled `Jay-Jay Okocha's Twilight Years: Award Pursuits, International Retirement, and Final English Campaign (2004-2007)`
+------> Summary: This period marked Jay-Jay Okocha's transition from African football icon to veteran journeyman 
+as he navigated the final phase of his illustrious career. After dominating the 2004 African Nations Cup as MVP and top scorer,
+Okocha repeatedly pursued the elusive CAF African Footballer of the Year award, 
+only to face continued disappointment against rivals like Samuel Eto'o and Didier Drogba—losses he attributed to continental politics 
+favoring Francophone players. His commitment to Bolton Wanderers remained strong through 2005-2006, 
+though this period was marred by controversy over his selective availability for crucial World Cup qualifiers 
+against Rwanda, Angola, and Algeria, drawing public criticism despite his captaincy. 
+The Egypt 2006 Nations Cup became a painful swan song for his international career, 
+as injury kept him largely sidelined during Nigeria's bronze medal campaign, forcing his retirement 
+from the Super Eagles without the gold medal he desperately sought. After a brief sojourn to Qatar Sports Club—initially intended as retirement 
+but proving unfulfilling—Okocha returned to English football at age 34, joining Hull City in 2007 under former Bolton assistant Phil Brown, 
+declaring his intention to replicate his Bolton success and retire with the Championship club rather than fade away abroad.
+------> Compiled from 15 sources.
+
+--> Enriched Cluster 2007-09-16 to 2010-12-17:
+------> Titled `Jay-Jay Okocha's Post-Playing Transition: From Final Club Season to Football Administration Activism (2007-2010)`
+------> Summary: This period marked Okocha's transition from his final professional playing stint at Hull City (2007-2008) 
+through testimonial honors to active involvement in Nigerian football governance. 
+After joining Hull City on a 12-month deal in 2007 following an unsuccessful Qatar venture, 
+Okocha received formal recognition with a testimonial match in Warri in June 2008, 
+where the Ogwuashi-Uku Stadium was renamed in his honor and he scored the winning goal for the Super Eagles against a World XI 
+featuring African legends. By 2010, frustrated by Nigeria's worst-ever performance at the Africa Cup of Nations in Angola—the first tournament 
+in 18 years he experienced completely outside active play—Okocha emerged as a vocal critic of Nigerian football administration. 
+He declared his intention to contest for NFF Vice Chairman, launching an 'Enough is Enough' 
+campaign against what he termed maladministration and calling for ex-internationals rather than 'career civil servants and politicians' to run the game. 
+Despite serving on a Presidential Task Force for World Cup qualification and being appointed to the NFF Technical Committee in November 2010, 
+Okocha notably absented himself from the committee's inauguration, while continuing to provide World Cup analysis and maintain his status 
+as an irreplaceable figure in Nigerian football—a vacuum colleagues acknowledged remained unfilled two years after his international retirement.
+------> Compiled from 15 sources.
+
+Elapsed: 170.3236s
+
+
+
+
+
+VERSION 2
+----------
+
+--> Enriched Cluster 1994-09-16 to 1997-12-16:
+------> Titled `Jay-Jay Okocha's Rise from Enugu Streets to International Stardom and Turkish League Discontent`
+------> Summary: Between 1994 and 1997, Austin 'Jay-Jay' Okocha emerged as Nigeria's most celebrated football export, 
+transitioning from his formative years at National Grammar School in Kano to becoming an international sensation. 
+His ball-juggling skills and dribbling prowess captivated audiences during the 1996 Atlanta Olympics qualifiers in Zimbabwe, 
+where he was positioned as Nigeria's midfield maestro ready to thrill the world. After establishing himself in Germany's superior 
+league system, Okocha moved to Turkish side Fenerbahçe, but quickly grew disillusioned with what he perceived as the low standard 
+and poor organization of Turkish football compared to the German league. With only one season remaining on his contract, 
+Okocha began publicly contemplating his next move, signaling his ambition to compete at higher levels. 
+During this period, his reputation became so legendary that emerging Nigerian talents like Ochuko Utovbivbi were being compared to him, 
+with scouts evaluating young players based on their ability to replicate Okocha's signature ball-juggling and natural football artistry. 
+This era marked Okocha's transformation from a promising local talent who had helped his team win an invitational championship in the United States
+ to a restless global star seeking elite competition.
+
+
+--> Enriched Cluster 1997-12-16 to 2001-03-17:
+------> Titled `Jay-Jay Okocha's Record PSG Transfer and Struggles for Playing Time Amid World Cup and Nations Cup Glory (1997-2001)`
+------> Summary: This period marked a transformative chapter in Jay-Jay Okocha's career, beginning with his record-breaking 
+$17 million transfer from Turkish football to Paris Saint-Germain in late 1997, where he made an immediate impact with a 
+spectacular debut goal. However, his time at PSG was characterized by persistent struggles for playing time under coach Jose-Marie Bergeros, 
+who frequently benched him in favor of Stephen Dalmat, despite teammates like Nicolas Anelka advocating for Okocha as the playmaker PSG needed. 
+French legend Michel Platini advised Okocha to improve his teamwork and scoring record, noting his tendency to play individually. 
+On the international stage, Okocha shone brightly during the 1998 World Cup in France and the Africa Nations Cup hosted in Nigeria, 
+where he scored spectacular goals including a superb strike against Tunisia in a 4-2 victory. 
+However, his tournament performances were marred by disciplinary issues, most notably receiving a red card for elbowing a 
+Senegalese player in the quarterfinals, which drew criticism from French journalists and raised concerns about his discipline 
+affecting his club and international prospects.
+
+
+--> Enriched Cluster 2001-03-17 to 2004-06-16:
+------> Titled `Jay-Jay Okocha's Bolton Wanderers Heroics and Premier League Stardom Amid Club Trophy Disappointment (2001-2004)`
+------> Summary: This period marked Jay-Jay Okocha's transformative move from Paris St Germain to Bolton Wanderers on a 
+lucrative £1.6 million per year contract, where he became the club's talisman and was widely recognized as the best African player 
+in the English Premier League. Okocha's exceptional performances were instrumental in saving Bolton from relegation, 
+most notably through crucial goals against Middlesbrough and a stunning strike against West Ham United that captivated fans and analysts alike. 
+His brilliance attracted serious interest from Premier League giants Manchester United and Chelsea, though his relationship with Bolton manager 
+Sam Allardyce became strained over his commitments to the Super Eagles, particularly during the African Nations Cup. 
+Despite his heroics leading Bolton to the Carling Cup final, Okocha's dream of winning a major club honor remained unfulfilled 
+after a 2-1 defeat to Middlesbrough. Off the pitch, he expressed deep disappointment at losing the 2004 MTN/CAF African Footballer of the Year award 
+to Samuel Eto'o, and controversially retired from international football after the 2002 World Cup, citing negative impacts on his professional career 
+and criticism from the Nigerian press under coach Adegboyega Onigbinde.
+
+
+--> Enriched Cluster 2004-06-16 to 2007-09-16:
+------> Titled `Jay-Jay Okocha's Twilight Years: Captaining Nigeria Through Failed 2006 World Cup Qualification and Late Career Moves (2004-2007)`
+------> Summary: This period marked the beginning of the end of Jay-Jay Okocha's illustrious career, 
+defined by his continued captaincy of Nigeria's Super Eagles through a disappointing 2006 World Cup qualification 
+campaign that saw mounting criticism of both his commitment and the team's coaching. Despite remaining a key player 
+for Bolton Wanderers in the Premier League and being repeatedly nominated for the CAF African Footballer of the Year 
+award alongside Samuel Eto'o and Didier Drogba, Okocha faced questions about his national team dedication, 
+with debates over missed friendlies and late camp arrivals. His planned retirement after the 2006 Africa Cup of Nations 
+ended in disappointment when injury relegated him to the bench for most of the tournament, though he featured in the semi-final 
+loss to Côte d'Ivoire that resulted in only a bronze medal. As his Bolton career wound down with injury problems including thigh strains, 
+Okocha eventually moved to Hull City in what was described as his 'third stint' with the club, while also attracting interest from Sydney FC 
+and other clubs seeking his veteran presence. Off the field, he dealt with a banking crisis that saw $1 million of his deposits 
+frozen due to liquidity problems in Nigeria, requiring intervention from state and federal officials to recover his funds.
+
+
+--> Enriched Cluster 2007-09-16 to 2010-12-17:
+------> Titled `Jay-Jay Okocha's Post-Retirement Transition: Hull City Swan Song and Entry into Nigerian Football Administration (2007-2010)`
+------> Summary: Following his retirement from international duty, Jay-Jay Okocha made a final playing appearance in English football 
+by joining Hull City on a 12-month deal in 2007, while also participating in veteran exhibition matches with Nigeria's All Stars International team. 
+As Nigerian football struggled to find a suitable replacement for his playmaking abilities—a void acknowledged by coaches and pundits—Okocha 
+shifted his focus toward football administration and governance. He publicly announced his intention to contest for positions 
+in the Nigeria Football Federation (NFF), specifically eyeing the Vice Chairman role, arguing that former players with top-level experience 
+should be more involved in solving the sport's developmental problems. By 2010, he was appointed to an NFF technical committee alongside other 
+former Super Eagles stars like Victor Ikpeba and Garba Lawal, though he was notably absent from the committee's inauguration. 
+During this period, Okocha also emerged as an elder statesman, offering commentary on African football's World Cup prospects 
+and receiving recognition from Delta State Governor Emmanuel Uduaghan as a role model for Nigerian youth, 
+marking his transition from playing legend to administrative figure and football ambassador.
+
+
+Elapsed: 49.0133s
+
+
+VERSION 3
+-----------
+
+
+--> Enriched Cluster 1994-09-16 to 1997-12-16:
+------> Titled `Jay-Jay Okocha's European Journey: From Bundesliga Breakthrough to Turkish Disappointment (1994-1997)`
+------> Summary: This period chronicles Austin 'Jay Jay' Okocha's emergence as Nigeria's most celebrated midfield maestro 
+through his European club career trajectory. Starting with his established position at Eintracht Frankfurt in 
+Germany's Bundesliga (where he had signed in January 1992), Okocha became renowned for his ball-juggling skills and creative play, 
+representing Nigeria at the 1996 Atlanta Olympics where he scored crucial goals including a penalty against Japan. 
+However, Frankfurt's relegation to the second division in 1996 prompted a career transition that proved controversial. 
+By 1997, Okocha had moved to Turkish club Fenerbahçe, a transfer that generated mixed results. 
+In exclusive interviews, he candidly expressed disappointment with Turkish football's organization and competitive standards 
+compared to the German Bundesliga, revealing plans to leave Turkey after his 1998 contract expiration while insisting he would 
+'never go backward' to second-division football. Throughout this period, Okocha remained integral to Nigeria's national team ambitions, 
+participating in World Cup qualifiers against teams like Burkina Faso and Kenya, while former coach Dragoslav Stepanovic—
+who had discovered Okocha during his Frankfurt tenure—emerged as a candidate for the Super Eagles coaching position, 
+recommended partly by Okocha himself. The narrative captures a player at a crossroads: celebrated for his skill, 
+frustrated by his club situation, yet determined to maintain forward momentum in his career.
+
+
+--> Enriched Cluster 1997-12-16 to 2001-03-17:
+------> Titled `Jay-Jay Okocha's PSG Era: Record Transfer, Mixed Fortunes, and African Glory (1998-2001)`
+------> Summary: This period marks Augustine 'Jay-Jay' Okocha's high-profile transition from Turkish football 
+to European prominence with Paris Saint-Germain, where he became Africa's most expensive player at $17 million—a French transfer record. 
+His PSG debut was spectacular, scoring a sensational goal against Bordeaux minutes after coming on as a substitute in August 1998, 
+though the club struggled with instability, poor results, and criticism of Okocha's modest goal tally (four goals in 20 matches initially). 
+Despite club difficulties and advice from legends like Michel Platini to improve his scoring and reduce individual play, 
+Okocha emerged as a transformative figure for Nigeria's Super Eagles. He helped Nigeria top their group at France '98 World Cup before elimination 
+by Denmark, then delivered masterful performances at the 2000 African Nations Cup co-hosted by Nigeria and Ghana, 
+scoring crucial instinctive goals including two against Tunisia in a 4-2 victory that showcased his improved shooting ability. 
+By early 2001, with his PSG contract expiring in 2002 and wage negotiations stalled, Okocha openly expressed his ambition to 
+join the English Premiership before turning too old, with Sunderland showing strong interest in acquiring the 28-year-old midfielder 
+who had finally achieved the continental recognition he sought when leaving Turkey.
+
+
+--> Enriched Cluster 2001-03-17 to 2004-06-16:
+------> Titled `Okocha's Bolton Wanderers Heroics and Continued Quest for Club Glory (2001-2004)`
+------> Summary: Following his move to Bolton Wanderers on a free transfer from PSG in June 2002, 
+Jay-Jay Okocha transformed from a high-profile European player into an English Premier League legend 
+while paradoxically remaining unfulfilled at club level. During the 2002-2003 season, 
+Okocha single-handedly saved Bolton from relegation with crucial goals against Middlesbrough and West Ham United, 
+earning legendary status at the Reebok Stadium. His exceptional performances attracted interest from 
+Manchester United, Chelsea, and Arsenal, with Bolton setting a £10 million price tag to deter suitors. 
+Despite his heroics—including a memorable five-goal contribution in a 5-2 Carling Cup semifinal victory over 
+Aston Villa in January 2004—Okocha's club trophy drought continued when Bolton lost 2-1 to Middlesbrough in the 2004 Carling Cup final. 
+Throughout this period, Okocha reversed his international retirement, 
+leading Nigeria to the 2004 Africa Cup of Nations where he captained the Super Eagles 
+and competed for African Footballer of the Year honors, though he controversially lost the 2003 award to Samuel Eto'o. 
+His relationship with Bolton manager Sam Allardyce showed signs of strain by early 2004, particularly over his international commitments, 
+even as his contract neared its end.
+
+
+--> Enriched Cluster 2004-06-16 to 2007-09-16:
+------> Titled `Okocha's Final Years: Declining National Team Relations, Club Transitions, and Retirement from Super Eagles (2004-2007)`
+------> Summary: This period marks the twilight of Jay-Jay Okocha's career, 
+characterized by increasing tension with Nigerian football authorities and his gradual withdrawal from international duty. 
+Despite remaining at Bolton Wanderers where he was captain and performing well in the English Premiership, 
+Okocha's relationship with the Super Eagles deteriorated significantly. 
+He repeatedly missed crucial World Cup qualifiers against Rwanda, Angola, and Algeria, 
+drawing public criticism despite his status as captain. 
+His absence from key matches contrasted sharply with his early arrival commitments, 
+suggesting deeper issues with team management. 
+After losing the 2004 CAF African Footballer of the Year award to Samuel Eto'o 
+despite winning all individual honors at the 2004 Nations Cup and BBC African Player of the Year, 
+Okocha finally announced his retirement from international football following Egypt 2006, 
+where injury limited him to one substitute appearance in the semi-final. At club level, 
+he departed Bolton in 2006, had a brief stint with Qatar Sports Club, 
+and considered offers from Australian club Sydney FC before ultimately joining Hull City in England's Championship in September 2007, 
+where his former Bolton assistant Phil Brown became manager. Nigerians remained divided on whether he still deserved Sports Person of the 
+Year recognition amid younger talents like Obafemi Martins emerging.
+
+
+--> Enriched Cluster 2007-09-16 to 2010-12-17:
+------> Titled `Post-Retirement Influence: Okocha's NFF Candidacy, Testimonial Honor, and Brief Hull City Return (2007-2010)`
+------> Summary: Following his 2006 retirement from international football, 
+Jay-Jay Okocha's presence in Nigerian football shifted from player to administrator and elder statesman. 
+In 2007, he briefly returned to competitive play with a 12-month deal at Hull City in England's Premier League. 
+His legacy was formally honored in June 2008 when Delta State named the Ogwuashi-Uku Stadium after him 
+and hosted an international testimonial match in Warri featuring world stars. 
+The persistent vacuum in the Super Eagles' midfield became a recurring theme, 
+with coaches acknowledging no adequate replacement had emerged for Okocha's playmaking role even years after his departure. 
+By 2010, Okocha transitioned into football politics, declaring his candidacy for NFF Vice Chairman amid what he described 
+as Nigerian football's "worst time ever," criticizing systemic maladministration and calling on former internationals to unite in reforming the sport. 
+Though conspicuously absent from the NFF Technical Committee inauguration in November 2010, his advocacy for proper governance 
+and his warnings to the Super Eagles during the 2010 World Cup demonstrated his continued authoritative voice in Nigerian football affairs.
+
+
+Elapsed: 56.8550s

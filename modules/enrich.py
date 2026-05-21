@@ -6,7 +6,7 @@ from modules.fake  import fake_enriched_clusters
 from utils.helpers import extractJson
 from utils.jobs    import jobs
 from utils.log     import setup_logging
-from anthropic import Anthropic, AuthenticationError, APIConnectionError
+from anthropic import Anthropic
 
 DUMB_MODEL  = "claude-haiku-4-5"
 SMART_MODEL = "claude-sonnet-4-5"
