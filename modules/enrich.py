@@ -47,7 +47,7 @@ def enrich_clusters(clusters, query, job_id, fake):
         return fecs
 
 
-    # Trim large clusters to top 20 in semantic relevance.
+    # Trim large clusters to top 15 in semantic relevance.
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = trim_large_clusters(clusters=clusters)
 
@@ -179,6 +179,7 @@ def generate_bucket_context(query, entries, dates, history=None):
 
     CURRENT TASK:
     Analyze the {len(entries)} articles from {dates} regarding "{query}".
+    Use paragraphs and do not include external information not present in the sources.
     
     REQUIREMENTS:
     1. TITLE: Must be distinct from previous titles. Focus on the *specific* event or shift in this period.
@@ -196,7 +197,7 @@ def generate_bucket_context(query, entries, dates, history=None):
     try:
         response = client.messages.create(
             model=SMART_MODEL,
-            max_tokens=1000,
+            max_tokens=200,
             messages=[{"role": "user", "content": context_generation_prompt}]
         )
         result = extractJson(response.content[0].text)
@@ -219,13 +220,13 @@ def select_cover_story(entries):
     
 
 def trim_large_clusters(clusters):
-    # Trim large clusters to top 20 in semantic relevance.
+    # Trim large clusters to top 15 in semantic relevance.
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = {}
     for label, entries in clusters.items():
-        if len(entries) > 20:
-            logger.info(f"Large cluster ({len(entries)} entries) at '{label}'. Trimming to top 20.")
-            entries = sorted(entries, key=lambda e: e.semantic_relevance, reverse=True)[:20]
+        if len(entries) > 15:
+            logger.info(f"Large cluster ({len(entries)} entries) at '{label}'. Trimming to top 15.")
+            entries = sorted(entries, key=lambda e: e.semantic_relevance, reverse=True)[:15]
         trimmed_clusters[label] = entries
     return trimmed_clusters
     
