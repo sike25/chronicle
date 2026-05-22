@@ -129,15 +129,19 @@ def _run(job_id:str, request: ChronicleRequest):
     """Runs the Chronicle pipeline and writes results to the job store."""
     try:
         run_chronicle(query=request.query, job_id=job_id)
-
-        # write fresh results into cache
-        if not request.no_cache:
-            events = jobs.get_events(job_id)
-            cache.set(request.query, events, request.start_date, request.end_date)
-
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Pipeline failure for job {job_id}: {e}")
         jobs.set_error(job_id, str(e))
+        return
+    
+    # write fresh results into cache
+    if not request.no_cache and jobs.get_status(job_id) == "done":
+        events = jobs.get_events(job_id)
+        done_event = next((e for e in reversed(events) if e["type"] == "done"), None)
+        if not done_event or not done_event["data"].get("partial"):
+            cache.set(request.query, events, request.start_date, request.end_date)
+        else:
+            logger.warning(f"Skipping cache for job {job_id} — partial results (some clusters used fallback).")
 
 # sse event stream
 def _event_stream(job_id: str):

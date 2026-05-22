@@ -128,17 +128,19 @@ def summarize_relevant_portions(entry, query):
 def run_sequential_enrichment(trimmed_clusters, query, job_id):
     global_context_history = []
     enriched_clusters = {}
+    had_failures = False
 
     for index, (label, entries) in enumerate(trimmed_clusters.items()):
 
         logger.info(f"Enriching cluster {index}: '{label}'...")
-        title, summary = generate_bucket_context(
+        title, summary, failed = generate_bucket_context(
             query=query,
             entries=entries,
             dates=label,
             history=global_context_history,
         )
         global_context_history.append({"date": label, "title": title, "summary": summary})
+        if failed: had_failures = True
 
         enriched = EnrichedCluster(
             index       = index,
@@ -155,7 +157,7 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
         jobs.push_event(job_id, "cluster_enriched", enriched.to_dict())
         logger.info(f"Cluster {index} enriched: '{title}'")
 
-    jobs.push_event(job_id, "done", {})
+    jobs.push_event(job_id, "done", {"degraded": had_failures})
     return enriched_clusters
 
 
@@ -209,13 +211,13 @@ def generate_bucket_context(query, entries, dates, history=None):
         result = extractJson(response.content[0].text)
 
         if result:
-            return result.get('title'), result.get('summary')
+            return result.get('title'), result.get('summary'), False
         else:
             raise KeyError(f"CHRONICLE: Missing required fields in response -> {response}")
      
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Context generation failed: {e}")
-        return f"Results for '{query}'", f"Collection of {len(entries)} articles from {dates} related to {query}."
+        return f"Results for '{query}'", f"Collection of {len(entries)} articles from {dates} related to {query}.", True
     
 
 def select_cover_story(entries):
