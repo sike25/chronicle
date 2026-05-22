@@ -2,7 +2,7 @@ import json
 import os
 import redis
 
-from log import setup_logging
+from utils.log import setup_logging
 
 logger = setup_logging()
 
@@ -23,7 +23,7 @@ class QueryCache:
     def __init__(self, ttl: int = TTL_SECONDS):
         self._ttl    = ttl
         self._client = redis.from_url(
-            os.environ["REDIS_URL"],
+            os.environ.get("REDIS_URL", "").strip(),
             decode_responses=True,
         )
         logger.info("Cache: connected to Redis.")
