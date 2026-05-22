@@ -25,6 +25,7 @@ logs/
 
 # dev files
 streamlit_app.py
+frontend/
 
 # git (and extra) noise
 .git/
@@ -36,6 +37,7 @@ streamlit_app.py
 # documentation
 *.md
 README*
+research/
 
 # testing
 test.py
