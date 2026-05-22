@@ -190,8 +190,8 @@ def generate_bucket_context(query, entries, dates, history=None):
     2. SUMMARY: A cohesive explanation of what happened *new* in this window compared to the past.
 
     INSTRUCTIONS:
-    Format your answer using paragraphs.
-    Keep summaries less than 150 words.
+    Write 2-3 paragraphs separated by \n\n within the JSON string.
+    Keep summaries under 250 words.
     Do not include external information not present in the sources.
     Ignore information in the source which is not relevant to the query.
     
