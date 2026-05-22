@@ -41,7 +41,7 @@ class ChronicleRequest(BaseModel):
 
     model_config = {
         "json_schema_extra": {
-            "examples": [{"query": "Election crises and violence", "start_date": "2014-01-01", "end_date": "2023-12-31"}]
+            "examples": [{"query": "Election crises and violence", "start_date": "2014/01/01", "end_date": "2023/12/31"}]
         }
     }
 
@@ -51,9 +51,9 @@ class ChronicleRequest(BaseModel):
         if not v:
             return v
         try:
-            datetime.strptime(v, "%Y-%m-%d")
+            datetime.strptime(v, "%Y/%m/%d")
         except ValueError:
-            raise ValueError("Date must be in YYYY-MM-DD format")
+            raise ValueError("Date must be in YYYY/MM/DD format")
         return v
 
 # routes
@@ -128,7 +128,12 @@ def _replay_cached_events(job_id: str, events: list):
 def _run(job_id:str, request: ChronicleRequest):
     """Runs the Chronicle pipeline and writes results to the job store."""
     try:
-        run_chronicle(query=request.query, job_id=job_id)
+        run_chronicle(
+            query=request.query,
+            job_id=job_id,
+            start_date=request.start_date,
+            end_date=request.end_date,
+        )
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Pipeline failure for job {job_id}: {e}")
         jobs.set_error(job_id, str(e))

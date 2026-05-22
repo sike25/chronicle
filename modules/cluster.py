@@ -4,7 +4,7 @@ from utils.log import setup_logging
 logger = setup_logging()
 
 def cluster_into_buckets(entries):
-    return cluster_by_stride(entries, 5)
+    return cluster_by_stride(entries, 8)
 
 def cluster_semantically(entries):
     pass
