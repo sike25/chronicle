@@ -7,7 +7,7 @@ const CONFIG = {
 
   /* ── API ──────────────────────────────────────────────────
      Base URL of the deployed Chronicle backend.
-     Trailing slash is fine either way.                       */
+     Trailing slash is Ffine either way.                       */
   apiUrl: "https://chronicle-435397225968.africa-south1.run.app",
 
   /* ── Page chrome ── */
@@ -474,7 +474,7 @@ async function startSearch(query) {
             const cluster = apiClusterToShape(payload);
 
             /* Update running banner stats */
-            totalSources += payload.entry_count ?? cluster.sources.length;
+            totalSources += payload.source_count ?? cluster.sources.length;
             if (!spanFirst) spanFirst = cluster.year.split("\n")[0].trim();
             spanLast = cluster.year.split("\n")[0].trim();
 

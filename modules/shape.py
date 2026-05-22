@@ -77,23 +77,24 @@ class EnrichedCluster:
     The final output structure. A group of Entries synthesized into 
     a single narrative theme.
     """
-    index: int
+    index: int           # The Nth cluster
     label: str           # The date-range label (e.g., "1990 to 1991")
-    title: str
-    summary: str       
+    title: str           # LLM-generated title
+    summary: str         # LLM-generated summary
     entries: List[Entry] # The list of original sources in this cluster
-    start_date: Date
+    start_date: Date     # TODO (ogieva): consider using the first + last publication dates
     end_date: Date
     cover_story: Entry   # The entry with the best relationship to the generated cluster description.
+    source_count: int    # The original number of sources within this cluster
 
     def to_dict(self) -> dict:
         """Serialize to the cluster_enriched SSE event payload."""
         return {
-            "index":       self.index,
-            "label":       self.label,
-            "title":       self.title,
-            "summary":     self.summary,
-            "entry_count": len(self.entries),
-            "entries":     [e.to_dict() for e in self.entries],
-            "cover_story": self.cover_story.to_dict()
+            "index":        self.index,
+            "label":        self.label,
+            "title":        self.title,
+            "summary":      self.summary,
+            "source_count": self.source_count,
+            "entries":      [e.to_dict() for e in self.entries],
+            "cover_story":  self.cover_story.to_dict()
         }

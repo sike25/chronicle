@@ -6,7 +6,7 @@ from modules.fake  import fake_enriched_clusters
 from utils.helpers import extractJson
 from utils.jobs    import jobs
 from utils.log     import setup_logging
-from anthropic import Anthropic
+from anthropic     import Anthropic
 
 DUMB_MODEL  = "claude-haiku-4-5"
 SMART_MODEL = "claude-sonnet-4-5"
@@ -132,7 +132,7 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
     enriched_clusters = {}
     had_failures = False
 
-    for index, (label, entries) in enumerate(trimmed_clusters.items()):
+    for index, (label, (entries, source_count)) in enumerate(trimmed_clusters.items()):
 
         logger.info(f"Enriching cluster {index}: '{label}'...")
         title, summary, failed = generate_bucket_context(
@@ -145,14 +145,15 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
         if failed: had_failures = True
 
         enriched = EnrichedCluster(
-            index       = index,
-            label       = label,
-            title       = title,
-            summary     = summary,
-            entries     = entries,
-            start_date  = entries[0].source.publication_date,
-            end_date    = entries[-1].source.publication_date,
-            cover_story = select_cover_story(entries)
+            index        = index,
+            label        = label,
+            title        = title,
+            summary      = summary,
+            entries      = entries,
+            start_date   = entries[0].source.publication_date,
+            end_date     = entries[-1].source.publication_date,
+            cover_story  = select_cover_story(entries),
+            source_count = source_count
         )
 
         enriched_clusters[label] = enriched
@@ -234,9 +235,10 @@ def trim_large_clusters(clusters):
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = {}
     for label, entries in clusters.items():
-        if len(entries) > 15:
+        original_count = len(entries)
+        if original_count > 15:
             logger.info(f"Large cluster ({len(entries)} entries) at '{label}'. Trimming to top 15.")
             entries = sorted(entries, key=lambda e: e.semantic_relevance, reverse=True)[:15]
-        trimmed_clusters[label] = entries
+        trimmed_clusters[label] = (entries, original_count)
     return trimmed_clusters
     
