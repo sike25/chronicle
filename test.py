@@ -5,7 +5,7 @@ Quick smoke test for the Chronicle API.
 import requests
 import json
 
-BASE_URL = "https://chronicle-435397225968.us-central1.run.app"
+BASE_URL = "https://chronicle-435397225968.africa-south1.run.app"
 QUERY = "Jay Jay Okocha"
 
 import time
