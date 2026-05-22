@@ -31,6 +31,8 @@ How do the cost and quality results compare between these options?
 
 1. **Jay-Jay Okocha** — proper noun with a clear, specific reference.      
 2. **Women in politics** — thematic and abstract; tests loose relevance judgement.   
+
+Extra:
 3. **Nollywood and the film industry** — domain query with broad coverage.     
 4. **Biafran War**— historically dense.    
 
@@ -40,15 +42,13 @@ It cost $7 dollars to generate their rich summaries.
 
 ## Quality Evaluation Rubric
 
-Each condition's output is scored per query across these dimensions:
+Each condition's output is considered across these dimensions:
 
 - **Completeness**  — are the important events and entities present in the timeline?
 - **Specificity**   — are titles and summaries precise, or generic?
 - **Coherence**     — does each cluster read as a unified narrative?
 - **Noise**         — is irrelevant content leaking into the output?
 - **Hallucination** — does the output introduce claims not supported by the sources?
-
-Scored per cluster (1–3), averaged across the timeline.
 
 
 ## Other Metrics

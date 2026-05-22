@@ -179,13 +179,17 @@ def generate_bucket_context(query, entries, dates, history=None):
 
     CURRENT TASK:
     Analyze the {len(entries)} articles from {dates} regarding "{query}".
-    Use paragraphs.
+
+    REQUIREMENTS:
+    1. TITLE: Must be distinct from previous titles. Focus on the *specific* event or shift in this period.
+    2. SUMMARY: A cohesive explanation of what happened *new* in this window compared to the past.
+
+    INSTRUCTIONS:
+    Format your answer using paragraphs.
+    Keep summaries less than 150 words.
     Do not include external information not present in the sources.
     Ignore information in the source which is not relevant to the query.
     
-    REQUIREMENTS:
-    1. TITLE: Must be distinct from previous titles. Focus on the *specific* event or shift in this period.
-    2. SUMMARY: A cohesive paragraph explaining what happened *new* in this window compared to the past.
 
     NEW ARTICLES FOR {dates}:
     {entries_text}
@@ -199,7 +203,7 @@ def generate_bucket_context(query, entries, dates, history=None):
     try:
         response = client.messages.create(
             model=SMART_MODEL,
-            max_tokens=200,
+            max_tokens=1000,
             messages=[{"role": "user", "content": context_generation_prompt}]
         )
         result = extractJson(response.content[0].text)
