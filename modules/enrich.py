@@ -57,14 +57,14 @@ def enrich_clusters(clusters, query, job_id, fake):
     # This is because newspaper pages often carry more than one story, 
     # and we want to minimize expensive API calls from large inputs.
     # TODO (ogieva): This might be replaced with search functionality, if it exists.
-    logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
-    all_entries = [
-        entry
-        for entries in trimmed_clusters.values()
-        for entry in entries
-    ]
-    run_parallel_extraction(all_entries, query)
-    logger.info("Phase 1 complete.")
+    # logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
+    # all_entries = [
+    #     entry
+    #     for entries in trimmed_clusters.values()
+    #     for entry in entries
+    # ]
+    # run_parallel_extraction(all_entries, query)
+    logger.info("Phase 1 now skipped!")
 
 
     # Phase 2: Sequential enrichment
@@ -77,6 +77,7 @@ def enrich_clusters(clusters, query, job_id, fake):
     return enriched
 
  
+## deprecated
 def run_parallel_extraction(all_entries, query):
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         future_to_entry = {
@@ -92,6 +93,7 @@ def run_parallel_extraction(all_entries, query):
                 entry.source.relevant_extract = f"Extract: {entry.source.extract}"
 
     
+# deprecated
 def summarize_relevant_portions(entry, query):
     system_prompt = "You are a research assistant going through extracts from historical African newspapers."
     
@@ -171,7 +173,7 @@ def generate_bucket_context(query, entries, dates, history=None):
             f"- {h['date']}: {h['title']}" for h in history[-3:] # Last 3 are usually enough
         ])
 
-    entries_text = "".join([f"Source {i}: {e.source.relevant_extract}\n---\n" for i, e in enumerate(entries[:15])])
+    entries_text = "".join([f"Source {i}: {e.source.summary}\n---\n" for i, e in enumerate(entries[:15])])
 
     context_generation_prompt = f"""You are a news historian synthesizing clusters of Nigerian newspaper archives.
 

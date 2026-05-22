@@ -39,7 +39,7 @@ class Source:
     page: int
     tags: List[str]
     # populated later via llm call during enrichment.
-    # TODO (ogieva): extend search to return relevant extract
+    # deprecated for now
     relevant_extract: str = ""
 
     def __str__(self):
