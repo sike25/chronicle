@@ -392,7 +392,7 @@ html {
   position: fixed;
   top: 0;
   right: 0;
-  width: 340px;
+  width: 640px;
   height: 100%;
   background: var(--white);
   border-left: 1px solid var(--border-light);
@@ -477,6 +477,7 @@ html {
   color: var(--text);
   border-bottom: 1px solid var(--border-light);
   background: var(--cream);
+  white-space: pre-wrap;
 }
 
 /* ────────────────────────────────────────────────

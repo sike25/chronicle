@@ -141,6 +141,7 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
             dates=label,
             history=global_context_history,
         )
+        summary = add_paragraphs(summary)
         global_context_history.append({"date": label, "title": title, "summary": summary})
         if failed: had_failures = True
 
@@ -241,4 +242,11 @@ def trim_large_clusters(clusters):
             entries = sorted(entries, key=lambda e: e.semantic_relevance, reverse=True)[:15]
         trimmed_clusters[label] = (entries, original_count)
     return trimmed_clusters
+
+def add_paragraphs(summary: str) -> str:
+    sentences = summary.split(". ")
+    midpoint  = len(sentences) // 2
+    part1 = ". ".join(sentences[:midpoint]).strip()
+    part2 = ". ".join(sentences[midpoint:]).strip()
+    return f"{part1}\n\n{part2}"
     

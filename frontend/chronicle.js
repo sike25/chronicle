@@ -94,6 +94,7 @@ function apiClusterToShape(data) {
     title:    data.title   ?? `Period ${data.index + 1}`,
     summary:  data.summary ?? "",
     coverPub: firstPub,
+    sourceCount: data.source_count ?? sources.length,
     sources,
   };
 }
@@ -112,7 +113,7 @@ const thumbLinesHTML = () => `
 function cardHTML(cluster, index, isSkeleton = false) {
   const sid   = `sb-${esc(cluster.id)}`;
   const num   = String(index + 1).padStart(2, "0");
-  const count = cluster.sources?.length ?? 0;
+  const count = cluster.sourceCount ?? cluster.sources?.length ?? 0;
   const label = `${count} source${count !== 1 ? "s" : ""}`;
 
   if (isSkeleton) {
@@ -165,7 +166,7 @@ function slotHTML(cluster, index, isSkeleton = false) {
 
 function sidebarHTML(cluster, index) {
   const num   = String(index + 1).padStart(2, "0");
-  const count = cluster.sources?.length ?? 0;
+  const count = cluster.sourceCount ?? cluster.sources?.length ?? 0;
 
   /* Full cluster summary shown before sources */
   const summaryHTML = cluster.summary

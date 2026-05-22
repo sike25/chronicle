@@ -4,7 +4,7 @@ from utils.helpers import convertToDate
 
 def preprocess(results, start_date, end_date):
 
-    return sort_by_date(filter_by_date(results))
+    return sort_by_date(filter_by_date(results, start_date, end_date))
 
 def hard_filter(results, threshold=0.6):
     '''Shave off any results with semantic relevance scores below a given threshold.'''
