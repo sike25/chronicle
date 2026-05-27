@@ -1,0 +1,354 @@
+V1
+Cost = 0.28
+Latency = 138.5764s
+
+V2
+Cost = 0.03
+Latency = 30.0414s
+
+V3
+Cost = 0.06
+Latency = 39.4578s
+
+
+CLUSTER 1
+-------------
+
+Sources:
+------> Compiled from 9 sources.
+------------> Entry(id=DJ2o8JUBODEDrDkgezdH, relevance=0.7088) 
+------------> Entry(id=Qp1H9pUBODEDrDkg-0W-, relevance=0.7017) 
+------------> Entry(id=ME8l0IoB7XvdErjMAJbo, relevance=0.6772) 
+------------> Entry(id=yU8P0IoB7XvdErjMdZWp, relevance=0.6518) 
+------------> Entry(id=Z37-0YoBCULQj6J1T1Nd, relevance=0.6921) 
+------------> Entry(id=Vn5C0YoBCULQj6J190-C, relevance=0.6859) 
+------------> Entry(id=-n5O0ooBCULQj6J1OlSo, relevance=0.6957) 
+------------> Entry(id=YH4E1IoBCULQj6J1J1s2, relevance=0.6986) 
+------------> Entry(id=K35O04oBCULQj6J19lh4, relevance=0.7127) 
+
+V1
+--> Enriched Cluster 1991-12-30 to 1998-04-28:
+------> Titled `Birth of Nigeria's Direct-to-Video Film Industry: 
+From NEK Video Links to Nationwide Production (1991-1998)`
+------> Summary: Nigeria's home video film industry emerged 
+in 1991 when NEK Video Links, led by Kenneth Nnebue, 
+pioneered direct-to-home marketing of films shot in U-Matic 
+format and sold on VHS cassettes. 
+The first release, *Aje Ni Iyami* (March 1991), received 
+enthusiastic response, with eight additional films produced 
+by November 1991. Initially dominated by Yoruba-language productions, 
+the industry rapidly expanded across ethnic groups, 
+with producers releasing films in Igbo, Hausa, and English.
+
+By the mid-1990s, economic downturn accelerated the shift from 
+expensive celluloid (costing 6-8 million) to affordable video production, 
+with an average of six films released monthly by 1997. 
+However, rapid commercialization brought criticism: producers 
+prioritized profit over quality, completing films in under a year 
+when quality required four years. Industry figures like Ego Boyo and 
+Dr. Ola Makinde complained about rushed productions, poor compensation for actors, 
+and films celebrating "cultic, fetish" practices that damaged Nigeria's international image.
+Despite quality concerns, pioneers like Jide Kosoko credited video production with 
+keeping the industry "intact" during economic crisis. By 1996, the Nigerian Motion 
+Pictures Association formed to organize guilds of technicians, producers, and actors, 
+though the National Film and Video Censors Board struggled to regulate the flood of 
+new releases.
+
+1. 
+
+V2
+
+--> Enriched Cluster 1991-12-30 to 1998-04-28:
+------> Titled `Birth of Nigeria's Video Film Revolution:
+ From Stage to Home Viewing (1991-1998)`
+------> Summary: This period marks the foundational 
+transformation of Nigerian cinema from traditional theater 
+to a home-video industry that would become known as Nollywood. 
+Kenneth Nnebue and NEK Video Links spearheaded this revolution 
+by utilizing professional video technology to produce and market 
+indigenous films directly to consumers, beginning with Yoruba-language 
+productions and expanding to English versions. 
+This shift democratized film production and consumption, 
+moving away from expensive theatrical releases to affordable 
+home-viewing options that met growing audience demand. 
+Simultaneously, pioneers like Ola Makinwa worked to break 
+international barriers by showcasing Nigerian films in prestigious 
+European venues such as London's Hackney Empire, 
+while advocating for government support and better distribution networks. 
+The emerging industry faced growing pains including concerns 
+about technical quality, language barriers for international markets, 
+and criticism that the focus on commercial viability sometimes
+ overshadowed artistic merit. Industry veterans like Jide Kosoko 
+ and Ego Boyo navigated between traditional theater roots and the 
+ new video format, with observers noting an increasingly 
+ sophisticated audience demanding higher production standards. 
+ This transitional era established the infrastructure and distribution 
+ models that would define Nollywood's explosive growth in subsequent years.
+
+
+
+V3
+
+--> Enriched Cluster 1991-12-30 to 1998-04-28:
+------> Titled `Birth of the Nigerian Home Video Industry: From 
+'Living in Bondage' Era to Commercial Expansion (1991-1998)`
+------> Summary: Between 1991 and 1998, Nigeria witnessed 
+the emergence and rapid commercialization of a distinctive 
+home video film industry that would become known as Nollywood. 
+The movement began in March 1991 when Kenneth Nnebue's NEK Video 
+Links released 'Aje Ni Iyami,' initiating a new production model 
+that bypassed traditional cinema distribution by shooting on U-Matic 
+format and selling VHS tapes directly to consumers—primarily elites 
+unable to access cinema houses. By November 1991, nine films had been 
+produced, signaling the industry's viability. 
+This period saw the professionalization of video production, 
+with actors transitioning from stage to screen, producers like 
+Jide Kosoko noting that economic downturn made expensive 
+celluloid prohibitive (6-8 million naira per production) 
+while video kept the industry alive, and actresses like 
+Ego Boyo calling for improved production standards to 
+compete with foreign films. However, by 1997, 
+industry observers expressed alarm at a troubling trend: 
+the proliferation of films glorifying witchcraft, cultism, 
+and criminal activity—a departure from the original vision of 
+promoting indigenous culture and positive values. Critics like 
+Ifeanyi Dike of the Nigerian Actors Guild warned that these productions, 
+driven by commercial considerations rather than artistic merit, 
+portrayed Nigeria negatively internationally and lacked the moral 
+heroes of traditional storytelling, revealing a young industry grappling 
+with the tension between profitability and cultural responsibility.
+
+
+
+
+CLUSTER 2
+-------------
+
+Sources
+------------> Entry(id=eFP7AYwBg5yxONaMUeBJ, relevance=0.7284) 
+------------> Entry(id=WVO8AYwBg5yxONaMnd-5, relevance=0.7270) 
+------------> Entry(id=aVMsAowBg5yxONaMYeGO, relevance=0.7245) 
+------------> Entry(id=Un422IoBCULQj6J1qWxq, relevance=0.7231) 
+------------> Entry(id=0H6k14oBCULQj6J1P2l1, relevance=0.7227) 
+------------> Entry(id=ap0gDJYBODEDrDkgwXMp, relevance=0.7216) 
+------------> Entry(id=A1M744sBg5yxONaMtpRP, relevance=0.7216) 
+------------> Entry(id=NJ0zE5YBODEDrDkgfYJz, relevance=0.7206) 
+------------> Entry(id=SVPwAYwBg5yxONaMGODb, relevance=0.7204) 
+------------> Entry(id=GChU24oBCApQwdEHwVgO, relevance=0.7197) 
+------------> Entry(id=CVPiAYwBg5yxONaM8uBx, relevance=0.7185) 
+------------> Entry(id=XFOC8IsBg5yxONaMs65O, relevance=0.7180) 
+------------> Entry(id=4VPI8osBg5yxONaMl7i2, relevance=0.7179) 
+------------> Entry(id=Eiij2ooBCApQwdEHe1Vk, relevance=0.7161) 
+------------> Entry(id=uVPSAYwBg5yxONaMKN8V, relevance=0.7158) 
+
+V1
+--> Enriched Cluster 1998-04-28 to 2004-08-25:
+------> Titled `Nollywood's International Recognition and Industry Professionalization (1998-2004)`
+------> Summary: Between 1998 and 2004, Nigeria's film industry 
+transitioned from nascent production to internationally recognized status, 
+with the country becoming "the largest producer of videos in the world." 
+This period witnessed the crystallization of powerful production "cliques" 
+controlling industry financing and casting, from the Ejiro and Amata groups in
+ Surulere to the wealthy Idumota Igbo traders funding major budgets. 
+
+Breakthrough films like "Nneka, The Pretty Serpent" and "Saworoide" 
+(selling over 50,000 copies) established star actors including Genevieve Nnaji, 
+Ramsey Noah, and Pete Edochie. However, rapid commercialization sparked 
+serious criticism: the National Film and Video Censors Board condemned 
+films for projecting "violence, rituals and crimes" that gave Nigeria 
+"an image of shame," while piracy forced a market shutdown in March-June 2002. 
+
+By 2003, Nigeria planned its second biennial Film Festival, 
+signaling institutional maturation, while organizations like the 
+Nollywood Access Foundation emerged to professionalize talent recruitment 
+and address industry challenges including exploitative wages and content quality concerns.
+------> Compiled from 15 sources.
+
+
+V2
+
+--> Enriched Cluster 1998-04-28 to 2004-08-25:
+------> Titled `Nollywood's Industry Consolidation: 
+Stars, Scandals, and Recognition (1998-2004)`
+------> Summary: This period marked Nollywood's transition 
+from experimental medium to established industry, 
+characterized by the emergence of a recognizable star 
+system and institutional recognition. 
+Major actresses like Stella Damasus-Aboderin, Genevieve Nnaji, 
+and Rita Dominic became household names with dedicated fan followings 
+and press coverage of their personal lives and career aspirations. 
+The industry gained formal structures through events like the Nigerian 
+Film Festival promoting 'Motion as a Tool of National Rebirth' 
+and the Diamond Award for Media Excellence, 
+which recognized Wale Adenuga's 'Super Story' as best drama in 2002. 
+However, growth brought challenges: widespread piracy led to 
+industry shutdowns and protests, exploitation of actors—particularly 
+young women—by filmmakers became a public concern, and censorship 
+enforcement resulted in producer arrests. 
+The period also saw the loss of pioneer figures like 
+comedian Claude Eke and actresses Bimpe Adekola and Funmi Martins, 
+while honoring the legacy of theatre doyen Pa Hubert Ogunde. 
+Nkem Owoh emerged as the highest-paid actor, signaling Nollywood's 
+commercial viability even as it grappled with professionalizing its 
+practices and protecting its economic interests.
+
+
+
+V3
+
+--> Enriched Cluster 1998-04-28 to 2004-08-25:
+------> Titled `Nollywood's Professional Maturation: Industry Infrastructure, International Recognition, and Internal Challenges (1998-2004)`
+------> Summary: This period marked Nollywood's transition from a nascent home video industry to a more structured professional entertainment sector. The industry developed formal institutional frameworks, including the establishment of award ceremonies (THEMA, Diamond Award for Media Excellence, Afro-Hollywood Awards), regulatory interventions by the National Video Censors Board addressing piracy and content violations, and professional organizations like the planned Nollywood Access Foundation for talent development. The sector attracted diversification from music promotion companies like Ojez entering film production, while productions became more ambitious with budgets reaching N2.5 million for elaborate war films. International recognition grew as Nigerian actors received honors in London and actresses appeared on BBC television, yet the industry faced persistent internal challenges: a market shutdown between March and June 2002 protesting piracy and oversupply, ongoing disputes within the Actors Guild of Nigeria involving impeachment proceedings, and deaths of notable performers including Claude Eke and Funmi Martins. The period also saw the emergence of distinct star personas and industry hierarchies, with publications tracking highest-paid actors, popular actresses, and individual career trajectories, reflecting Nollywood's evolution into a celebrity-driven entertainment economy with its own gossip culture, professional ethics debates, and discussions about artistic mission versus commercial pressures.
+
+
+
+CLUSTER 3
+-------------
+
+------------> Entry(id=c1O7CIwBg5yxONaMC-KQ, relevance=0.7413) 
+------------> Entry(id=5FPBAowBg5yxONaMX-Na, relevance=0.7411) 
+------------> Entry(id=YVN1CowBg5yxONaMD-rh, relevance=0.7385) 
+------------> Entry(id=DlNjCowBg5yxONaMKPom, relevance=0.7379) 
+------------> Entry(id=W1M9CowBg5yxONaMPPlj, relevance=0.7373) 
+------------> Entry(id=XlRND4wBg5yxONaM9wJl, relevance=0.7357) 
+------------> Entry(id=91NqA4wBg5yxONaMeubp, relevance=0.7355) 
+------------> Entry(id=blQGFYwBg5yxONaM-xG2, relevance=0.7345) 
+------------> Entry(id=y1OxDYwBg5yxONaMFPou, relevance=0.7336) 
+------------> Entry(id=r1MBCYwBg5yxONaMV-OQ, relevance=0.7335) 
+------------> Entry(id=x1NDAowBg5yxONaMFOHM, relevance=0.7331) 
+------------> Entry(id=c1SgFYwBg5yxONaMNBT6, relevance=0.7331) 
+------------> Entry(id=MlNYCYwBg5yxONaMVfUr, relevance=0.7330) 
+------------> Entry(id=h1OIA4wBg5yxONaMnufT, relevance=0.7327) 
+------------> Entry(id=FFQqFYwBg5yxONaM5RIa, relevance=0.7319) 
+
+V1
+--> Enriched Cluster 2004-08-25 to 2010-12-24:
+------> Titled `Nollywood's Technical Advancement and Global Aspirations: 
+From Cannes Recognition to Industry Professionalization (2004-2010)`
+------> Summary: This period marked Nollywood's pursuit of international 
+legitimacy and technical improvement. In 2008, 'Mirror of the Soul' 
+became the first Nigerian film in 730 years accepted at Cannes Film Festival, 
+shot on 35mm celluloid, symbolizing the industry's technical aspirations. 
+Initiatives like Project Nollywood (backed by Ecobank) 
+established 20 distribution channels targeting 1.3 million copies per film, 
+while directors sought Hollywood technical support for cameras and special 
+effects to 'compete favourably in the global market.' 
+The Directors Guild of Nigeria president declared Nollywood had '
+come of age' with improved quality, content, and equipment.
+
+However, persistent challenges emerged. Government and industry leaders 
+criticized poor technical quality, sexual harassment, and financial impropriety, 
+with NTA Enterprises' Executive Director calling the industry 'a haven for crooks' 
+who misappropriated investor funds. Internal debates arose over the 'Nollywood' 
+terminology excluding Yoruba and Hausa films, while regulators banned actors Aki 
+and Pawpaw from adult roles due to parental concerns. 
+Despite criticism, the industry expanded with celebrity reality shows, 
+foreign actor work permit proposals, and new awards like TIMAO recognizing 
+indigenous African language films, demonstrating Nollywood's maturation 
+amid growing pains.
+------> Compiled from 15 sources.
+
+
+V2
+
+--> Enriched Cluster 2004-08-25 to 2010-12-24:
+------> Titled `Nollywood's Global Ambitions 
+and Industry Maturation (2004-2010)`
+------> Summary: This period marked Nollywood's transition 
+from domestic consolidation to explicit global aspirations, 
+as industry veterans like Tunde Kelani, Zeb Ejiro, 
+and Teco Benson shifted focus toward mentorship, talent development, 
+and raising production standards to international levels. 
+While producers expressed confidence that regulations 
+and improved quality could make Nollywood a 'global movie destination,' 
+the industry grappled with persistent internal challenges including 
+alleged neglect of veteran actors by profit-focused marketers, 
+financial difficulties among performers requiring public support, 
+and concerns about equitable talent recognition. 
+The period also saw increased international visibility 
+with Nigerian actresses receiving awards abroad, the emergence 
+of politically-conscious productions like '30 Days' addressing 
+corruption, and efforts by the Actors Guild of Nigeria to establish 
+new award systems. This era represented Nollywood's growing 
+pains as it balanced commercial expansion with quality improvement 
+while its practitioners navigated between local authenticity and global ambitions.
+
+
+V3
+
+--> Enriched Cluster 2004-08-25 to 2010-12-24:
+------> Titled `Nollywood's Crisis of Professionalism: Quality Debates, Industry Fragmentation, and Survival Struggles (2004-2010)`
+------> Summary: This period marked a critical juncture where Nollywood's rapid commercial expansion collided with deepening concerns about professional standards and industry sustainability. The era was characterized by intense internal debates about quality versus quantity, with filmmakers like Kunle Afolayan criticizing the industry's global ranking as third only in volume, not quality, while veterans like Teco Benson defended Nigerian storytelling's inherent value, citing Hollywood's remake of his film 'Blood Diamond' as validation. The industry experienced significant fragmentation, with Yoruba filmmakers explicitly rejecting the 'Nollywood' label as exclusive to English-language productions, asserting their separate identity under ANTP. Simultaneously, the industry faced severe infrastructure and welfare challenges: established actors like Sam Dede withdrew for three years due to declining standards, veteran Prince James Uche was hospitalized without adequate support, and prominent actors engaged in public disputes over unpaid debts. Yet the period also showed international aspirations, with productions increasingly shot in England, collaborations with Hollywood for technical expertise, politically-conscious films like '30 Days' addressing corruption, and actresses like Stephanie Okereke gaining international recognition. The emergence of 'godfather' figures like Tunde Kelani, Zeb Ejiro, and Jide Kosoko suggested attempts to institutionalize mentorship and professional standards amid this chaotic maturation phase.
+
+
+ANALYSIS
+
+Cluster 1
+
+
+------> Compiled from 9 sources.
+------------> Entry(id=DJ2o8JUBODEDrDkgezdH, relevance=0.7088) 
+NEK Video Links, Kenneth Nnebue, U-Matic format, VHS tapes, direct to consumer
+govt support for artists advised
+Aje Ni Iyami, the first, March 1991
+By November, 8 other films
+started from Yoruba to other languages + English
+------------> Entry(id=Qp1H9pUBODEDrDkg-0W-, relevance=0.7017) 
+ola makinwa at hackney empire london to show agbo meji
+talked about govt + distribution problems
+------------> Entry(id=ME8l0IoB7XvdErjMAJbo, relevance=0.6772) 
+article about a theater actress (who used to be a nurse)
+------------> Entry(id=yU8P0IoB7XvdErjMdZWp, relevance=0.6518) 
+nothing to do with hollywood
+------------> Entry(id=Z37-0YoBCULQj6J1T1Nd, relevance=0.6921) 
+fame music awards
+------------> Entry(id=Vn5C0YoBCULQj6J190-C, relevance=0.6859) 
+mention the Nigerian Motion Pictures Association and its intention to include guilds of technicians, producers, actors and actresses. 
+Jide Kosoko is quoted directly about its goals.
+ nobody could afford between 6–8 million to produce a 16mm film
+------------> Entry(id=-n5O0ooBCULQj6J1OlSo, relevance=0.6957) 
+interview with ego boyo
+------------> Entry(id=YH4E1IoBCULQj6J1J1s2, relevance=0.6986) 
+interview with Shanama, an actor.
+actors are underpayed.
+the proliferation of home videos reduces quality
+------------> Entry(id=K35O04oBCULQj6J19lh4, relevance=0.7127) 
+the negative impact of videos of doom
+
+V1
+
+1. 1991, NEK Video Links by Kenneth Nnebue direct-to-home *
+2. U-Matic format and VHS cassettes *
+3. First relsease (Aje Ni Iyami, March 1991) great response *
+4. 8 additional films by Novermber. *
+5. Started Yoruna but expanded across ethnic groups *
+6. By the mid-1990s, economic downturn caused celluloid (6-8 million) -> affordable video produce *
+8. Rapid profitialization affected quality *
+9. Ego Boyo, Dr Ola Makinde (industry figures) complained about rushed prods, poor actor pay, fetish films *
+10. Jide Kosoko continued to create despite econ downturn *
+11. 1996 Nigerian Motion Pictures Addociation organized guilds of tech, prod, avtors *
+12. National Film and Video Censors board regulated flood of new releases *
+
+
+V2
+1. Traditional theater -> Hove-video industry (nollywood) *
+2. Kenneth Nnebue and NEK Video Links spearheaded revolution *
+3. Marketing indigenous films directly to consumers *
+4. beginning with Yoruba prods and expanding to English versions *
+5. Ola Makinwa showed Nigerian films in London's Hackney Empire *
+6. advocated for govt support and better distribution. *
+7. voiced concerns about tech quality, language barries*, artistic merit < profit.
+8. Industry veterans like Jide Kosoko and Ego Boyo navigated trad theater and new video format *
+
+
+V3
+1. home video film as the origin of Nollywood *
+2. start: March 1991 when Kenneth Nnebue's NEK Video Links released 'Aje Ni Iyami *
+3. direct to consumer marketing *
+4. U-matic format, VHS tapes *
+5. 9 films by November 1991 *
+6. Producer Jide Kosoko - econ downturn made celluloid (6-8M) too costly. *
+7. Actress Ego Boyo called for better quality. *
+8. 1997 - Industry observers alarmed by fetishistic films *
+9. Ifeanyi Dike of the Nigerian Actors Guild talked about international image about the cultish films. *
+

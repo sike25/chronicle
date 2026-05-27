@@ -451,13 +451,13 @@ No mention of Jay-Jay Okocha
 
 ------------> Entry(id=Zn5d04oBCULQj6J1eljk, relevance=0.6857) 
 
-version 1 facts
+version 1 facts - on the fly
 
 - enugu rangers -> european stardom + olympic glory
 - austin 'jay-jay' okocha 
 - midfield maestro 
 - 9 league matches for enugu rangers
-- moved to germany in 1990
+- moved to germany in 1990v 
 - signed with Eintracht Frankfurt in January 1992
 - praise from World Cup captain Lothar Matthäus
 - individual to team play
@@ -471,7 +471,7 @@ version 1 facts
   Dragoslav Stepanovic to Nigeria in 1997 
 
 
-version 2 facts
+version 2 facts - summary
 
 - austin 'jay-jay' okocha 
 - enugu -> international stardom + turkish league Discontent
@@ -483,7 +483,7 @@ version 2 facts
 - Ochuko Utovbivbi, emerging talent compared to Okocha
 
 
-version 3 facts 
+version 3 facts - summarizes the rich summaries
 
 - austin 'jay-jay' okocha
 - bundesliga breakthrough -> turkish disappointment
