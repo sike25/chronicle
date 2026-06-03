@@ -55,6 +55,16 @@ class ChronicleRequest(BaseModel):
         except ValueError:
             raise ValueError("Date must be in YYYY/MM/DD format")
         return v
+    
+    
+    @field_validator("query")
+    @classmethod
+    def validate_date(cls, v):
+        if not v:
+            raise ValueError("Empty query.")
+        if len(v) > 100:
+            raise ValueError("Query is too long.")
+        return v
 
 # routes
 @app.post("/chronicle", status_code=202)

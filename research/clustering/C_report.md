@@ -32,7 +32,7 @@ The clusters fall out naturally.
 **3. Jenked Gaps**
 
 Like technique 2, this starts by finding the natural
-gaps in publication dates. We then run K-nearest neighbors 
+gaps in publication dates. We then run K-Means clustering
 on these gaps (k=2).
 
 This works under the assumption that they'd be split
@@ -67,3 +67,12 @@ Queries to test:
 1. Election violence - topic I expect to be cyclical.
 2. Jay-Jay Okocha - topic whose "phases" I am familiar with.
 
+
+### Notes and Stuff
+
+Testing Local Gaps with C = 3, and Window that's 5%, 10% of the entry count.   
+Nollywood = 30 clusters. Election Violence = 100 clusters.   
+Obviously there aren't 100 chapters in Nigerian election violence, lol.
+
+Raising C to 10, election violence becomes 70, nollywood 9
+magic = 2 clusters (4, 35 entries) - 2 month gap.
