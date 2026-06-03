@@ -117,7 +117,4 @@ def run_chronicle(query: str, job_id: str, start_date:str, end_date:str):
 
 job_id = str(uuid.uuid4())
 jobs.create(job_id)
-
-run_chronicle("election crises and violence", job_id, "", "")
-# run_chronicle("nollywood", job_id, "", "")
-# run_chronicle("Dragoslav Stepanovic", job_id, "", "")
+run_chronicle("jay jay okocha", job_id, "", "")

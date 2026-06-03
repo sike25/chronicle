@@ -7,8 +7,6 @@ from utils.log import setup_logging
 logger = setup_logging()
 
 def cluster_into_buckets(entries):
-    # return cluster_by_stride(entries, 8)
-    # return cluster_by_local_gaps(entries)
     return cluster_by_clustering_gaps(entries)
 
 def cluster_by_local_gaps(entries):
@@ -69,25 +67,20 @@ def cluster_by_clustering_gaps(entries):
     if not entries:
         logger.warning("cluster_by_clustering_gaps: received an empty entries list.")
         return {}
-    
-    GVF_MIN = 0.7
 
-    log_gaps = [math.log1p(gap) for gap in _day_gaps(entries)] # log1p handles same-day (gap=0)
-    threshold, gvf = _jenks_break_K2(log_gaps)
-
-    if threshold is None or gvf < GVF_MIN:
-        logger.info(f"cluster_by_clustering_gaps: no clear bimodality "
-                    f"(gvf={gvf:.2f} < {GVF_MIN}). Single cluster.")
-        return _single_cluster(entries)
+    gaps = _day_gaps(entries)
+    threshold, _ = _jenks_break_K2(gaps)
     
-    boundaries = [idx for idx, log_gap in enumerate(log_gaps) if log_gap > threshold]
+    boundaries = [idx for idx, gap in enumerate(gaps) if (gap > threshold)]
+
+    # TODO: Hard cap number of clusters at 15. Use the 15 largest gaps.
+
     if not boundaries:
         logger.info("cluster_by_jenk_gaps: no anomalous gaps found. Single cluster.")
         return _single_cluster(entries)
+
     
     return _split_at_boundaries(entries, boundaries)
-
-
 
 
 def cluster_by_stride(entries, nb_buckets):
@@ -160,12 +153,10 @@ def _jenks_break_K2(values):
     n      = len(values)
     mean   = sum(values) / n
 
+    logger.info(f"GAPS: {values}")
+
     # standard deviations from array mean
     sdam = sum((v - mean) ** 2 for v in values)
-
-    # all identical values
-    if sdam == 0:
-        return None, 0.0
     
     best_sdcm = None
     best_idx  = None
@@ -190,9 +181,6 @@ def _jenks_break_K2(values):
 
 
     
-
-
-
 
 def _split_at_boundaries(entries, boundaries):
     '''
