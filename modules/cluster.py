@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime  import timedelta
 from utils.log import setup_logging
 
 logger = setup_logging()
@@ -6,11 +6,23 @@ logger = setup_logging()
 def cluster_into_buckets(entries):
     return cluster_by_stride(entries, 8)
 
-def cluster_semantically(entries):
+def cluster_by_gaps(entries):
+    '''Groups entries into chronological epochs based on natural data density.'''
+
+    '''
+    
+    find all gaps.
+    for each gap:
+        is it an anomaly? 
+        Is it larger than 5% of the dataset stretched out on either side?
+        gap > C x (median of surrounding gaps)
+    '''
     pass
 
 def cluster_by_stride(entries, nb_buckets):
-    '''Groups entries into chronological clusters based on a fixed time stride.'''
+    '''Groups entries into chronological clusters based on a fixed time stride.
+    Original Dummy Implementation: Deprecated.
+    '''
     
     if not entries:
         logger.warning("Cluster request received an empty entries list.")
