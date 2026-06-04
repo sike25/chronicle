@@ -165,8 +165,6 @@ Threshold is 125.5 days and gvf is 0.6838843256119755
 
 The "Jenk Gaps" method is the best and most natural. 
 
-We implement a fail-safe to ensure we are not returning more than 15 clusters.   
-In this scenario, we simply cluster along the 14 widest gaps.
-
-We also need to consider dropping sparse clusters.
+In the scenario that the "Jenk Gaps" method returns more than 15 clusters,
+we consider it a failed run and fall back to clustering along the 14 widest gaps.
 
