@@ -6,6 +6,8 @@ from utils.log import setup_logging
 
 logger = setup_logging()
 
+MAX_CLUSTERS = 15
+
 def cluster_into_buckets(entries):
     return cluster_by_clustering_gaps(entries)
 
@@ -59,10 +61,9 @@ def cluster_by_clustering_gaps(entries):
     Groups entries into chronological epochs based on
     important gaps selected via K-Means.
 
-    Treats the set of inter-article gaps as a 1D dataset, log-transforms
-    it (gaps span orders of magnitude), and splits it into two populations
-    — within-story (small) and between-story (large) — via Jenks natural
-    breaks. Every gap in the large population is a boundary.
+    Treats the set of inter-article gaps as a 1D dataset, and clusters
+     it into two populations — within-story (small) and between-story (large) 
+     — via Jenks natural breaks. Every gap in the large population is a boundary.
     '''
     if not entries:
         logger.warning("cluster_by_clustering_gaps: received an empty entries list.")
@@ -72,13 +73,19 @@ def cluster_by_clustering_gaps(entries):
     threshold, _ = _jenks_break_K2(gaps)
     
     boundaries = [idx for idx, gap in enumerate(gaps) if (gap > threshold)]
-
-    # TODO: Hard cap number of clusters at 15. Use the 15 largest gaps.
-
     if not boundaries:
         logger.info("cluster_by_jenk_gaps: no anomalous gaps found. Single cluster.")
         return _single_cluster(entries)
 
+    # Fail safe: Never return more than MAX_CLUSTERS
+    # When Jenks produces too many, keep only the widest gaps.
+    if len(boundaries) > MAX_CLUSTERS - 1:
+        logger.info(
+            f"cluster_by_clustering_gaps: {len(boundaries) + 1} clusters exceeds "
+            f"cap of {MAX_CLUSTERS}. Falling back to the {MAX_CLUSTERS - 1} widest gaps."
+        )
+        widest = sorted(range(len(gaps)), key=lambda i: gaps[i], reverse=True)[:max_boundaries]
+        boundaries = sorted(widest)
     
     return _split_at_boundaries(entries, boundaries)
 
