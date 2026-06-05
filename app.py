@@ -11,7 +11,7 @@ from pydantic                import BaseModel, field_validator
 from pipeline    import run_chronicle
 from utils.cache import cache
 from utils.jobs  import jobs
-from utils.log   import setup_logging
+from utils.log   import setup_logging, set_job_id
 
 logger = setup_logging()
 
@@ -76,6 +76,7 @@ def start_chronicle(request: ChronicleRequest):
 
     job_id = str(uuid.uuid4())
     jobs.create(job_id)
+    set_job_id(job_id)
     logger.info(f"Job created: {job_id} for query: '{request.query}")
 
     # try reading results from cache
@@ -137,6 +138,7 @@ def _replay_cached_events(job_id: str, events: list):
 # pipeline runner
 def _run(job_id:str, request: ChronicleRequest):
     """Runs the Chronicle pipeline and writes results to the job store."""
+    set_job_id(job_id)
     try:
         run_chronicle(
             query=request.query,

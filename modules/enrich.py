@@ -51,28 +51,12 @@ def enrich_clusters(clusters, query, job_id, fake):
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = trim_large_clusters(clusters=clusters)
 
-
-    # Phase 1: Parallel Extraction.
-    # Files are sent to a dumb model to extract the portions which are relevant to the query.
-    # This is because newspaper pages often carry more than one story, 
-    # and we want to minimize expensive API calls from large inputs.
-    # TODO (ogieva): This might be replaced with search functionality, if it exists.
-    # logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
-    # all_entries = [
-    #     entry
-    #     for entries in trimmed_clusters.values()
-    #     for entry in entries
-    # ]
-    # run_parallel_extraction(all_entries, query)
-    logger.info("Phase 1 now skipped!")
-
-
-    # Phase 2: Sequential enrichment
+    # Sequential enrichment
     # Runs in chronological order so history can be fed forward.
     # This avoids repetitive, non-specific titles and summaries
-    logger.info("Phase 2: enrich clusters sequentially.")
+    logger.info("Enrich clusters sequentially.")
     enriched = run_sequential_enrichment(trimmed_clusters, query, job_id)
-    logger.info("Phase 2 complete. All clusters enriched.")
+    logger.info("All clusters enriched.")
 
     return enriched
 
@@ -226,8 +210,6 @@ def generate_bucket_context(query, entries, dates, history=None):
 
 def select_cover_story(entries):
     # Select the story with the highest relevance score as the cover story.
-    # TODO (ogieva): In the future, we will tokenize each entry and the LLM-generated title.
-    # The story which most closely relates to the generated title will be the cover story.
     return max(entries, key=lambda e: e.semantic_relevance)
     
 
