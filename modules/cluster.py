@@ -84,7 +84,7 @@ def cluster_by_clustering_gaps(entries):
             f"cluster_by_clustering_gaps: {len(boundaries) + 1} clusters exceeds "
             f"cap of {MAX_CLUSTERS}. Falling back to the {MAX_CLUSTERS - 1} widest gaps."
         )
-        widest = sorted(range(len(gaps)), key=lambda i: gaps[i], reverse=True)[:max_boundaries]
+        widest = sorted(range(len(gaps)), key=lambda i: gaps[i], reverse=True)[:MAX_CLUSTERS - 1]
         boundaries = sorted(widest)
     
     return _split_at_boundaries(entries, boundaries)
