@@ -13,6 +13,7 @@ def cluster_into_buckets(entries):
 
 def cluster_by_local_gaps(entries):
     '''
+    EXPERIMENTAL. 
     Groups entries into chronological epochs based on
     locally distinct time gaps in publication dates.
 
