@@ -690,3 +690,35 @@ html {
 }
 
 .date-clear:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+
+/* ────────────────────────────────────────────────
+   FEEDBACK
+──────────────────────────────────────────────── */
+
+.feedback-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 150;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 1.25rem;
+  background: var(--teal);
+  color: var(--white);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  border-radius: 24px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.feedback-btn:hover {
+  background: var(--teal-mid);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+}

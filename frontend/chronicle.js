@@ -284,6 +284,11 @@ function renderShell(query) {
       <span id="status-msg">Starting…</span>
     </div>
 
+    <a id="feedback-btn" class="feedback-btn"
+       href="#" target="_blank" rel="noopener" style="display:none">
+      Give feedback
+    </a>
+
     <div class="sidebar-backdrop" id="backdrop"></div>
   `;
 
@@ -442,6 +447,10 @@ async function startSearch(query, startDate = "", endDate = "") {
 
   const base = CONFIG.apiUrl.replace(/\/$/, "");
 
+  /* Hide feedback until this run's results show up */
+  const feedbackBtn = document.getElementById("feedback-btn");
+  if (feedbackBtn) feedbackBtn.style.display = "none";
+
   try {
     /* 1. POST /chronicle → job_id */
     const toApiDate = d => (d ? d.replace(/-/g, "/") : "");
@@ -459,6 +468,12 @@ async function startSearch(query, startDate = "", endDate = "") {
 
     const { job_id } = await initRes.json();
     setStatus(`Job started (${job_id.slice(0, 8)}…) — fetching results…`);
+
+    if (feedbackBtn) {
+      feedbackBtn.href =
+        "https://docs.google.com/forms/d/e/1FAIpQLSfKuDplqruQvPAYWEeevKjy55mmnEMGSQaF9zdnZp-FJdz8BQ"
+        + "/viewform?usp=pp_url&entry.623572270=" + encodeURIComponent(job_id);
+    }
 
     /* 2. GET /chronicle/{job_id}/stream → SSE */
     const streamRes = await fetch(`${base}/chronicle/${job_id}/stream`);
@@ -509,6 +524,7 @@ async function startSearch(query, startDate = "", endDate = "") {
             spanLast = cluster.year.split("\n")[0].trim();
 
             hydrateSlot(cluster, payload.index);
+            if (feedbackBtn) feedbackBtn.style.display = "";
 
             const done = payload.index + 1;
             setStatus(`Enriched ${done} of ${clusterCount} periods…`);
