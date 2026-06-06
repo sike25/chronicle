@@ -632,3 +632,61 @@ html {
   .timeline-scroll  { padding: 2rem 1.5rem; }
   .sidebar          { width: min(340px, 92vw); }
 }
+
+
+
+/* ────────────────────────────────────────────────
+   DATES
+──────────────────────────────────────────────── */
+
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.date-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.date-field { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.date-field label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-mid);
+}
+
+.date-field input[type="date"] {
+  height: 34px;
+  padding: 0 0.6rem;
+  background: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--text);
+  color-scheme: light;
+}
+
+.date-clear {
+  height: 34px;
+  padding: 0 0.7rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.6);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.date-clear:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }

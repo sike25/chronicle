@@ -227,15 +227,28 @@ function renderShell(query) {
           <h1 class="header-title">${esc(CONFIG.toolName)}</h1>
           <p class="header-desc">${esc(CONFIG.description)}</p>
         </div>
+        <div class="header-controls">
         <div class="search-box">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
             <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
           <input type="text" id="search-input"
-                 value="${esc(query)}" placeholder="Search the archive…">
+                value="${esc(query)}" placeholder="Search the archive…">
           <button class="search-btn" id="search-btn">Search</button>
         </div>
+        <div class="date-filters">
+          <div class="date-field">
+            <label for="start-date">From</label>
+            <input type="date" id="start-date">
+          </div>
+          <div class="date-field">
+            <label for="end-date">To</label>
+            <input type="date" id="end-date">
+          </div>
+          <button class="date-clear" id="date-clear" type="button">Clear</button>
+        </div>
+      </div>
       </div>
     </header>
 
@@ -372,16 +385,27 @@ function wireBackdrop() {
 }
 
 function wireSearch() {
-  const btn   = document.getElementById("search-btn");
-  const input = document.getElementById("search-input");
+  const btn      = document.getElementById("search-btn");
+  const input    = document.getElementById("search-input");
+  const startEl  = document.getElementById("start-date");
+  const endEl    = document.getElementById("end-date");
+  const clearBtn = document.getElementById("date-clear");
 
   const run = () => {
     const q = input.value.trim();
-    if (q) startSearch(q);
+    if (!q) return;
+    if (startEl.value && endEl.value && startEl.value > endEl.value) {
+      setStatus("Start date is after end date.");
+      return;
+    }
+    startSearch(q, startEl.value, endEl.value);
   };
 
   btn.addEventListener("click", run);
-  input.addEventListener("keydown", e => { if (e.key === "Enter") run(); });
+  [input, startEl, endEl].forEach(el =>
+    el.addEventListener("keydown", e => { if (e.key === "Enter") run(); })
+  );
+  clearBtn.addEventListener("click", () => { startEl.value = ""; endEl.value = ""; });
 }
 
 
@@ -389,7 +413,7 @@ function wireSearch() {
 
 let activeReader = null;  /* Track the current stream so we can abort on new search */
 
-async function startSearch(query) {
+async function startSearch(query, startDate = "", endDate = "") {
   /* Abort any in-flight stream */
   if (activeReader) {
     try { activeReader.cancel(); } catch (_) {}
@@ -420,10 +444,15 @@ async function startSearch(query) {
 
   try {
     /* 1. POST /chronicle → job_id */
+    const toApiDate = d => (d ? d.replace(/-/g, "/") : "");
     const initRes = await fetch(`${base}/chronicle`, {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ query }),
+      body:    JSON.stringify({ 
+        query,
+        start_date: toApiDate(startDate),
+        end_date:   toApiDate(endDate), 
+      }),
     });
 
     if (!initRes.ok) throw new Error(`POST /chronicle failed: ${initRes.status}`);
