@@ -1,5 +1,6 @@
 /* ============================================================
    CHRONICLE  —  Configuration
+   This is the only section you need to edit.
    ============================================================ */
 
 const CONFIG = {
@@ -20,7 +21,7 @@ const CONFIG = {
 
 
 /* ============================================================
-   ENGINE 
+   ENGINE  —  Do not edit below this line
    ============================================================ */
 
 /* ── Tiny helpers ── */
@@ -30,6 +31,22 @@ const esc = s => String(s ?? "")
   .replace(/</g, "&lt;")
   .replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;");
+
+/**
+ * Build a deep link into the Archivi.ng search UI for a cluster:
+ * the same query, scoped to the cluster's date span.
+ * e.g. https://archivi.ng/search?extract=...&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD&page=1&sort_by=relevance
+ */
+function archiveSearchUrl(query, startDate, endDate) {
+  const params = new URLSearchParams({
+    extract:    query ?? "",
+    start_date: startDate ?? "",
+    end_date:   endDate ?? "",
+    page:       "1",
+    sort_by:    "relevance",
+  });
+  return `https://archivi.ng/search?${params.toString()}`;
+}
 
 /**
  * Parse a Chronicle label like "2014-03-29 to 2015-01-01"
@@ -74,6 +91,11 @@ function parseLabel(label) {
 function apiClusterToShape(data) {
   const { axisYear, range } = parseLabel(data.label ?? "");
 
+  /* Raw YYYY-MM-DD bounds for the "see the rest" archive link */
+  const labelParts = (data.label ?? "").split(" to ");
+  const startDate  = (labelParts[0] || "").trim().split(" ")[0];
+  const endDate    = (labelParts[1] || labelParts[0] || "").trim().split(" ")[0];
+
   const sources = (data.entries ?? []).map((e, i) => ({
     pub:     e.publication    ?? "",
     date:    e.publication_date?.replace(/\//g, " ") ?? "",
@@ -90,6 +112,8 @@ function apiClusterToShape(data) {
     id:       `c${data.index}`,
     year:     axisYear,
     range,
+    startDate,
+    endDate,
     title:    data.title   ?? `Period ${data.index + 1}`,
     summary:  data.summary ?? "",
     coverPub: firstPub,
@@ -186,12 +210,21 @@ function sidebarHTML(cluster, index) {
           <span class="source-date">${esc(src.date)}</span><span class="source-dot">·</span>
           <span class="source-page">${esc(src.page)}</span>
         </div>
-        <div class="source-title">${esc(src.title)}</div>
         <div class="source-summary">${esc(src.summary)}</div>
         ${tagsHTML ? `<div class="source-tags">${tagsHTML}</div>` : ""}
         ${linkHTML}
       </div>`;
   }).join("");
+
+  /* Deep link into the full archive search for this cluster's span */
+  const moreUrl  = archiveSearchUrl(currentQuery, cluster.startDate, cluster.endDate);
+  const moreHTML = (currentQuery && cluster.startDate)
+    ? `<div class="sb-footer">
+         <a class="sb-more" href="${esc(moreUrl)}" target="_blank" rel="noopener">
+           See the rest of the documents <span aria-hidden="true">↗</span>
+         </a>
+       </div>`
+    : "";
 
   return `
     <div class="sidebar" id="sb-${esc(cluster.id)}"
@@ -211,6 +244,7 @@ function sidebarHTML(cluster, index) {
       </div>
       ${summaryHTML}
       <div class="sb-sources">${sourcesHTML}</div>
+      ${moreHTML}
     </div>`;
 }
 
@@ -494,11 +528,14 @@ function enterResultsMode() {
 
 /* ── API ── */
 
-let activeReader = null;  /* Track the current stream so we can abort on new search */
+let activeReader  = null;  /* Track the current stream so we can abort on new search */
+let currentQuery  = "";    /* Last query run — used to build per-cluster archive links */
 
 async function startSearch(query, startDate = "", endDate = "") {
   /* Dock the hero to the top before anything renders */
   enterResultsMode();
+
+  currentQuery = query;
 
   /* Abort any in-flight stream */
   if (activeReader) {

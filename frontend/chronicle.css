@@ -682,6 +682,27 @@ html {
 
 .sb-sources { padding: 0.5rem 0; flex: 1; }
 
+/* Footer link out to the full archive search */
+.sb-footer {
+  padding: 1rem 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.sb-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.sb-more:hover { color: var(--teal-mid); }
+
 /* Full cluster summary shown above source list */
 .sb-summary {
   padding: 1rem 1.25rem;
