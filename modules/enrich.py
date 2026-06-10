@@ -55,7 +55,7 @@ def enrich_clusters(clusters, query, job_id, fake):
     logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
     all_entries = [
         entry
-        for entries in trimmed_clusters.values()
+        for entries, _ in trimmed_clusters.values()
         for entry in entries
     ]
     run_parallel_extraction(all_entries, query)
@@ -84,7 +84,7 @@ def run_parallel_extraction(all_entries, query):
                 entry.source.relevant_extract = future.result()
             except Exception as e:
                 logger.error(f"Extraction failed for {entry.source.filename}: {e}. Falling back to full extract.")
-                entry.source.relevant_extract = f"Extract: {entry.source.extract}"
+                entry.source.relevant_extract = f"Extract: {entry.source.summary}" # TODO: Replace with rich_summary
 
     
 # deprecated

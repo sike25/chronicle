@@ -70,6 +70,10 @@ def cluster_by_clustering_gaps(entries):
         logger.warning("cluster_by_clustering_gaps: received an empty entries list.")
         return {}
 
+    if len(entries) == 1:
+        logger.info("cluster_by_clustering_gaps: single entry — returning single cluster.")
+        return _single_cluster(entries)
+
     gaps = _day_gaps(entries)
     threshold, _ = _jenks_break_K2(gaps)
     
@@ -159,6 +163,11 @@ def _jenks_break_K2(values):
     '''
     values = sorted(values)
     n      = len(values)
+
+    if n < 2:
+        logger.info("_jenks_break_K2: only one gap value — returning it as threshold.")
+        return values[0], 0.0
+
     mean   = sum(values) / n
 
     logger.info(f"GAPS: {values}")

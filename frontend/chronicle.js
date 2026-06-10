@@ -349,12 +349,21 @@ function renderShell(query) {
       Give feedback
     </a>
 
+    <button id="download-btn" class="download-btn" style="display:none" type="button">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+        <path d="M6.5 1v7M3.5 5.5l3 3 3-3M1 10h11" stroke="currentColor"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Download results
+    </button>
+
     <div class="sidebar-backdrop" id="backdrop"></div>
   `;
 
   wireSearch();
   wireBackdrop();
   wireNav();
+  wireDownload();
 
   /* Google-style: focus the box so the user can type immediately */
   const input = document.getElementById("search-input");
@@ -526,10 +535,64 @@ function enterResultsMode() {
 }
 
 
+/* ── Download ── */
+
+function clustersToMarkdown(query, clusters) {
+  const now = new Date().toISOString().slice(0, 10);
+  const lines = [];
+
+  lines.push(`# Chronicle: "${query}"`);
+  lines.push(`_Downloaded ${now} · ${clusters.length} time period${clusters.length !== 1 ? "s" : ""}_`);
+  lines.push("");
+
+  clusters.forEach((c, i) => {
+    const num = String(i + 1).padStart(2, "0");
+    lines.push(`---`);
+    lines.push("");
+    lines.push(`## ${num}. ${c.title}`);
+    lines.push(`**Period:** ${c.range}`);
+    lines.push(`**Sources:** ${c.sourceCount ?? c.sources?.length ?? 0}`);
+    lines.push("");
+    lines.push(c.summary);
+    lines.push("");
+
+    if (c.sources?.length) {
+      lines.push(`### Sources`);
+      c.sources.forEach(src => {
+        lines.push(`- **${src.pub}** · ${src.date} · ${src.page}`);
+        if (src.summary) lines.push(`  ${src.summary}`);
+        if (src.archiveUrl) lines.push(`  [View in archive](${src.archiveUrl})`);
+      });
+      lines.push("");
+    }
+  });
+
+  return lines.join("\n");
+}
+
+function wireDownload() {
+  const btn = document.getElementById("download-btn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    if (!collectedClusters.length) return;
+    const md       = clustersToMarkdown(currentQuery, collectedClusters);
+    const blob     = new Blob([md], { type: "text/markdown" });
+    const url      = URL.createObjectURL(blob);
+    const a        = document.createElement("a");
+    const filename = `chronicle-${currentQuery.toLowerCase().replace(/\s+/g, "-").slice(0, 40)}.md`;
+    a.href         = url;
+    a.download     = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+
 /* ── API ── */
 
-let activeReader  = null;  /* Track the current stream so we can abort on new search */
-let currentQuery  = "";    /* Last query run — used to build per-cluster archive links */
+let activeReader      = null;  /* Track the current stream so we can abort on new search */
+let currentQuery      = "";    /* Last query run — used to build per-cluster archive links */
+let collectedClusters = [];    /* Accumulates enriched clusters for Markdown download */
 
 async function startSearch(query, startDate = "", endDate = "") {
   /* Dock the hero to the top before anything renders */
@@ -566,8 +629,11 @@ async function startSearch(query, startDate = "", endDate = "") {
   const base = CONFIG.apiUrl.replace(/\/$/, "");
 
   /* Hide feedback until this run's results show up */
-  const feedbackBtn = document.getElementById("feedback-btn");
-  if (feedbackBtn) feedbackBtn.style.display = "none";
+  const feedbackBtn  = document.getElementById("feedback-btn");
+  const downloadBtn  = document.getElementById("download-btn");
+  if (feedbackBtn)  feedbackBtn.style.display  = "none";
+  if (downloadBtn)  downloadBtn.style.display  = "none";
+  collectedClusters = [];
 
   try {
     /* 1. POST /chronicle → job_id */
@@ -642,7 +708,9 @@ async function startSearch(query, startDate = "", endDate = "") {
             spanLast = cluster.year.split("\n")[0].trim();
 
             hydrateSlot(cluster, payload.index);
+            collectedClusters.push(cluster);
             if (feedbackBtn) feedbackBtn.style.display = "";
+            if (downloadBtn) downloadBtn.style.display = "";
 
             const done = payload.index + 1;
             setStatus(`Enriched ${done} of ${clusterCount} periods…`);
