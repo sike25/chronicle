@@ -51,6 +51,16 @@ def enrich_clusters(clusters, query, job_id, fake):
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = trim_large_clusters(clusters=clusters)
 
+    # phase 1 reintroduced temporarily
+    logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
+    all_entries = [
+        entry
+        for entries in trimmed_clusters.values()
+        for entry in entries
+    ]
+    run_parallel_extraction(all_entries, query)
+    logger.info("Phase 1 complete.")
+
     # Sequential enrichment
     # Runs in chronological order so history can be fed forward.
     # This avoids repetitive, non-specific titles and summaries
@@ -125,7 +135,6 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
             dates=label,
             history=global_context_history,
         )
-        summary = add_paragraphs(summary)
         global_context_history.append({"date": label, "title": title, "summary": summary})
         if failed: had_failures = True
 
@@ -159,7 +168,7 @@ def generate_bucket_context(query, entries, dates, history=None):
             f"- {h['date']}: {h['title']}" for h in history[-3:] # Last 3 are usually enough
         ])
 
-    entries_text = "".join([f"Source {i}: {e.source.summary}\n---\n" for i, e in enumerate(entries[:15])])
+    entries_text = "".join([f"Source {i}: {e.source.relevant_extract}\n---\n" for i, e in enumerate(entries[:15])])
 
     context_generation_prompt = f"""You are a news historian synthesizing clusters of Nigerian newspaper archives.
 
@@ -224,11 +233,3 @@ def trim_large_clusters(clusters):
             entries = sorted(entries, key=lambda e: e.semantic_relevance, reverse=True)[:15]
         trimmed_clusters[label] = (entries, original_count)
     return trimmed_clusters
-
-def add_paragraphs(summary: str) -> str:
-    sentences = summary.split(". ")
-    midpoint  = len(sentences) // 2
-    part1 = ". ".join(sentences[:midpoint]).strip()
-    part2 = ". ".join(sentences[midpoint:]).strip()
-    return f"{part1}\n\n{part2}"
-    
