@@ -30,6 +30,8 @@
   --dot-size: 12px;
   --half-h:   186px;  /* must equal --card-h + --stem-h */
   --slot-gap: 44px;
+
+  --morph: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -40,62 +42,109 @@ html {
 }
 
 /* ────────────────────────────────────────────────
-   HEADER
+   MASTHEAD — two states in one element
+   .app.idle    → centered, full-height search hero
+   .app.results → collapsed to a compact top bar
 ──────────────────────────────────────────────── */
-.site-header {
+.masthead {
   background: var(--black);
-  padding: 2rem 3rem;
-}
-
-.header-inner {
+  border-bottom: 3px solid var(--teal);
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
+  flex-direction: column;
+  overflow: hidden;
+  transition: min-height var(--morph), padding var(--morph), background var(--morph);
 }
 
-.header-eyebrow {
-  display: block;
+/* Persistent top utility row (Home / Stories, New search in results) */
+.masthead-bar {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.masthead-nav { display: flex; align-items: center; gap: 1.5rem; }
+
+.nav-link,
+.nav-btn {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--teal-mid);
-  margin-bottom: 0.2rem;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--morph);
+}
+.nav-link:hover,
+.nav-btn:hover { color: var(--white); }
+
+/* Hero block holding pill + wordmark + search */
+.masthead-hero {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.header-title {
+.preview-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal-mid);
+  border: 1px solid var(--teal-mid);
+  border-radius: 4px;
+  padding: 0.3rem 0.65rem;
+  white-space: nowrap;
+}
+
+.wordmark { line-height: 0.95; }
+.wordmark a {
+  display: inline-block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 2.8rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--white);
-  line-height: 1;
-  margin-bottom: 0.4rem;
+  line-height: 0.95;
+  text-decoration: none;
+  transition: color var(--morph), font-size var(--morph);
 }
+.wordmark a:hover { color: var(--teal-light); }
 
-.header-desc {
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.4);
-}
+/* Search + dates */
+.search-cluster { display: flex; }
 
-/* Search */
 .search-box {
   display: flex;
   align-items: center;
   background: var(--white);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 0 0 0 0.9rem;
   height: 42px;
   gap: 0.6rem;
-  width: 380px;
   overflow: hidden;
   flex-shrink: 0;
+  transition: width var(--morph), height 0.3s ease, box-shadow 0.2s;
 }
+.search-box:focus-within { box-shadow: 0 0 0 3px rgba(90, 143, 125, 0.45); }
 
-.search-box svg   { flex-shrink: 0; color: var(--text-muted); }
+.search-box svg { flex-shrink: 0; color: var(--text-muted); }
 
 .search-box input {
   border: none;
@@ -120,10 +169,174 @@ html {
   letter-spacing: 0.05em;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s;
+  transition: background 0.15s, height 0.3s ease;
+}
+.search-btn:hover { background: var(--teal-mid); }
+
+/* ── DATES ── */
+.date-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
 }
 
-.search-btn:hover { background: var(--teal-mid); }
+.date-field { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.date-field label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-mid);
+}
+
+.date-field input[type="date"] {
+  height: 34px;
+  padding: 0 0.6rem;
+  background: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--text);
+  color-scheme: light;
+}
+
+.date-clear {
+  height: 34px;
+  padding: 0 0.7rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.date-clear:hover { border-color: rgba(255, 255, 255, 0.5); color: var(--white); }
+
+/* ────────────────────────────────────────────────
+   STATE: IDLE  (centered hero)
+──────────────────────────────────────────────── */
+.app.idle .masthead {
+  min-height: 100vh;
+  padding: 1.6rem 2.5rem 3rem;
+}
+.app.idle .masthead-hero {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1.6rem;
+  padding-bottom: 6vh;   /* optical centering, lifts the hero slightly */
+}
+.app.idle .wordmark a { font-size: clamp(3.5rem, 11vw, 7rem); }
+
+.app.idle .search-cluster {
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+.app.idle .search-box {
+  width: min(560px, 90vw);
+  height: 52px;
+  border-radius: 10px;
+}
+.app.idle .search-box input { font-size: 0.95rem; }
+.app.idle .search-btn { height: 52px; padding: 0 1.4rem; font-size: 0.85rem; }
+
+/* "New search" control — lives in the search row, shown only in results */
+.new-search {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  height: 42px;
+  padding: 0 1.1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s;
+}
+.new-search:hover { border-color: rgba(255, 255, 255, 0.55); color: var(--white); }
+.new-search svg { flex-shrink: 0; }
+.app.results .new-search { display: inline-flex; margin-left: auto; }
+
+/* Cream background (matches the rest of the site); dark text + borders */
+.app.idle .masthead { background: var(--cream); }
+.app.idle .wordmark a { color: var(--black); }
+.app.idle .wordmark a:hover { color: var(--teal); }
+.app.idle .nav-link,
+.app.idle .nav-btn { color: var(--text-mid); }
+.app.idle .nav-link:hover,
+.app.idle .nav-btn:hover { color: var(--teal); }
+.app.idle .preview-badge { color: var(--teal); border-color: var(--teal); }
+.app.idle .search-box { border: 1px solid var(--border); }
+.app.idle .date-field input[type="date"] { border: 1px solid var(--border); }
+.app.idle .date-clear {
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.app.idle .date-clear:hover { border-color: var(--teal-mid); color: var(--text); }
+
+/* ────────────────────────────────────────────────
+   STATE: RESULTS  (docked top bar)
+──────────────────────────────────────────────── */
+.app.results .masthead {
+  min-height: 0;
+  padding: 1.6rem 3rem 1.8rem;
+}
+
+/* Full-width so the search row lines up with the results below it */
+.app.results .masthead-bar,
+.app.results .masthead-hero { max-width: none; margin-left: 0; margin-right: 0; }
+
+/* Wordmark + pill aren't needed once docked.
+   Keep the <h1> for assistive tech; hide it visually. */
+.app.results .preview-badge { display: none; }
+.app.results .wordmark {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; border: 0;
+  overflow: hidden; white-space: nowrap;
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+}
+
+.app.results .masthead-hero {
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  gap: 1.1rem;
+  margin-top: 0.4rem;
+}
+.app.results .wordmark a { font-size: clamp(2.4rem, 5vw, 3.4rem); }
+
+.app.results .search-cluster {
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.5rem;
+}
+.app.results .search-box { width: 380px; height: 42px; border-radius: 6px; }
+
+/* Results chrome fades in once docked */
+.app.results .results-banner,
+.app.results .timeline-scroll {
+  animation: fadeUp 0.5s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ────────────────────────────────────────────────
    RESULTS BANNER
@@ -535,6 +748,18 @@ html {
   letter-spacing: 0.02em;
 }
 
+/* ── Archive link inside sidebar source ── */
+.source-link {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--teal);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+}
+.source-link:hover { text-decoration: underline; }
+
 /* ────────────────────────────────────────────────
    BACKDROP
 ──────────────────────────────────────────────── */
@@ -557,9 +782,7 @@ html {
 /* ────────────────────────────────────────────────
    SKELETON LOADING STATE
 ──────────────────────────────────────────────── */
-.card-skeleton {
-  pointer-events: none;
-}
+.card-skeleton { pointer-events: none; }
 
 .skeleton-block,
 .skeleton-line {
@@ -608,94 +831,9 @@ html {
   50%       { opacity: 1;   transform: scale(1.1);  }
 }
 
-/* ── Archive link inside sidebar source ── */
-.source-link {
-  display: inline-block;
-  margin-top: 0.4rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--teal);
-  text-decoration: none;
-  letter-spacing: 0.03em;
-}
-
-.source-link:hover { text-decoration: underline; }
-
-/* ────────────────────────────────────────────────
-   RESPONSIVE
-──────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  .site-header      { padding: 1.5rem; }
-  .header-inner     { flex-direction: column; align-items: flex-start; }
-  .search-box       { width: 100%; }
-  .results-banner   { flex-direction: column; align-items: flex-start; padding: 0.75rem 1.5rem; }
-  .timeline-scroll  { padding: 2rem 1.5rem; }
-  .sidebar          { width: min(340px, 92vw); }
-}
-
-
-
-/* ────────────────────────────────────────────────
-   DATES
-──────────────────────────────────────────────── */
-
-.header-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  flex-shrink: 0;
-}
-
-.date-filters {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.75rem;
-}
-
-.date-field { display: flex; flex-direction: column; gap: 0.25rem; }
-
-.date-field label {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--teal-mid);
-}
-
-.date-field input[type="date"] {
-  height: 34px;
-  padding: 0 0.6rem;
-  background: var(--white);
-  border: none;
-  border-radius: 6px;
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: var(--text);
-  color-scheme: light;
-}
-
-.date-clear {
-  height: 34px;
-  padding: 0 0.7rem;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 6px;
-  color: rgba(255,255,255,0.6);
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.date-clear:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
-
-
 /* ────────────────────────────────────────────────
    FEEDBACK
 ──────────────────────────────────────────────── */
-
 .feedback-btn {
   position: fixed;
   bottom: 1.5rem;
@@ -721,4 +859,46 @@ html {
   background: var(--teal-mid);
   transform: translateY(-2px);
   box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+}
+
+/* ────────────────────────────────────────────────
+   FOCUS VISIBILITY
+──────────────────────────────────────────────── */
+a:focus-visible,
+button:focus-visible,
+.card:focus-visible {
+  outline: 2px solid var(--teal-mid);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ────────────────────────────────────────────────
+   RESPONSIVE
+──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .app.idle  .masthead { padding: 1.4rem 1.4rem 2rem; }
+  .app.results .masthead { padding: 1.4rem 1.4rem 1.4rem; }
+
+  .app.idle .search-box,
+  .app.results .search-box { width: 100%; }
+
+  .app.results .search-cluster { flex-direction: column; align-items: stretch; }
+  .app.results .masthead-hero  { margin-top: 1rem; }
+  .app.results .new-search     { margin-left: 0; align-self: flex-start; }
+
+  .results-banner { flex-direction: column; align-items: flex-start; padding: 0.75rem 1.5rem; }
+  .timeline-scroll { padding: 2rem 1.5rem; }
+  .status-bar      { padding: 0.75rem 1.5rem; }
+  .sidebar         { width: min(340px, 92vw); }
+}
+
+/* ────────────────────────────────────────────────
+   REDUCED MOTION
+──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .masthead,
+  .wordmark a,
+  .search-box { transition: none; }
+  .app.results .results-banner,
+  .app.results .timeline-scroll { animation: none; }
 }

@@ -1,13 +1,12 @@
 /* ============================================================
    CHRONICLE  —  Configuration
-   This is the only section you need to edit.
    ============================================================ */
 
 const CONFIG = {
 
   /* ── API ──────────────────────────────────────────────────
      Base URL of the deployed Chronicle backend.
-     Trailing slash is Ffine either way.                       */
+     Trailing slash is fine either way.                        */
   apiUrl: "https://chronicle-435397225968.africa-south1.run.app",
 
   /* ── Page chrome ── */
@@ -21,7 +20,7 @@ const CONFIG = {
 
 
 /* ============================================================
-   ENGINE  —  Do not edit below this line
+   ENGINE 
    ============================================================ */
 
 /* ── Tiny helpers ── */
@@ -216,39 +215,66 @@ function sidebarHTML(cluster, index) {
 }
 
 
-/* ── Static shell (renders once on load) ── */
+/* ── Static shell (renders once on load) ──────────────────────
+   The shell carries two layouts in one DOM. A single class on
+   the root (#app) switches between them:
+     .app.idle     → centered, Google-style search hero
+     .app.results  → search docked to a compact top bar
+   No nodes are added or removed on transition — only the class
+   changes, so CSS can morph one state into the other.          */
 
 function renderShell(query) {
-  document.getElementById("app").innerHTML = `
-    <header class="site-header">
-      <div class="header-inner">
-        <div class="header-brand">
-          <span class="header-eyebrow">${esc(CONFIG.siteLabel)}</span>
-          <h1 class="header-title">${esc(CONFIG.toolName)}</h1>
-          <p class="header-desc">${esc(CONFIG.description)}</p>
-        </div>
-        <div class="header-controls">
-        <div class="search-box">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input type="text" id="search-input"
-                value="${esc(query)}" placeholder="Search the archive…">
-          <button class="search-btn" id="search-btn">Search</button>
-        </div>
-        <div class="date-filters">
-          <div class="date-field">
-            <label for="start-date">From</label>
-            <input type="date" id="start-date">
-          </div>
-          <div class="date-field">
-            <label for="end-date">To</label>
-            <input type="date" id="end-date">
-          </div>
-          <button class="date-clear" id="date-clear" type="button">Clear</button>
-        </div>
+  const app = document.getElementById("app");
+  app.className = "app idle";
+  app.innerHTML = `
+    <header class="masthead">
+
+      <!-- Persistent top utility row (right-aligned) -->
+      <div class="masthead-bar">
+        <nav class="masthead-nav" aria-label="Chronicle navigation">
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="stories.html">Stories</a>
+        </nav>
       </div>
+
+      <!-- Hero: centered when idle, docked when results -->
+      <div class="masthead-hero">
+        <span class="preview-badge">Research preview</span>
+        <h1 class="wordmark">
+          <a href="index.html" aria-label="${esc(CONFIG.toolName)} — home">${esc(CONFIG.toolName)}</a>
+        </h1>
+
+        <div class="search-cluster">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="search-input"
+                  value="${esc(query)}" placeholder="Search the archive…">
+            <button class="search-btn" id="search-btn">Search</button>
+          </div>
+          <div class="date-filters">
+            <div class="date-field">
+              <label for="start-date">From</label>
+              <input type="date" id="start-date">
+            </div>
+            <div class="date-field">
+              <label for="end-date">To</label>
+              <input type="date" id="end-date">
+            </div>
+            <button class="date-clear" id="date-clear" type="button">Clear</button>
+          </div>
+
+          <!-- Returns to the centered hero — visible only in results state -->
+          <button class="new-search" id="new-search-btn" type="button">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M13.6 8a5.6 5.6 0 1 1-1.7-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M13.5 2.4V5h-2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            New search
+          </button>
+        </div>
       </div>
     </header>
 
@@ -294,6 +320,47 @@ function renderShell(query) {
 
   wireSearch();
   wireBackdrop();
+  wireNav();
+
+  /* Google-style: focus the box so the user can type immediately */
+  const input = document.getElementById("search-input");
+  if (input) { input.focus(); input.select(); }
+}
+
+
+/* ── State switching ── */
+
+function setMode(mode) {
+  const root = document.getElementById("app");
+  if (!root) return;
+  root.classList.remove("idle", "results");
+  root.classList.add(mode);
+}
+
+/** Collapse everything back to the centered search hero. */
+function enterIdleMode() {
+  /* Abort any in-flight stream */
+  if (activeReader) {
+    try { activeReader.cancel(); } catch (_) {}
+    activeReader = null;
+  }
+
+  closeAll();
+  document.querySelectorAll(".sidebar").forEach(s => s.remove());
+
+  const timeline = document.getElementById("timeline");
+  if (timeline) timeline.innerHTML = "";
+  document.getElementById("timeline-scroll").style.display = "none";
+  document.getElementById("results-banner").style.display  = "none";
+  setStatus("", false);
+
+  const feedbackBtn = document.getElementById("feedback-btn");
+  if (feedbackBtn) feedbackBtn.style.display = "none";
+
+  setMode("idle");
+
+  const input = document.getElementById("search-input");
+  if (input) { input.focus(); input.select(); }
 }
 
 
@@ -389,6 +456,11 @@ function wireBackdrop() {
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeAll(); });
 }
 
+function wireNav() {
+  const newSearch = document.getElementById("new-search-btn");
+  if (newSearch) newSearch.addEventListener("click", enterIdleMode);
+}
+
 function wireSearch() {
   const btn      = document.getElementById("search-btn");
   const input    = document.getElementById("search-input");
@@ -400,6 +472,7 @@ function wireSearch() {
     const q = input.value.trim();
     if (!q) return;
     if (startEl.value && endEl.value && startEl.value > endEl.value) {
+      enterResultsMode();
       setStatus("Start date is after end date.");
       return;
     }
@@ -413,12 +486,20 @@ function wireSearch() {
   clearBtn.addEventListener("click", () => { startEl.value = ""; endEl.value = ""; });
 }
 
+/** Dock the search bar to the top and reveal the results area. */
+function enterResultsMode() {
+  setMode("results");
+}
+
 
 /* ── API ── */
 
 let activeReader = null;  /* Track the current stream so we can abort on new search */
 
 async function startSearch(query, startDate = "", endDate = "") {
+  /* Dock the hero to the top before anything renders */
+  enterResultsMode();
+
   /* Abort any in-flight stream */
   if (activeReader) {
     try { activeReader.cancel(); } catch (_) {}
