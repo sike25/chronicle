@@ -37,7 +37,7 @@ class ChronicleRequest(BaseModel):
     query:      str
     start_date: str  = ""
     end_date:   str  = ""
-    no_cache:   bool = True
+    no_cache:   bool = False
 
     model_config = {
         "json_schema_extra": {
