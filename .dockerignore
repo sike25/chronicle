@@ -26,6 +26,7 @@ logs/
 # dev files
 streamlit_app.py
 frontend/
+deploy.sh
 
 # git (and extra) noise
 .git/
