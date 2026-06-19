@@ -1,13 +1,12 @@
 /* ============================================================
    CHRONICLE  —  Configuration
-   This is the only section you need to edit.
    ============================================================ */
 
 const CONFIG = {
 
   /* ── API ──────────────────────────────────────────────────
-     Base URL of the deployed Chronicle backend.
-     Trailing slash is fine either way.                        */
+     
+  Base URL of the deployed Chronicle backend.                  */
   apiUrl: "https://chronicle-435397225968.africa-south1.run.app",
 
   /* ── Page chrome ── */
@@ -21,7 +20,7 @@ const CONFIG = {
 
 
 /* ============================================================
-   ENGINE  —  Do not edit below this line
+   ENGINE
    ============================================================ */
 
 /* ── Tiny helpers ── */
