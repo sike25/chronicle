@@ -24,5 +24,5 @@ def extractJson(response_text):
     try:
         return json.loads(json_str)
     except json.JSONDecodeError as e:
-        logger.error(f"CHRONICLE_ERROR: Failed to parse JSON from LLM response: {e}")
+        logger.error(f"CHRONICLE_ERROR: Failed to parse JSON from LLM response: {e} \n -> Response Text: {response_text}", )
         return None

@@ -37,7 +37,7 @@ class ChronicleRequest(BaseModel):
     query:      str
     start_date: str  = ""
     end_date:   str  = ""
-    no_cache:   bool = False
+    no_cache:   bool = True
 
     model_config = {
         "json_schema_extra": {
@@ -78,6 +78,8 @@ def start_chronicle(request: ChronicleRequest):
     jobs.create(job_id)
     set_job_id(job_id)
     logger.info(f"Job created: {job_id} for query: '{request.query}")
+
+    cache.clear()
 
     # try reading results from cache
     if not request.no_cache:
@@ -155,10 +157,10 @@ def _run(job_id:str, request: ChronicleRequest):
     if not request.no_cache and jobs.get_status(job_id) == "done":
         events = jobs.get_events(job_id)
         done_event = next((e for e in reversed(events) if e["type"] == "done"), None)
-        if not done_event or not done_event["data"].get("partial"):
+        if not done_event or not done_event["data"].get("degraded"):
             cache.set(request.query, events, request.start_date, request.end_date)
         else:
-            logger.warning(f"Skipping cache for job {job_id} — partial results (some clusters used fallback).")
+            logger.warning(f"Skipping cache for job {job_id} — One to all clusters used fallback.")
 
 # sse event stream
 def _event_stream(job_id: str):
