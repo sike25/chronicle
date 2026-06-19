@@ -266,7 +266,7 @@ function renderShell(query) {
       <!-- Persistent top utility row (right-aligned) -->
       <div class="masthead-bar">
         <nav class="masthead-nav" aria-label="Chronicle navigation">
-          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="landing.html">Home</a>
           <a class="nav-link" href="stories.html">Stories</a>
         </nav>
       </div>
@@ -275,7 +275,7 @@ function renderShell(query) {
       <div class="masthead-hero">
         <span class="preview-badge">Research preview</span>
         <h1 class="wordmark">
-          <a href="index.html" aria-label="${esc(CONFIG.toolName)} — home">${esc(CONFIG.toolName)}</a>
+          <a href="landing.html" aria-label="${esc(CONFIG.toolName)} — home">${esc(CONFIG.toolName)}</a>
         </h1>
 
         <div class="search-cluster">
