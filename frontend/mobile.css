@@ -1,0 +1,138 @@
+/* ════════════════════════════════════════════════════════════
+   MOBILE VERTICAL TIMELINE
+   Restructures the zigzag horizontal-scroll timeline into a
+   single-column, top-to-bottom spine for narrow viewports.
+   No JS changes — same DOM (.slot > .upper/.node/.lower),
+   just re-laid-out with CSS.
+════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+
+  :root {
+    --spine-x: 30px;     /* horizontal position of the spine/dots */
+    --dot-size: 11px;
+    --card-gap: 1.5rem;  /* vertical gap between cards */
+  }
+
+  /* Scroll container: vertical now, not horizontal */
+  .timeline-scroll {
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 1.75rem 1.25rem 2.5rem;
+  }
+
+  .timeline-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    align-items: stretch;
+    position: relative;
+  }
+
+  /* Remove the old horizontal axis line entirely */
+  .timeline-inner::before { content: none; }
+
+  /* Continuous vertical spine running behind every dot.
+     Stops at the last node's dot, not the bottom of the
+     container — the last card's height shouldn't extend it. */
+  .timeline-inner::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: calc(var(--card-gap) + 10px);
+    left: var(--spine-x);
+    width: 1px;
+    background: var(--border);
+    z-index: 0;
+  }
+
+  /* ── SLOT ──
+     Each slot becomes one row: dot+year on the left,
+     card to the right. Upper/void/lower collapse away. */
+  .slot {
+    width: 100%;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.9rem;
+    position: relative;
+    padding-bottom: var(--card-gap);
+  }
+
+  .slot:last-child { padding-bottom: 0; }
+
+  .upper, .lower {
+    height: auto;
+    width: auto;
+    flex-direction: row;
+  }
+
+  /* The "void" half (whichever side is empty on desktop) never
+     rendered content on mobile anyway — just hide it cleanly */
+  .upper.void, .lower.void { display: none; }
+
+  /* Stems were the vertical connectors up/down to the axis on
+     desktop — not needed when everything reads top-to-bottom */
+  .stem { display: none; }
+
+  /* ── NODE (dot + year) ──
+     Pinned to the spine, sits beside the card instead of below it */
+  .node {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: var(--spine-x);
+    flex-shrink: 0;
+    padding-top: 4px;
+    order: -1;
+  }
+
+  .dot {
+    position: relative;
+    z-index: 1;
+    background: var(--cream);
+  }
+
+  .year {
+    font-size: 0.6rem;
+    white-space: normal;
+    line-height: 1.15;
+    max-width: 56px;
+    word-break: keep-all;
+  }
+
+  /* Upper/lower wrap the card; on mobile both just hold one card
+     directly, full width, beside the node */
+  .upper, .lower {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── CARD ──
+     Goes from a fixed 200px tile to a full-width row card */
+  .card {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .card:hover {
+    transform: none;  /* no hover-lift on touch */
+  }
+
+  .card-content {
+    padding: 0.7rem 0.85rem 0.65rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .card-summary {
+    font-size: 0.78rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .card-thumb { display: none; }
+}

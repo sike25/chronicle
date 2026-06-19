@@ -4,8 +4,7 @@
 
 const CONFIG = {
 
-  /* ── API ──────────────────────────────────────────────────
-     Base URL of the deployed Chronicle backend.                       */
+  /* ── API: Base URL of the deployed Chronicle backend. ── */
   apiUrl: "https://chronicle-435397225968.africa-south1.run.app",
 
   /* ── Page chrome ── */
@@ -19,6 +18,7 @@ const CONFIG = {
 
 
 /* ============================================================
+   ENGINE
    ============================================================ */
 
 /* ── Tiny helpers ── */
