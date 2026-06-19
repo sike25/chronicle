@@ -79,7 +79,6 @@ def start_chronicle(request: ChronicleRequest):
     set_job_id(job_id)
     logger.info(f"Job created: {job_id} for query: '{request.query}")
 
-    cache.clear()
 
     # try reading results from cache
     if not request.no_cache:

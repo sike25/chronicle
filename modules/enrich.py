@@ -51,15 +51,15 @@ def enrich_clusters(clusters, query, job_id, fake):
     # TODO (ogieva): This is a heuristic. In the future, we implement hierarchical extraction.
     trimmed_clusters = trim_large_clusters(clusters=clusters)
 
-    # # phase 1 reintroduced temporarily
-    # logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
-    # all_entries = [
-    #     entry
-    #     for entries, _ in trimmed_clusters.values()
-    #     for entry in entries
-    # ]
-    # run_parallel_extraction(all_entries, query)
-    # logger.info("Phase 1 complete.")
+    # phase 1 reintroduced temporarily
+    logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
+    all_entries = [
+        entry
+        for entries, _ in trimmed_clusters.values()
+        for entry in entries
+    ]
+    run_parallel_extraction(all_entries, query)
+    logger.info("Phase 1 complete.")
 
     # Sequential enrichment
     # Runs in chronological order so history can be fed forward.
