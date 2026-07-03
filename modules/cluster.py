@@ -6,7 +6,7 @@ from utils.log import setup_logging
 
 logger = setup_logging()
 
-MAX_CLUSTERS = 15
+MAX_CLUSTERS = 10
 
 def cluster_into_buckets(entries):
     return cluster_by_clustering_gaps(entries)

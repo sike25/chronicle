@@ -37,7 +37,7 @@ class ChronicleRequest(BaseModel):
     query:      str
     start_date: str  = ""
     end_date:   str  = ""
-    no_cache:   bool = True
+    cache:      bool = True
 
     model_config = {
         "json_schema_extra": {
@@ -81,7 +81,7 @@ def start_chronicle(request: ChronicleRequest):
 
 
     # try reading results from cache
-    if not request.no_cache:
+    if request.cache:
         cached_events = cache.get(request.query, request.start_date, request.end_date)
         if cached_events:
             logger.info(f"Cache HIT — replaying into job {job_id}")
@@ -153,7 +153,7 @@ def _run(job_id:str, request: ChronicleRequest):
         return
     
     # write fresh results into cache
-    if not request.no_cache and jobs.get_status(job_id) == "done":
+    if request.cache and jobs.get_status(job_id) == "done":
         events = jobs.get_events(job_id)
         done_event = next((e for e in reversed(events) if e["type"] == "done"), None)
         if not done_event or not done_event["data"].get("degraded"):
