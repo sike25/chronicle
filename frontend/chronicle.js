@@ -539,7 +539,15 @@ function clustersToMarkdown(query, clusters, fromDate, toDate) {
   const lines = [];
 
   lines.push(`# Chronicle: "${query}"`);
-  lines.push(`Covering from ${fromDate} to ${toDate}`)
+
+  if (fromDate && toDate) {
+    lines.push(`Covering from ${fromDate} to ${toDate}.`);
+  } else if (fromDate) {
+    lines.push(`Covering from ${fromDate}.`);
+  } else if (toDate) {
+    lines.push(`Covering to ${toDate}.`);
+  }
+
   lines.push(`_Downloaded ${now} · ${clusters.length} time period${clusters.length !== 1 ? "s" : ""}_`);
   lines.push("");
 
@@ -573,7 +581,7 @@ function wireDownload() {
   if (!btn) return;
   btn.addEventListener("click", () => {
     if (!collectedClusters.length) return;
-    const md       = clustersToMarkdown(currentQuery, collectedClusters. fromDate, toDate);
+    const md       = clustersToMarkdown(currentQuery, collectedClusters, fromDate, toDate);
     const blob     = new Blob([md], { type: "text/markdown" });
     const url      = URL.createObjectURL(blob);
     const a        = document.createElement("a");

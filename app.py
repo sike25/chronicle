@@ -59,7 +59,7 @@ class ChronicleRequest(BaseModel):
     
     @field_validator("query")
     @classmethod
-    def validate_date(cls, v):
+    def validate_query(cls, v):
         if not v:
             raise ValueError("Empty query.")
         if len(v) > 100:

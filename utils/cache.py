@@ -123,8 +123,10 @@ class QueryCache:
     def _key(self, query: str, start_date, end_date) -> str:
         slug = query.strip().lower().replace(" ", "-")
         key  = f"{KEY_PREFIX}QUERY={slug}"
-        if start_date and end_date:
-            key += f"_FROM={start_date}_TO={end_date}"
+        if start_date:
+            key += f"_FROM={start_date}"
+        if end_date:
+            key += f"_TO={end_date}"
         return key
 
 
