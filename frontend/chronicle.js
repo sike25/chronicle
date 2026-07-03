@@ -534,11 +534,12 @@ function enterResultsMode() {
 
 /* ── Download ── */
 
-function clustersToMarkdown(query, clusters) {
+function clustersToMarkdown(query, clusters, fromDate, toDate) {
   const now = new Date().toISOString().slice(0, 10);
   const lines = [];
 
   lines.push(`# Chronicle: "${query}"`);
+  lines.push(`Covering from ${fromDate} to ${toDate}`)
   lines.push(`_Downloaded ${now} · ${clusters.length} time period${clusters.length !== 1 ? "s" : ""}_`);
   lines.push("");
 
@@ -572,7 +573,7 @@ function wireDownload() {
   if (!btn) return;
   btn.addEventListener("click", () => {
     if (!collectedClusters.length) return;
-    const md       = clustersToMarkdown(currentQuery, collectedClusters);
+    const md       = clustersToMarkdown(currentQuery, collectedClusters. fromDate, toDate);
     const blob     = new Blob([md], { type: "text/markdown" });
     const url      = URL.createObjectURL(blob);
     const a        = document.createElement("a");
@@ -590,12 +591,16 @@ function wireDownload() {
 let activeReader      = null;  /* Track the current stream so we can abort on new search */
 let currentQuery      = "";    /* Last query run — used to build per-cluster archive links */
 let collectedClusters = [];    /* Accumulates enriched clusters for Markdown download */
+let fromDate          = "";     
+let toDate            = "";
 
 async function startSearch(query, startDate = "", endDate = "") {
   /* Dock the hero to the top before anything renders */
   enterResultsMode();
 
   currentQuery = query;
+  fromDate     = startDate;
+  toDate       = endDate;
 
   /* Abort any in-flight stream */
   if (activeReader) {
