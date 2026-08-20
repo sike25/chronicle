@@ -191,7 +191,7 @@ def generate_bucket_context(query, entries, dates, history=None):
     Do not include external information not present in the sources.
     Ignore information in the source which is not relevant to the query.
     For specific claims you make, provide citations based on the source id using a <cite> tag.
-    For example: Beyonce spent a million dollars in 2002 <cite>7<\cite>, <cite>13<\cite>.
+    For example: Beyonce spent a million dollars in 2002 <cite>7</cite>, <cite>13</cite>.
     
 
     NEW ARTICLES FOR {dates}:

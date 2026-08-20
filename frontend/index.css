@@ -732,10 +732,49 @@ html {
   margin-bottom: 0.3rem;
 }
 
+.source-index {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: var(--teal);
+  border-radius: 999px;
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+}
 .source-pub  { font-size: 0.75rem; font-weight: 600; color: var(--text-mid); }
 .source-dot  { font-size: 0.7rem; color: var(--border); margin: 0 1px; }
 .source-date,
 .source-page { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ── Citation footnotes inside .sb-summary ── */
+.cite { margin-left: 1px; }
+.cite-link {
+  display: inline-block;
+  min-width: 13px;
+  padding: 0 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--teal);
+  text-decoration: none;
+  border: 1px solid var(--teal);
+  border-radius: 3px;
+  transition: background 0.15s, color 0.15s;
+}
+.cite-link:hover { background: var(--teal); color: var(--cream); }
+
+/* ── Flash a source when a citation jumps to it ── */
+.source-flash { animation: source-flash-fade 1.6s ease-out; }
+@keyframes source-flash-fade {
+  0%   { background: var(--tag-bg); }
+  100% { background: transparent; }
+}
 
 .source-title {
   font-family: var(--font-serif);

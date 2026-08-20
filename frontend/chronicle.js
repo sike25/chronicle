@@ -120,9 +120,46 @@ function apiClusterToShape(data) {
 }
 
 /**
- * Convert <cite> tags into proper href links.
+ * Convert  tags into proper href links.
+ * cluster.id is needed to build the anchor id, so pass it through too.
  */
-function convertCitationsToLinks(summary, sources) {
+function convertCitationsToLinks(summary, sources, clusterId) {
+  if (!summary) return "";
+
+  const citeRe = /<cite>\s*([\d,\s]+)\s*<\/cite>/g;
+  let out = "";
+  let lastIndex = 0;
+  let match;
+
+  while ((match = citeRe.exec(summary)) !== null) {
+    out += esc(summary.slice(lastIndex, match.index));
+
+    const links = match[1]
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map(idxStr => {
+        const idx = parseInt(idxStr, 10);
+        const src = sources[idx];
+        if (!src) return "";
+        const label = idx + 1;
+        const title = [src.pub, src.date].filter(Boolean).join(" · ");
+        return `<a class="cite-link" href="#src-${esc(clusterId)}-${idx}"
+                    data-source-index="${idx}" title="${esc(title)}">${label}</a>`;
+      })
+      .join(",");
+
+    out += `<sup class="cite">${links}</sup>`;
+    lastIndex = citeRe.lastIndex;
+  }
+
+  out += esc(summary.slice(lastIndex));
+  return out;
+}
+
+/** Strip <cite> tags entirely */
+function stripCitations(text) {
+  return (text || "").replace(/<cite>[\s\d,]*<\/cite>/g, "");
 }
 
 
@@ -161,7 +198,7 @@ function cardHTML(cluster, index, isSkeleton = false) {
       <div class="card-content">
         <div class="card-range">${num} · ${esc(cluster.range)}</div>
         <h3 class="card-title">${esc(cluster.title)}</h3>
-        <p  class="card-summary">${esc(cluster.summary)}</p>
+        <p  class="card-summary">${esc(stripCitations(cluster.summary))}</p>
         <div class="card-count">${label}</div>
       </div>
     </div>`;
@@ -194,12 +231,12 @@ function sidebarHTML(cluster, index) {
   const num   = String(index + 1).padStart(2, "0");
   const count = cluster.sourceCount ?? cluster.sources?.length ?? 0;
 
-  /* Full cluster summary shown before sources */
+  /* Full cluster summary shown before sources — <cite> tags become footnote links */
   const summaryHTML = cluster.summary
-    ? `<div class="sb-summary">${esc(cluster.summary)}</div>`
+    ? `<div class="sb-summary">${convertCitationsToLinks(cluster.summary, cluster.sources, cluster.id)}</div>`
     : "";
 
-  const sourcesHTML = (cluster.sources ?? []).map(src => {
+  const sourcesHTML = (cluster.sources ?? []).map((src, i) => {
     const tagsHTML = (src.tags ?? []).map(t => `<span class="tag">${esc(t)}</span>`).join("");
     const linkHTML = src.archiveUrl
       ? `<a class="source-link" href="${esc(src.archiveUrl)}" target="_blank" rel="noopener">
@@ -207,8 +244,9 @@ function sidebarHTML(cluster, index) {
          </a>`
       : "";
     return `
-      <div class="source">
+      <div class="source" id="src-${esc(cluster.id)}-${i}">
         <div class="source-meta">
+          <span class="source-index">${i + 1}</span>
           <span class="source-pub">${esc(src.pub)}</span><span class="source-dot">·</span>
           <span class="source-date">${esc(src.date)}</span><span class="source-dot">·</span>
           <span class="source-page">${esc(src.page)}</span>
@@ -459,6 +497,7 @@ function hydrateSlot(cluster, index) {
 
   wireCard(document.querySelector(`[data-sidebar="sb-${cluster.id}"]`));
   wireSidebarClose(document.getElementById(`sb-${cluster.id}`));
+  wireCiteLinks(document.getElementById(`sb-${cluster.id}`));
 }
 
 
@@ -495,6 +534,25 @@ function wireCard(card) {
 function wireSidebarClose(sidebar) {
   if (!sidebar) return;
   sidebar.querySelector(".sb-close")?.addEventListener("click", closeAll);
+}
+
+/** Clicking a <sup class="cite"> footnote link scrolls to and flashes the cited source. */
+function wireCiteLinks(sidebar) {
+  if (!sidebar) return;
+  sidebar.addEventListener("click", e => {
+    const link = e.target.closest(".cite-link");
+    if (!link) return;
+    e.preventDefault();
+
+    const targetId = link.getAttribute("href").slice(1);
+    const target = sidebar.querySelector(`#${CSS.escape(targetId)}`);
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.classList.remove("source-flash");
+    void target.offsetWidth; /* restart animation if already flashing */
+    target.classList.add("source-flash");
+  });
 }
 
 function wireBackdrop() {
@@ -565,7 +623,7 @@ function clustersToMarkdown(query, clusters, fromDate, toDate) {
     lines.push(`**Period:** ${c.range}`);
     lines.push(`**Sources:** ${c.sourceCount ?? c.sources?.length ?? 0}`);
     lines.push("");
-    lines.push(c.summary);
+    lines.push(stripCitations(c.summary));
     lines.push("");
 
     if (c.sources?.length) {
