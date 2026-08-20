@@ -119,6 +119,12 @@ function apiClusterToShape(data) {
   };
 }
 
+/**
+ * Convert <cite> tags into proper href links.
+ */
+function convertCitationsToLinks(summary, sources) {
+}
+
 
 /* ── HTML builders ── */
 
