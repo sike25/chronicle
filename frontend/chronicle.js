@@ -16,6 +16,14 @@ const CONFIG = {
   defaultQuery: "Election crises and violence",
 };
 
+/* Mirrors PUBLICATIONS in modules/prepare.py — keep the two lists in sync. */
+const PUBLICATIONS = ["Abuja Newsweek", "AFRICA", "Africa Events", "Africa International", "Africa Now", "Africa Today", "Africa Week", "African Business",
+  "African Concord", "African Farmer", "African Review", "AfricanAGE", "AfricAsia", "AfriScope", "Analysis", "Analyst", "Business",
+  "Citizen", "Crystal", "DRUM", "Flamingo", "Free Nation", "Insider", "Katsina Newsweek", "National Newsenquiry", "Newbreed", "Newswatch",
+  "Nigeria Magazine", "Nigerian Newsweek", "Prime People", "PM News", "Quality", "Sardauna", "Spear", "TELL", "The African Guardian",
+  "The New Nation", "The Nigerian Economist", "The Republic", "The Source", "The Sunday Magazine (TSM)", "TheNEWS", "TheWeek", "Today's People",
+  "West Africa"];
+
 
 /* ============================================================
    ENGINE
@@ -346,15 +354,13 @@ function renderShell(query) {
             </div>
             <button class="date-clear" id="date-clear" type="button">Clear</button>
           </div>
-
-          <!-- Returns to the centered hero — visible only in results state -->
-          <button class="new-search" id="new-search-btn" type="button">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M13.6 8a5.6 5.6 0 1 1-1.7-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M13.5 2.4V5h-2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            New search
-          </button>
+          <div class="pub-filter">
+            <label for="publication-select">Publication</label>
+            <select id="publication-select">
+              <option value="">All Publishers</option>
+              ${PUBLICATIONS.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join("")}
+            </select>
+          </div>
         </div>
       </div>
     </header>
@@ -409,7 +415,6 @@ function renderShell(query) {
 
   wireSearch();
   wireBackdrop();
-  wireNav();
   wireDownload();
 
   /* Google-style: focus the box so the user can type immediately */
@@ -444,24 +449,6 @@ function clearTimeline() {
   if (timeline) timeline.innerHTML = "";
   document.getElementById("timeline-scroll").style.display = "none";
 }
-
-/** Collapse everything back to the centered search hero. */
-function enterIdleMode() {
-  abortActiveStream();
-  clearTimeline();
-
-  document.getElementById("results-banner").style.display = "none";
-  setStatus("", false);
-
-  const feedbackBtn = document.getElementById("feedback-btn");
-  if (feedbackBtn) feedbackBtn.style.display = "none";
-
-  setMode("idle");
-
-  const input = document.getElementById("search-input");
-  if (input) { input.focus(); input.select(); }
-}
-
 
 /* ── Banner + stat updaters ── */
 
@@ -594,17 +581,13 @@ function wireBackdrop() {
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeAll(); });
 }
 
-function wireNav() {
-  const newSearch = document.getElementById("new-search-btn");
-  if (newSearch) newSearch.addEventListener("click", enterIdleMode);
-}
-
 function wireSearch() {
   const btn      = document.getElementById("search-btn");
   const input    = document.getElementById("search-input");
   const startEl  = document.getElementById("start-date");
   const endEl    = document.getElementById("end-date");
   const clearBtn = document.getElementById("date-clear");
+  const pubEl    = document.getElementById("publication-select");
 
   const run = () => {
     const q = input.value.trim();
@@ -614,7 +597,7 @@ function wireSearch() {
       setStatus("Start date is after end date.");
       return;
     }
-    startSearch(q, startEl.value, endEl.value);
+    startSearch(q, startEl.value, endEl.value, pubEl.value);
   };
 
   btn.addEventListener("click", run);
@@ -700,7 +683,7 @@ let collectedClusters = [];    /* Accumulates enriched clusters for Markdown dow
 let fromDate          = "";     
 let toDate            = "";
 
-async function startSearch(query, startDate = "", endDate = "") {
+async function startSearch(query, startDate = "", endDate = "", publication = "") {
   /* Dock the hero to the top before anything renders */
   enterResultsMode();
 
@@ -735,10 +718,11 @@ async function startSearch(query, startDate = "", endDate = "") {
     const initRes = await fetch(`${base}/chronicle`, {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ 
+      body:    JSON.stringify({
         query,
         start_date: toApiDate(startDate),
-        end_date:   toApiDate(endDate), 
+        end_date:   toApiDate(endDate),
+        publication,
       }),
     });
 

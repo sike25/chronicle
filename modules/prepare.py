@@ -25,7 +25,7 @@ def hard_filter(results, threshold=0.6):
 
 
 def filter_by_publication(results, publisher):
-    if not publisher:
+    if not publisher or publisher == "All Publishers":
         return results
     if publisher not in PUBLICATIONS:
         error_message = f"{publisher} is not recognized within our publications list: {PUBLICATIONS}"

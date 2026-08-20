@@ -218,6 +218,30 @@ html {
 }
 .date-clear:hover { border-color: rgba(255, 255, 255, 0.5); color: var(--white); }
 
+.pub-filter { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.pub-filter label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-mid);
+}
+
+.pub-filter select {
+  height: 34px;
+  padding: 0 0.6rem;
+  max-width: 200px;
+  background: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--text);
+  color-scheme: light;
+}
+
 /* ────────────────────────────────────────────────
    STATE: IDLE  (centered hero)
 ──────────────────────────────────────────────── */
@@ -247,30 +271,6 @@ html {
 .app.idle .search-box input { font-size: 0.95rem; }
 .app.idle .search-btn { height: 52px; padding: 0 1.4rem; font-size: 0.85rem; }
 
-/* "New search" control — lives in the search row, shown only in results */
-.new-search {
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-  height: 42px;
-  padding: 0 1.1rem;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.78);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: border-color 0.15s, color 0.15s;
-}
-.new-search:hover { border-color: rgba(255, 255, 255, 0.55); color: var(--white); }
-.new-search svg { flex-shrink: 0; }
-.app.results .new-search { display: inline-flex; margin-left: auto; }
-
 /* Cream background (matches the rest of the site); dark text + borders */
 .app.idle .masthead { background: var(--cream); }
 .app.idle .wordmark a { color: var(--black); }
@@ -282,6 +282,7 @@ html {
 .app.idle .preview-badge { color: var(--teal); border-color: var(--teal); }
 .app.idle .search-box { border: 1px solid var(--border); }
 .app.idle .date-field input[type="date"] { border: 1px solid var(--border); }
+.app.idle .pub-filter select { border: 1px solid var(--border); }
 .app.idle .date-clear {
   border: 1px solid var(--border);
   color: var(--text-muted);
@@ -975,7 +976,6 @@ button:focus-visible,
 
   .app.results .search-cluster { flex-direction: column; align-items: stretch; }
   .app.results .masthead-hero  { margin-top: 1rem; }
-  .app.results .new-search     { margin-left: 0; align-self: flex-start; }
 
   .results-banner { flex-direction: column; align-items: flex-start; padding: 0.75rem 1.5rem; }
   .timeline-scroll { padding: 2rem 1.5rem; }
