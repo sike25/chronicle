@@ -15,8 +15,7 @@ class QueryCache:
     Redis-backed cache for enriched Chronicle pipeline results.
 
     Keyed by normalized query string, 
-    in the dated form 'chronicle:QUERY=query string_FROM=YYYY-MM-DD_TO=YYYY-MM-DD', 
-    and the undated form 'chronicle:QUERY=query string'.
+    in the form 'chronicle:QUERY=query string_FROM=YYYY-MM-DD_TO=YYYY-MM-DD_publication',
     Entries expire automatically after one week (TTL_SECONDS).
 
     If Redis fails to start, the cache is degraded, and the run is treated as a cache miss.
@@ -48,7 +47,7 @@ class QueryCache:
 
     ### WRITE API
 
-    def set(self, query: str, events: list,  start_date, end_date):
+    def set(self, query: str, events: list,  start_date, end_date, publication):
         """
         Store the full SSE event list for a query.
         Events are the list of {"type": ..., "data": ...} dicts from the job store.
@@ -59,7 +58,7 @@ class QueryCache:
             return
 
         try:
-            key   = self._key(query, start_date, end_date)
+            key   = self._key(query, start_date, end_date, publication)
             value = json.dumps({
                 "events":         events,
                 "original_query": query,
@@ -120,13 +119,15 @@ class QueryCache:
 
 
     ### HELPERS
-    def _key(self, query: str, start_date, end_date) -> str:
+    def _key(self, query: str, start_date, end_date, publication) -> str:
         slug = query.strip().lower().replace(" ", "-")
         key  = f"{KEY_PREFIX}QUERY={slug}"
         if start_date:
             key += f"_FROM={start_date}"
         if end_date:
             key += f"_TO={end_date}"
+        if publication:
+            key += f"_{publication}"
         return key
 
 

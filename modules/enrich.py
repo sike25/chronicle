@@ -170,7 +170,7 @@ def generate_bucket_context(query, entries, dates, history=None):
 
 
     entries_text = "".join([f"Source ID {i}: {e.source.summary}\n---\n" for i, e in enumerate(entries[:15])])
-    length_prompt = " Keep summaries under 100 words." if len(entries) >= 5 else "Keep summary under 50 words, to 1-2 lines."
+    length_prompt = " Keep summaries under 150 words." if len(entries) >= 5 else "Keep summary under 50 words, to 1-2 lines."
 
     context_generation_prompt = f"""You are a news historian synthesizing clusters of Nigerian newspaper archives.
 

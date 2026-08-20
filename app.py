@@ -159,7 +159,7 @@ def _run(job_id:str, request: ChronicleRequest):
         events = jobs.get_events(job_id)
         done_event = next((e for e in reversed(events) if e["type"] == "done"), None)
         if not done_event or not done_event["data"].get("degraded"):
-            cache.set(request.query, events, request.start_date, request.end_date)
+            cache.set(request.query, events, request.start_date, request.end_date, request.publication)
         else:
             logger.warning(f"Skipping cache for job {job_id} — One to all clusters used fallback.")
 

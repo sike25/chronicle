@@ -352,7 +352,6 @@ function renderShell(query) {
               <label for="end-date">To</label>
               <input type="date" id="end-date">
             </div>
-            <button class="date-clear" id="date-clear" type="button">Clear</button>
           </div>
           <div class="pub-filter">
             <label for="publication-select">Publication</label>
@@ -361,6 +360,7 @@ function renderShell(query) {
               ${PUBLICATIONS.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join("")}
             </select>
           </div>
+          <button class="date-clear" id="date-clear" type="button">Clear</button>
         </div>
       </div>
     </header>
