@@ -29,6 +29,17 @@ const esc = s => String(s ?? "")
   .replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;");
 
+const sourceCount = cluster => cluster.sourceCount ?? cluster.sources?.length ?? 0;
+const sourceCountLabel = cluster => {
+  const n = sourceCount(cluster);
+  return `${n} source${n !== 1 ? "s" : ""}`;
+};
+const sidebarId = id => `sb-${esc(id)}`;
+
+/** Parse the comma-separated ids inside a <cite>…</cite> tag into 0-based ints. */
+const parseCiteIndices = raw =>
+  raw.split(",").map(s => s.trim()).filter(Boolean).map(s => parseInt(s, 10));
+
 /**
  * Build a deep link into the Archivi.ng search UI for a cluster:
  * the same query, scoped to the cluster's date span.
@@ -49,9 +60,11 @@ function archiveSearchUrl(query, startDate, endDate) {
  * Parse a Chronicle label like "2014-03-29 to 2015-01-01"
  * into human-readable parts.
  *
- * Returns { axisYear, range }
- *   axisYear — e.g. "2014" or "2014\n– 15"
- *   range    — e.g. "Mar 2014 – Jan 2015"
+ * Returns { axisYear, range, startDate, endDate }
+ *   axisYear  — e.g. "2014" or "2014\n– 15"
+ *   range     — e.g. "Mar 2014 – Jan 2015"
+ *   startDate — raw "YYYY-MM-DD", for building archive links
+ *   endDate   — raw "YYYY-MM-DD", for building archive links
  */
 function parseLabel(label) {
   const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun",
@@ -59,9 +72,9 @@ function parseLabel(label) {
 
   const parts = label.split(" to ");
   const parseDate = str => {
-    const [datePart] = str.trim().split(" ");
+    const datePart = str.trim().split(" ")[0];
     const [y, m, d] = datePart.split("-").map(Number);
-    return { y, m, d };
+    return { y, m, d, datePart };
   };
 
   const start = parseDate(parts[0] || "");
@@ -78,7 +91,7 @@ function parseLabel(label) {
     axisYear = `${start.y}\n– ${short}`;
   }
 
-  return { axisYear, range };
+  return { axisYear, range, startDate: start.datePart, endDate: end.datePart };
 }
 
 /**
@@ -86,12 +99,7 @@ function parseLabel(label) {
  * into the internal cluster shape used by the renderer.
  */
 function apiClusterToShape(data) {
-  const { axisYear, range } = parseLabel(data.label ?? "");
-
-  /* Raw YYYY-MM-DD bounds for the "see the rest" archive link */
-  const labelParts = (data.label ?? "").split(" to ");
-  const startDate  = (labelParts[0] || "").trim().split(" ")[0];
-  const endDate    = (labelParts[1] || labelParts[0] || "").trim().split(" ")[0];
+  const { axisYear, range, startDate, endDate } = parseLabel(data.label ?? "");
 
   const sources = (data.entries ?? []).map((e, i) => ({
     pub:     e.publication    ?? "",
@@ -134,12 +142,8 @@ function convertCitationsToLinks(summary, sources, clusterId) {
   while ((match = citeRe.exec(summary)) !== null) {
     out += esc(summary.slice(lastIndex, match.index));
 
-    const links = match[1]
-      .split(",")
-      .map(s => s.trim())
-      .filter(Boolean)
-      .map(idxStr => {
-        const idx = parseInt(idxStr, 10);
+    const links = parseCiteIndices(match[1])
+      .map(idx => {
         const src = sources[idx];
         if (!src) return "";
         const label = idx + 1;
@@ -161,7 +165,7 @@ function convertCitationsToLinks(summary, sources, clusterId) {
 function citationsToFootnotes(summary) {
   if (!summary) return "";
   return summary.replace(/<cite>\s*([\d,\s]+)\s*<\/cite>/g, (_, ids) => {
-    const nums = ids.split(",").map(s => s.trim()).filter(Boolean).map(n => parseInt(n, 10) + 1);
+    const nums = parseCiteIndices(ids).map(n => n + 1);
     return nums.length ? `[${nums.join(",")}]` : "";
   });
 }
@@ -178,10 +182,9 @@ const thumbLinesHTML = () => `
   </div>`;
 
 function cardHTML(cluster, index, isSkeleton = false) {
-  const sid   = `sb-${esc(cluster.id)}`;
+  const sid   = sidebarId(cluster.id);
   const num   = String(index + 1).padStart(2, "0");
-  const count = cluster.sourceCount ?? cluster.sources?.length ?? 0;
-  const label = `${count} source${count !== 1 ? "s" : ""}`;
+  const label = sourceCountLabel(cluster);
 
   if (isSkeleton) {
     return `
@@ -232,8 +235,7 @@ function slotHTML(cluster, index, isSkeleton = false) {
 }
 
 function sidebarHTML(cluster, index) {
-  const num   = String(index + 1).padStart(2, "0");
-  const count = cluster.sourceCount ?? cluster.sources?.length ?? 0;
+  const num = String(index + 1).padStart(2, "0");
 
   /* Full cluster summary shown before sources — <cite> tags become footnote links */
   const summaryHTML = cluster.summary
@@ -272,13 +274,13 @@ function sidebarHTML(cluster, index) {
     : "";
 
   return `
-    <div class="sidebar" id="sb-${esc(cluster.id)}"
+    <div class="sidebar" id="${sidebarId(cluster.id)}"
          role="dialog" aria-label="${esc(cluster.title)}">
       <div class="sb-header">
         <div class="sb-meta">
           <div class="sb-eyebrow">Period ${num} · ${esc(cluster.range)}</div>
           <h2 class="sb-title">${esc(cluster.title)}</h2>
-          <div class="sb-count">${count} source${count !== 1 ? "s" : ""}</div>
+          <div class="sb-count">${sourceCountLabel(cluster)}</div>
         </div>
         <button class="sb-close" aria-label="Close sidebar">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -425,21 +427,30 @@ function setMode(mode) {
   root.classList.add(mode);
 }
 
-/** Collapse everything back to the centered search hero. */
-function enterIdleMode() {
-  /* Abort any in-flight stream */
+/** Abort any in-flight stream so a new search or idle reset doesn't race it. */
+function abortActiveStream() {
   if (activeReader) {
     try { activeReader.cancel(); } catch (_) {}
     activeReader = null;
   }
+}
 
+/** Close the sidebar/backdrop and empty the timeline, ready for a fresh run. */
+function clearTimeline() {
   closeAll();
   document.querySelectorAll(".sidebar").forEach(s => s.remove());
 
   const timeline = document.getElementById("timeline");
   if (timeline) timeline.innerHTML = "";
   document.getElementById("timeline-scroll").style.display = "none";
-  document.getElementById("results-banner").style.display  = "none";
+}
+
+/** Collapse everything back to the centered search hero. */
+function enterIdleMode() {
+  abortActiveStream();
+  clearTimeline();
+
+  document.getElementById("results-banner").style.display = "none";
   setStatus("", false);
 
   const feedbackBtn = document.getElementById("feedback-btn");
@@ -499,9 +510,11 @@ function hydrateSlot(cluster, index) {
   sbEl.innerHTML = sidebarHTML(cluster, index);
   document.body.appendChild(sbEl.firstElementChild);
 
-  wireCard(document.querySelector(`[data-sidebar="sb-${cluster.id}"]`));
-  wireSidebarClose(document.getElementById(`sb-${cluster.id}`));
-  wireCiteLinks(document.getElementById(`sb-${cluster.id}`));
+  const id = sidebarId(cluster.id);
+  const sb = document.getElementById(id);
+  wireCard(document.querySelector(`[data-sidebar="${id}"]`));
+  wireSidebarClose(sb);
+  wireCiteLinks(sb);
 }
 
 
@@ -642,7 +655,7 @@ function clustersToMarkdown(query, clusters, fromDate, toDate) {
     lines.push("");
     lines.push(`## ${num}. ${c.title}`);
     lines.push(`**Period:** ${c.range}`);
-    lines.push(`**Sources:** ${c.sourceCount ?? c.sources?.length ?? 0}`);
+    lines.push(`**Sources:** ${sourceCount(c)}`);
     lines.push("");
     lines.push(citationsToFootnotes(c.summary));
     lines.push("");
@@ -695,22 +708,8 @@ async function startSearch(query, startDate = "", endDate = "") {
   fromDate     = startDate;
   toDate       = endDate;
 
-  /* Abort any in-flight stream */
-  if (activeReader) {
-    try { activeReader.cancel(); } catch (_) {}
-    activeReader = null;
-  }
-
-  /* Close any open sidebar */
-  closeAll();
-
-  /* Remove stale sidebars from a previous run */
-  document.querySelectorAll(".sidebar").forEach(s => s.remove());
-
-  /* Reset timeline */
-  const timeline = document.getElementById("timeline");
-  if (timeline) timeline.innerHTML = "";
-  document.getElementById("timeline-scroll").style.display = "none";
+  abortActiveStream();
+  clearTimeline();
 
   showBanner(query);
   updateStats({ periods: "—", sources: "—", span: "—" });

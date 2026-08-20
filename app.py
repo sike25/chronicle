@@ -34,11 +34,11 @@ app.add_middleware(
 
 # input schema
 class ChronicleRequest(BaseModel):
-    query:      str
-    start_date: str  = ""
-    end_date:   str  = ""
-    cache:      bool = True
-    publication:  str  = ""
+    query:       str
+    start_date:  str  = ""
+    end_date:    str  = ""
+    cache:       bool = True
+    publication: str  = ""
 
     model_config = {
         "json_schema_extra": {
