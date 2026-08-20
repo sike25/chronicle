@@ -169,7 +169,7 @@ def generate_bucket_context(query, entries, dates, history=None):
         ])
 
 
-    entries_text = "".join([f"Source {i}: {e.source.summary}\n---\n" for i, e in enumerate(entries[:15])])
+    entries_text = "".join([f"Source ID {i}: {e.source.summary}\n---\n" for i, e in enumerate(entries[:15])])
     length_prompt = " Keep summaries under 100 words." if len(entries) >= 5 else "Keep summary under 50 words, to 1-2 lines."
 
     context_generation_prompt = f"""You are a news historian synthesizing clusters of Nigerian newspaper archives.
@@ -190,8 +190,8 @@ def generate_bucket_context(query, entries, dates, history=None):
     {length_prompt}
     Do not include external information not present in the sources.
     Ignore information in the source which is not relevant to the query.
-
-    Provide citations for specific claims you make. 
+    For specific claims you make, provide citations based on the source id using a <cite> tag.
+    For example: Beyonce spent a million dollars in 2002 <cite>7<\cite>.
     
 
     NEW ARTICLES FOR {dates}:
