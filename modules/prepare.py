@@ -12,10 +12,10 @@ PUBLICATIONS = ["Abuja Newsweek", "AFRICA", "Africa Events", "Africa Internation
                 "The New Nation", "The Nigerian Economist", "The Republic", "The Source", "The Sunday Magazine (TSM)", "TheNEWS", "TheWeek", "Today's People",
                 "West Africa"]
 
-def preprocess(results, start_date, end_date):
+def preprocess(results, start_date, end_date, publication):
     return sort_by_date(
         filter_by_publication(
-            filter_by_date(results, start_date, end_date)))
+            filter_by_date(results, start_date, end_date), publication))
 
 def hard_filter(results, threshold=0.6):
     '''Shave off any results with semantic relevance scores below a given threshold.'''

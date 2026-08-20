@@ -38,7 +38,7 @@ class ChronicleRequest(BaseModel):
     start_date: str  = ""
     end_date:   str  = ""
     cache:      bool = True
-    publisher:  str  = ""
+    publication:  str  = ""
 
     model_config = {
         "json_schema_extra": {
@@ -147,6 +147,7 @@ def _run(job_id:str, request: ChronicleRequest):
             job_id=job_id,
             start_date=request.start_date,
             end_date=request.end_date,
+            publication=request.publication,
         )
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Pipeline failure for job {job_id}: {e}")

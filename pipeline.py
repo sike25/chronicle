@@ -13,7 +13,7 @@ import uuid
 
 logger = setup_logging()
 
-def run_chronicle(query: str, job_id: str, start_date:str, end_date:str):
+def run_chronicle(query: str, job_id: str, start_date:str, end_date:str, publication:str):
     """
     Coordinates the full flow of the Chronicle feature, from fetching search results to cluster enrichment.
 
@@ -70,7 +70,7 @@ def run_chronicle(query: str, job_id: str, start_date:str, end_date:str):
         # 2. PREPARE
         # Performs chronological search.
         logger.info("PREPARE --------------------------------------------------------------")
-        entries = preprocess(entries, start_date, end_date)
+        entries = preprocess(entries, start_date, end_date, publication)
 
         if not entries:
             jobs.push_event(job_id, "done", {"message": "No relevant results found for this query."})

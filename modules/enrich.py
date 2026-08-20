@@ -190,6 +190,8 @@ def generate_bucket_context(query, entries, dates, history=None):
     {length_prompt}
     Do not include external information not present in the sources.
     Ignore information in the source which is not relevant to the query.
+
+    Provide citations for specific claims you make. 
     
 
     NEW ARTICLES FOR {dates}:
