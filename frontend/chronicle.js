@@ -157,9 +157,13 @@ function convertCitationsToLinks(summary, sources, clusterId) {
   return out;
 }
 
-/** Strip <cite> tags entirely */
-function stripCitations(text) {
-  return (text || "").replace(/<cite>[\s\d,]*<\/cite>/g, "");
+/** Render <cite> tags as plain-text [1,2] footnotes, matching the 1-based numbered source list */
+function citationsToFootnotes(summary) {
+  if (!summary) return "";
+  return summary.replace(/<cite>\s*([\d,\s]+)\s*<\/cite>/g, (_, ids) => {
+    const nums = ids.split(",").map(s => s.trim()).filter(Boolean).map(n => parseInt(n, 10) + 1);
+    return nums.length ? `[${nums.join(",")}]` : "";
+  });
 }
 
 
@@ -198,7 +202,7 @@ function cardHTML(cluster, index, isSkeleton = false) {
       <div class="card-content">
         <div class="card-range">${num} · ${esc(cluster.range)}</div>
         <h3 class="card-title">${esc(cluster.title)}</h3>
-        <p  class="card-summary">${esc(stripCitations(cluster.summary))}</p>
+        <p  class="card-summary">${convertCitationsToLinks(cluster.summary, cluster.sources, cluster.id)}</p>
         <div class="card-count">${label}</div>
       </div>
     </div>`;
@@ -522,12 +526,37 @@ function closeAll() {
   document.getElementById("backdrop").classList.remove("visible");
 }
 
+/** Sidebar slide-in duration (index.css `.sidebar` transition) — wait it out before scrolling. */
+const SIDEBAR_TRANSITION_MS = 340;
+
+/** Scroll a cited source into view and flash it, wherever on the page it lives. */
+function scrollToCitedSource(targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+  target.classList.remove("source-flash");
+  void target.offsetWidth; /* restart animation if already flashing */
+  target.classList.add("source-flash");
+}
+
 function wireCard(card) {
   if (!card) return;
-  const handler = () => openSidebar(card.dataset.sidebar);
-  card.addEventListener("click", handler);
+  const open = () => openSidebar(card.dataset.sidebar);
+
+  card.addEventListener("click", e => {
+    const cite = e.target.closest(".cite-link");
+    if (cite) {
+      e.preventDefault();
+      e.stopPropagation();
+      const targetId = cite.getAttribute("href").slice(1);
+      open();
+      setTimeout(() => scrollToCitedSource(targetId), SIDEBAR_TRANSITION_MS);
+      return;
+    }
+    open();
+  });
   card.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") handler();
+    if (e.key === "Enter" || e.key === " ") open();
   });
 }
 
@@ -543,15 +572,7 @@ function wireCiteLinks(sidebar) {
     const link = e.target.closest(".cite-link");
     if (!link) return;
     e.preventDefault();
-
-    const targetId = link.getAttribute("href").slice(1);
-    const target = sidebar.querySelector(`#${CSS.escape(targetId)}`);
-    if (!target) return;
-
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
-    target.classList.remove("source-flash");
-    void target.offsetWidth; /* restart animation if already flashing */
-    target.classList.add("source-flash");
+    scrollToCitedSource(link.getAttribute("href").slice(1));
   });
 }
 
@@ -623,13 +644,13 @@ function clustersToMarkdown(query, clusters, fromDate, toDate) {
     lines.push(`**Period:** ${c.range}`);
     lines.push(`**Sources:** ${c.sourceCount ?? c.sources?.length ?? 0}`);
     lines.push("");
-    lines.push(stripCitations(c.summary));
+    lines.push(citationsToFootnotes(c.summary));
     lines.push("");
 
     if (c.sources?.length) {
       lines.push(`### Sources`);
-      c.sources.forEach(src => {
-        lines.push(`- **${src.pub}** · ${src.date} · ${src.page}`);
+      c.sources.forEach((src, i) => {
+        lines.push(`- **[${i + 1}] ${src.pub}** · ${src.date} · ${src.page}`);
         if (src.summary) lines.push(`  ${src.summary}`);
         if (src.archiveUrl) lines.push(`  [View in archive](${src.archiveUrl})`);
       });
