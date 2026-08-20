@@ -38,6 +38,7 @@ class ChronicleRequest(BaseModel):
     start_date: str  = ""
     end_date:   str  = ""
     cache:      bool = True
+    publisher:  str  = ""
 
     model_config = {
         "json_schema_extra": {

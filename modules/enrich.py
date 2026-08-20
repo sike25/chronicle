@@ -52,14 +52,14 @@ def enrich_clusters(clusters, query, job_id, fake):
     trimmed_clusters = trim_large_clusters(clusters=clusters)
 
     # phase 1 reintroduced temporarily
-    logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
-    all_entries = [
-        entry
-        for entries, _ in trimmed_clusters.values()
-        for entry in entries
-    ]
-    run_parallel_extraction(all_entries, query)
-    logger.info("Phase 1 complete.")
+    # logger.info(f"Phase 1: parallel extraction across {len(trimmed_clusters)} clusters...")
+    # all_entries = [
+    #     entry
+    #     for entries, _ in trimmed_clusters.values()
+    #     for entry in entries
+    # ]
+    # run_parallel_extraction(all_entries, query)
+    logger.info("Phase 1 skipped.")
 
     # Sequential enrichment
     # Runs in chronological order so history can be fed forward.
@@ -168,7 +168,9 @@ def generate_bucket_context(query, entries, dates, history=None):
             f"- {h['date']}: {h['title']}" for h in history[-3:] # Last 3 are usually enough
         ])
 
+
     entries_text = "".join([f"Source {i}: {e.source.summary}\n---\n" for i, e in enumerate(entries[:15])])
+    length_prompt = " Keep summaries under 100 words." if len(entries) >= 5 else "Keep summary under 50 words, to 1-2 lines."
 
     context_generation_prompt = f"""You are a news historian synthesizing clusters of Nigerian newspaper archives.
 
@@ -184,8 +186,8 @@ def generate_bucket_context(query, entries, dates, history=None):
     2. SUMMARY: A cohesive explanation of what happened *new* in this window compared to the past.
 
     INSTRUCTIONS:
-    Write 2-3 paragraphs separated by \n\n within the JSON string.
-    Keep summaries under 250 words.
+    Separate paragraphs using \n\n within the JSON string.
+    {length_prompt}
     Do not include external information not present in the sources.
     Ignore information in the source which is not relevant to the query.
     
