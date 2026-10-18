@@ -125,25 +125,16 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
     global_context_history = []
     enriched_clusters = {}
     had_failures = False
-    dropped_count = 0
 
     for index, (label, (entries, source_count)) in enumerate(trimmed_clusters.items()):
 
         logger.info(f"Enriching cluster {index}: '{label}'...")
-        title, summary, relevant, failed = generate_bucket_context(
+        title, summary, failed = generate_bucket_context(
             query=query,
             entries=entries,
             dates=label,
             history=global_context_history,
         )
-
-        if not relevant:
-            # Skip history so later titles don't reference a cluster the user never sees.
-            dropped_count += 1
-            jobs.push_event(job_id, "cluster_dropped", {"index": index, "label": label})
-            logger.info(f"Cluster {index} dropped as irrelevant: '{label}'")
-            continue
-
         global_context_history.append({"date": label, "title": title, "summary": summary})
         if failed: had_failures = True
 
@@ -163,7 +154,7 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
         jobs.push_event(job_id, "cluster_enriched", enriched.to_dict())
         logger.info(f"Cluster {index} enriched: '{title}'")
 
-    jobs.push_event(job_id, "done", {"degraded": had_failures, "dropped": dropped_count})
+    jobs.push_event(job_id, "done", {"degraded": had_failures})
     return enriched_clusters
 
 
@@ -194,12 +185,6 @@ def generate_bucket_context(query, entries, dates, history=None):
     1. TITLE: Must be distinct from previous titles. Focus on the *specific* event or shift in this period. Do not include dates or years in the title — the UI already shows the date range.
     2. SUMMARY: A cohesive explanation of what happened *new* in this window compared to the past.
 
-    RELEVANCE:
-    First decide whether this cluster is relevant to "{query}". It is relevant if at least one source
-    describes an event, person, or development that directly bears on the query. A passing mention
-    or a shared keyword is NOT enough. If no source is relevant, set "relevant" to false, give a
-    one-sentence "relevance_reason", and leave "title" and "summary" as empty strings.
-
     INSTRUCTIONS:
     Separate paragraphs using \n\n within the JSON string.
     {length_prompt}
@@ -207,19 +192,17 @@ def generate_bucket_context(query, entries, dates, history=None):
     Ignore information in the source which is not relevant to the query.
     For specific claims you make, provide citations based on the source id using a <cite> tag.
     For example: Beyonce spent a million dollars in 2002 <cite>7</cite>, <cite>13</cite>.
-
+    
 
     NEW ARTICLES FOR {dates}:
     {entries_text}
 
-    Return ONLY valid JSON, with the keys in this order:
+    Return ONLY valid JSON:
     {{
-        "relevant": true or false,
-        "relevance_reason": "One sentence justifying the relevance decision",
         "title": "Distinct, specific title",
         "summary": "Synthesized summary"
     }}"""
-
+    
     try:
         response = client.messages.create(
             model=SMART_MODEL,
@@ -228,19 +211,14 @@ def generate_bucket_context(query, entries, dates, history=None):
         )
         result = extractJson(response.content[0].text)
 
-        if not result:
+        if result:
+            return result.get('title'), result.get('summary'), False
+        else:
             raise KeyError(f"CHRONICLE: Missing required fields in response -> {response}")
-
-        # Only an explicit `false` drops the cluster; a missing field defaults to keep.
-        if result.get('relevant') is False:
-            logger.info(f"Cluster '{dates}' judged irrelevant to '{query}': {result.get('relevance_reason')}")
-            return None, None, False, False
-        return result.get('title'), result.get('summary'), True, False
-
+     
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Context generation failed: {e}")
-        # On failure, keep the cluster with a generic fallback rather than dropping real content.
-        return f"Results for '{query}'", f"Collection of {len(entries)} articles from {dates} related to {query}.", True, True
+        return f"Results for '{query}'", f"Collection of {len(entries)} articles from {dates} related to {query}.", True
     
 
 def select_cover_story(entries):
