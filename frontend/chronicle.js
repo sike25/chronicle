@@ -796,6 +796,12 @@ async function startSearch(query, startDate = "", endDate = "", publication = ""
               span: spanFirst === spanLast ? spanFirst : `${spanFirst} – ${spanLast}`,
             });
 
+          } else if (eventType === "cluster_dropped") {
+            /* Cluster judged irrelevant to the query: remove its skeleton */
+            document.getElementById(`slot-${payload.index}`)?.remove();
+            clusterCount = Math.max(0, clusterCount - 1);
+            updateStats({ periods: clusterCount });
+
           } else if (eventType === "done") {
             setStatus("", false);
 
