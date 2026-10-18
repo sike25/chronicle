@@ -108,7 +108,8 @@ def stream_chronicle(job_id: str):
 
     Events emitted in order:
     - clusters_ready    = pipeline has clustered results; includes cluster counts and date labels
-    - clusters_enriched = one enriched cluster is ready to render
+    - cluster_enriched  = one enriched cluster is ready to render
+    - cluster_dropped   = one cluster was judged irrelevant to the query; carries its index
     - done              = all clusters have been emitted
     - error             = something went wrong; details included.
     """

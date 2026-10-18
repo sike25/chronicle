@@ -126,34 +126,48 @@ def run_sequential_enrichment(trimmed_clusters, query, job_id):
     enriched_clusters = {}
     had_failures = False
 
+
     for index, (label, (entries, source_count)) in enumerate(trimmed_clusters.items()):
 
         logger.info(f"Enriching cluster {index}: '{label}'...")
-        title, summary, failed = generate_bucket_context(
+        title, summary, dropped, failed = generate_bucket_context(
             query=query,
             entries=entries,
             dates=label,
             history=global_context_history,
         )
-        global_context_history.append({"date": label, "title": title, "summary": summary})
-        if failed: had_failures = True
 
-        enriched = EnrichedCluster(
-            index        = index,
-            label        = label,
-            title        = title,
-            summary      = summary,
-            entries      = entries,
-            start_date   = entries[0].source.publication_date,
-            end_date     = entries[-1].source.publication_date,
-            cover_story  = select_cover_story(entries),
-            source_count = source_count
-        )
+        if not failed and not dropped:
+            global_context_history.append({"date": label, "title": title, "summary": summary})
 
-        enriched_clusters[label] = enriched
-        jobs.push_event(job_id, "cluster_enriched", enriched.to_dict())
-        logger.info(f"Cluster {index} enriched: '{title}'")
+        if failed: 
+            had_failures = True
 
+        if not dropped: 
+            enriched = EnrichedCluster(
+                index        = index,
+                label        = label,
+                title        = title,
+                summary      = summary,
+                entries      = entries,
+                start_date   = entries[0].source.publication_date,
+                end_date     = entries[-1].source.publication_date,
+                cover_story  = select_cover_story(entries),
+                source_count = source_count
+            )
+
+            enriched_clusters[label] = enriched
+            jobs.push_event(job_id, "cluster_enriched", enriched.to_dict())
+            logger.info(f"Cluster {index} enriched: '{title}'")
+        else:
+            irrelevant_entries = ""
+            for entry in entries:
+                irrelevant_entries += "https://archivi.ng/search/" + entry.id + " ---"
+
+            logger.warning(f"Cluster {index} skipped for irrelevancy.")
+            logger.warning(f"Irrelevant sources {irrelevant_entries}")
+            jobs.push_event(job_id, "cluster_dropped", {"index": index})
+        
     jobs.push_event(job_id, "done", {"degraded": had_failures})
     return enriched_clusters
 
@@ -184,8 +198,10 @@ def generate_bucket_context(query, entries, dates, history=None):
     REQUIREMENTS:
     1. TITLE: Must be distinct from previous titles. Focus on the *specific* event or shift in this period. Do not include dates or years in the title — the UI already shows the date range.
     2. SUMMARY: A cohesive explanation of what happened *new* in this window compared to the past.
+    3. RELEVANT: False, if none of the sources relate to the query. True, if at least one does. 
 
     INSTRUCTIONS:
+    Leave the title and summary as empty strings if you find all the sources are irrelevant.
     Separate paragraphs using \n\n within the JSON string.
     {length_prompt}
     Do not include external information not present in the sources.
@@ -200,7 +216,8 @@ def generate_bucket_context(query, entries, dates, history=None):
     Return ONLY valid JSON:
     {{
         "title": "Distinct, specific title",
-        "summary": "Synthesized summary"
+        "summary": "Synthesized summary",
+        "relevant": "True" or "False"
     }}"""
     
     try:
@@ -212,13 +229,14 @@ def generate_bucket_context(query, entries, dates, history=None):
         result = extractJson(response.content[0].text)
 
         if result:
-            return result.get('title'), result.get('summary'), False
+            dropped = str(result.get("relevant")).lower() != "true"
+            return result.get('title'), result.get('summary'), dropped, False
         else:
             raise KeyError(f"CHRONICLE: Missing required fields in response -> {response}")
      
     except Exception as e:
         logger.error(f"CHRONICLE_ERROR: Context generation failed: {e}")
-        return f"Results for '{query}'", f"Collection of {len(entries)} articles from {dates} related to {query}.", True
+        return f"Results for '{query}'", f"Collection of {len(entries)} articles from {dates} related to {query}.", False, True
     
 
 def select_cover_story(entries):

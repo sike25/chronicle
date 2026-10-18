@@ -219,13 +219,16 @@ function cardHTML(cluster, index, isSkeleton = false) {
     </div>`;
 }
 
-function slotHTML(cluster, index, isSkeleton = false) {
-  const above = index % 2 === 0;
+/* `index` is the slot's DOM id (the cluster's position in the API response);
+   `displayIndex` is its position among the clusters actually shown, which
+   differs once irrelevant clusters have been dropped. */
+function slotHTML(cluster, index, isSkeleton = false, displayIndex = index) {
+  const above = displayIndex % 2 === 0;
   const year  = isSkeleton
     ? `<div class="skeleton-line" style="width:36px;height:10px"></div>`
     : esc(cluster.year).replace(/\n/g, "<br>");
 
-  const inner = cardHTML(cluster, index, isSkeleton);
+  const inner = cardHTML(cluster, displayIndex, isSkeleton);
 
   if (above) return `
     <div class="slot" id="slot-${index}">
@@ -485,16 +488,16 @@ function renderSkeletons(n) {
 }
 
 /** Replace one skeleton slot with a real enriched card + sidebar */
-function hydrateSlot(cluster, index) {
+function hydrateSlot(cluster, index, displayIndex = index) {
   const slot = document.getElementById(`slot-${index}`);
   if (!slot) return;
 
   /* Inject the real card in place of the skeleton */
-  slot.outerHTML = slotHTML(cluster, index, false);
+  slot.outerHTML = slotHTML(cluster, index, false, displayIndex);
 
   /* Append the sidebar to <body> and wire it */
   const sbEl = document.createElement("div");
-  sbEl.innerHTML = sidebarHTML(cluster, index);
+  sbEl.innerHTML = sidebarHTML(cluster, displayIndex);
   document.body.appendChild(sbEl.firstElementChild);
 
   const id = sidebarId(cluster.id);
@@ -752,6 +755,8 @@ async function startSearch(query, startDate = "", endDate = "", publication = ""
     let spanFirst    = "";
     let spanLast     = "";
     let clusterCount = 0;
+    let processed    = 0;   /* clusters handled so far, kept or dropped */
+    let shown        = 0;   /* clusters kept — drives numbering and card alternation */
 
     while (true) {
       const { done, value } = await reader.read();
@@ -776,6 +781,13 @@ async function startSearch(query, startDate = "", endDate = "", publication = ""
             updateStats({ periods: clusterCount });
             renderSkeletons(clusterCount);
 
+          } else if (eventType === "cluster_dropped") {
+            /* Cluster judged irrelevant to the query: remove its skeleton */
+            document.getElementById(`slot-${payload.index}`)?.remove();
+            processed++;
+            setStatus(`Enriched ${processed} of ${clusterCount} periods…`);
+            updateStats({ periods: clusterCount - (processed - shown) });
+
           } else if (eventType === "cluster_enriched") {
             const cluster = apiClusterToShape(payload);
 
@@ -784,13 +796,13 @@ async function startSearch(query, startDate = "", endDate = "", publication = ""
             if (!spanFirst) spanFirst = cluster.year.split("\n")[0].trim();
             spanLast = cluster.year.split("\n")[0].trim();
 
-            hydrateSlot(cluster, payload.index);
+            hydrateSlot(cluster, payload.index, shown++);
             collectedClusters.push(cluster);
             if (feedbackBtn) feedbackBtn.style.display = "";
             if (downloadBtn) downloadBtn.style.display = "";
 
-            const done = payload.index + 1;
-            setStatus(`Enriched ${done} of ${clusterCount} periods…`);
+            processed++;
+            setStatus(`Enriched ${processed} of ${clusterCount} periods…`);
             updateStats({
               sources: totalSources,
               span: spanFirst === spanLast ? spanFirst : `${spanFirst} – ${spanLast}`,

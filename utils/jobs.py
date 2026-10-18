@@ -42,7 +42,7 @@ class JobStore:
         Append an SSE event to the job's event list.
         Called by the pipeline as each stage completes.
 
-        event_type is one of: clusters_ready | cluster_enriched | done | error
+        event_type is one of: clusters_ready | cluster_enriched | cluster_dropped | done | error
         """
         with self._lock:
             if job_id not in self._store:
