@@ -1,6 +1,6 @@
 from utils.log      import setup_logging
-from modules.search import search_data_dump
-from modules.fake   import fake_search_results
+from deprecated.search import search_data_dump
+from deprecated.fake   import fake_search_results
 
 logger = setup_logging()
 

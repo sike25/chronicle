@@ -34,11 +34,13 @@ deploy.sh
 .DS_Store
 *.swp
 *.swo
+deprecated/
 
 # documentation
 *.md
 README*
 research/
+*.txt
 
 # testing
 test.py

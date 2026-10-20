@@ -2,7 +2,7 @@ import os
 
 import concurrent.futures
 from modules.shape import EnrichedCluster
-from modules.fake  import fake_enriched_clusters
+from deprecated.fake  import fake_enriched_clusters
 from utils.helpers import extractJson
 from utils.jobs    import jobs
 from utils.log     import setup_logging

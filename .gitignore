@@ -34,3 +34,4 @@ test.py
 test_search.py
 extraction*.txt
 deploy.sh
+reference.txt

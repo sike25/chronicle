@@ -37,10 +37,6 @@ class Source:
     publication: str
     publication_date: Date
     page: int
-    tags: List[str]
-    # populated later via llm call during enrichment.
-    # deprecated for now
-    relevant_extract: str = ""
 
     def __str__(self):
         return f"Source({self.filename}): {self.summary[:100]}..."
@@ -82,7 +78,7 @@ class EnrichedCluster:
     title: str           # LLM-generated title
     summary: str         # LLM-generated summary
     entries: List[Entry] # The list of original sources in this cluster
-    start_date: Date     # TODO (ogieva): consider using the first + last publication dates
+    start_date: Date     # the first + last publication dates
     end_date: Date
     cover_story: Entry   # The entry with the best relationship to the generated cluster description.
     source_count: int    # The original number of sources within this cluster

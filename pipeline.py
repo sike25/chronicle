@@ -1,7 +1,6 @@
 
 from modules.shape   import Source, Entry
-from modules.fetch   import fetch_search_results
-from modules.prepare import preprocess
+from modules.search  import search
 from modules.cluster import cluster_into_buckets
 from modules.enrich  import enrich_clusters
 
@@ -35,48 +34,38 @@ def run_chronicle(query: str, job_id: str, start_date:str, end_date:str, publica
         logger.info("FETCH  ---------------------------------------------------------------")
         search_results = None
         try:
-            search_results = fetch_search_results(query=query, fake=False)
+            search_results = search(query, start_date, end_date, publication)
         except Exception as e:
             logger.error(f"CHRONICLE_ERROR: Error fetching search results for {query}: {e}.")
             if not search_results: raise
 
         entries = []
         for result in search_results:
-            try:   
+            try:
                 source = Source(
-                    summary           = result.document.struct_data["summary"],
-                    extract           = result.document.struct_data["extract"],
-                    filename          = result.document.struct_data["filename"],
-                    keywords          = result.document.struct_data["keywords"].split(","),
-                    image_path        = result.document.struct_data["image_path"],
-                    topics            = result.document.struct_data["topics"].split(","),
-                    publication       = result.document.struct_data["publication"],
-                    publication_date  = convertToDate(result.document.struct_data["publication_date"]),
-                    page              = result.document.struct_data["page"],
-                    tags              = result.document.struct_data["tags"].split(","),
+                    summary          = result["summary"],
+                    extract          = result["match_excerpt"],   # see point 3
+                    filename         = result["slug"],            # no filename in the new API
+                    keywords         = [k.strip() for k in result["keywords"].split(",")],
+                    image_path       = result["image_path"],
+                    topics           = [t.strip() for t in result["topics"].split(",")],
+                    publication      = result["publication"],
+                    publication_date = convertToDate(result["date"]),   # "1994/07/01"
+                    page             = result["page"],
                 )
-                entry = Entry(
-                    id     = result.document.id,
-                    source = source,
-                    semantic_relevance = result.rank_signals.semantic_similarity_score,
-                )
-                entries.append(entry)
+                entries.append(Entry(id=result["id"], source=source,
+                                    semantic_relevance=result["relevance_score"]))
             except Exception as e:
-                logger.error(f"CHRONICLE_ERROR: Mapping error for doc {result.document.id}: {e}")
+                logger.error(f"... Mapping error for doc {result.get('id')}: {e}")
+
 
         logger.info("Done!")
         logger.info(f"Retrieved {len(entries)} raw results.")
-
-        # 2. PREPARE
-        # Performs chronological search.
-        logger.info("PREPARE --------------------------------------------------------------")
-        entries = preprocess(entries, start_date, end_date, publication)
-
         if not entries:
             jobs.push_event(job_id, "done", {"message": "No relevant results found for this query."})
             return
 
-        # 3. CLUSTER
+        # 2. CLUSTER
         logger.info("CLUSTER --------------------------------------------------------------")
         clusters = cluster_into_buckets(entries=entries)
         logger.info(f"{len(clusters)} clusters formed.")
@@ -93,7 +82,7 @@ def run_chronicle(query: str, job_id: str, start_date:str, end_date:str, publica
             "labels": list(clusters.keys()),
         })
 
-        # 5. ENRICH
+        # 3. ENRICH
         logger.info("ENRICH ---------------------------------------------------------------")
         enriched_clusters = enrich_clusters(clusters=clusters, query=query, job_id=job_id, fake=False)
         logger.info(f"RUN COMPLETE | job={job_id}")
@@ -115,6 +104,6 @@ def run_chronicle(query: str, job_id: str, start_date:str, end_date:str, publica
         raise
 
 
-job_id = str(uuid.uuid4())
-jobs.create(job_id)
-run_chronicle("jay jay okocha", job_id, "", "", "TELL")
+# job_id = str(uuid.uuid4())
+# jobs.create(job_id)
+# run_chronicle("jay jay okocha", job_id, "", "", "TELL")
